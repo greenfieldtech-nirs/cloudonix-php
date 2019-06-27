@@ -8,7 +8,7 @@ more than it is! Here are the guidelines we'd like you to follow:
  - [Bugs! Bugs! Bugs!](#bugs)
  - [Feature Requests](#feature)
  - [Submission Guidelines](#submit)
- - [Coding Rules](#rules)
+ - [Coding Guidelines](#guidelines)
 
 ## <a name="coc"></a> Code of Conduct
 
