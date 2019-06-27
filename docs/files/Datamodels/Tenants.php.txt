@@ -8,396 +8,141 @@
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
  * Project: cloudonix-php | Tenants.php
- * Creator: nirs | 2019-06-26
+ * Creator: nirs | 2019-06-27
  */
 
-/**
- * @description Cloudonix Tenants Command and Control REST API Client
- */
-namespace Cloudonix\Datamodels;
+namespace Cloudonix;
 
-use Cloudonix\Client;
-use Cloudonix\DatamodelConnector;
-use Cloudonix\Exceptions\CloudonixGeneralException;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
-use Noodlehaus\Exception;
+use Exception;
 
-/**
- * Cloudonix Tenants Control API Connector Class
- *
- * @package Cloudonix\Tenants
- */
-class Tenants extends Client
+class Tenants implements Datamodel
 {
+	public $client;
+	public $name;
+	public $id;
 
-	/** @var string A Cloudonix Tenant API key */
-	public $apikey;
-
-	/** @var string A Cloudonix Tenant Name (obtained via getSelf() function */
-	public $name = null;
-
-	/** @var int A Cloudonix Tenant ID (obtained via getSelf() function */
-	public $id = 0;
-
-	public function __construct($apikey, $clientHandler)
-	{
-		if (null == $apikey)
-			throw new CloudonixGeneralException('API Key Exception raised', 500, null);
-
-		$this->apikey = $apikey;
-
-		parent::__construct($apikey, $clientHandler);
-	}
-
-	/**
-	 * Get Tenant self related information, based upon the API key provided in the constructor. Store data in Cache
-	 * for future usage.
-	 *
-	 * @return object Tenant self data
-	 */
-	public function getSelf() {
-		try {
-
-			$mySelfKeyResult = $this->httpConnector->request('GET',
-				'/keys/self',
-				['headers' => $this->httpHeaders]
-			);
-
-			$myTenantData = json_decode((string)$mySelfKeyResult->getBody());
-
-			/* Store Tenant Information to Cache */
-			$this->handler->cacheHandler->write($this->apikey . '-cxTenantId', $myTenantData->tenantId);
-			$this->handler->cacheHandler->write($this->apikey . '-cxTenantName', $myTenantData->name);
-			$this->handler->cacheHandler->write($this->apikey . '-cxTenantApikey', $myTenantData->keyId);
-			$this->handler->cacheHandler->write($this->apikey . '-cxTenantApiSecret', $myTenantData->secret);
-
-			$this->name = $myTenantData->name;
-			$this->id = $myTenantData->tenantId;
-
-			return $myTenantData;
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
-	}
-
-	/**
-	 * Validate our the existance of a tenant name and ID, either in the object or the cache storage.
-	 *
-	 * @return bool False on failure
-	 * @throws CloudonixGeneralException
-	 */
-	public function validateSelf() {
-		try {
-
-			if ((null == $this->name) || (!strlen($this->name))) {
-				$this->name = $this->handler->cacheHandler->read($this->apikey . '-cxTenantName');
-				if ((!$this->name) || (!strlen($this->name)))
-					throw new CloudonixGeneralException('Tenant name not loaded or cached', 500, null);
-			}
-
-			if ((null == $this->id) || (!$this->id)) {
-				$this->id = $this->handler->cacheHandler->read($this->apikey . '-cxTenantId');
-				if ((!$this->id) || (!$this->id))
-					throw new CloudonixGeneralException('Tenant ID not loaded or cached', 500, null);
-			}
-
-			return true;
-
-		} catch (Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Get a list of the current assinged API keys, associated with the tenant (as designated by the API key)
-	 * @return Object
-	 */
-	public function getKeys()
+	public function __construct(Client $client)
 	{
 		try {
+			if (!$client)
+				throw new Exception('Datamodel construction error', 500, null);
+			$this->client = $client;
 
-			if (!$this->validateSelf())
-				throw new Exception('Tenant name or Tenant ID not loaded or cached', 500);
-
-			$myTenantApiKeys = $this->httpConnector->request('GET',
-				'/tenants/' . $this->name . '/keys',
-				['headers' => $this->httpHeaders]
-			);
-
-			return json_decode((string)$myTenantApiKeys->getBody());
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (CloudonixGeneralException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
 		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
 		}
 	}
 
 	/**
-	 * Set the name of a specific API key, designated by $apikeyId
+	 * Create a new Cloudonix Tenant
 	 *
-	 * @param bool|int $apikeyId An API key ID
-	 * @param null $name The name to assign to the API key ID
+	 * @param array $object An tenant create object (represented as an array) as following:
+	 * [
+	 * 	'name' => 'mandatory_name',
+	 * 	'profile' => [ optional array of key-value pairs]
+	 * ]
+	 * @return object $object The created Cloudonix Tenant Object
+	 */
+	public function create($object)
+	{
+		$result = $this->client->httpRequest('POST', '/tenants/', $object);
+		return $result;
+	}
+
+	/**
+	 * Update an existing Cloudonix Tenant
+	 *
+	 * @param array $object A tenant update object (represented as an array) as following:
+	 * [
+	 * 	'name' => 'mandatory_name',
+	 * 	'profile' => [ optional array of key-value pairs]
+	 * ]
+	 * @return object $object The updated Cloudonix Tenant Object
+	 */
+	public function update($object)
+	{
+		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId, $object);
+		return json_decode((string)$result->getBody());
+	}
+
+	/**
+	 * Get a tenant by Object (Not supported, return error referring to the correct function)
+	 *
+	 * @param object $object
 	 * @return object
 	 */
-	public function setApikeyName($apikeyId = false, $name = null)
+	public function get($object = null)
 	{
-		try {
-
-			if (!$apikeyId)
-				throw new CloudonixGeneralException('apikey ID must be provided', 500, null);
-
-			if ((null == $name) || !strlen($name))
-				throw new CloudonixGeneralException('name must be provided and can not be an empty string', 500, null);
-
-			if (!$this->validateSelf())
-				throw new CloudonixGeneralException('Tenant name or Tenant ID not loaded or cached', 500, null);
-
-			$myTenantApiKeys = $this->httpConnector->request('PUT',
-				'/tenants/' . $this->name . '/keys',
-				[
-					'headers' => $this->httpHeaders,
-					'json' => ['name' => $name]
-
-				]
-			);
-
-			return json_decode((string)$myTenantApiKeys->getBody());
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (CloudonixGeneralException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
+		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId);
+		return json_decode((string)$result->getBody());
 	}
 
 	/**
-	 * Set the API key, designated by $apikeyId as disabled
+	 * Delete a tenant by Object (Not supported)
 	 *
-	 * @param bool|int $apikeyId The API key ID to disable
-	 * @return object
+	 * @param object $object
+	 * @return array
 	 */
-	public function disableApikey($apikeyId = false)
+	public function delete($object)
 	{
-		return $this->setApikeyActive($apikeyId, false);
+		$result = [ 'status' => false, 'message' => 'Deleting a tenant is a restricted function'];
+		return $result;
 	}
 
 	/**
-	 * Set the API key, designated by $apikeyId as enabled
+	 * Create a Tenant API key
 	 *
-	 * @param bool|int $apikeyId The API key ID to enable
-	 * @return object
+	 * @param array $object An API key create object (represented as an array) as following:
+	 * [
+	 * 	'name' => 'mandatory_name',
+	 * ]
+	 * @return object A Cloudonix API key datamodel object
 	 */
-	public function enableApikey($apikeyId = false)
+	public function createApikey($object)
 	{
-		return $this->setApikeyActive($apikeyId, true);
+		$result = $this->client->httpRequest('POST', '/tenants/' . $this->client->tenantId . '/apikeys', $object);
+		return json_decode((string)$result->getBody());
 	}
 
 	/**
-	 * Set the API key, designated by $apikeyId as enabled or disabled
-	 * @param bool|int $apikeyId The API key ID to enable
-	 * @param bool $active TRUE for enabled, FALSE for disabled
-	 * @return object
-	 */
-	private function setApikeyActive($apikeyId = false, $active = true)
-	{
-		try {
-
-			if (!$apikeyId)
-				throw new CloudonixGeneralException('apikey ID must be provided', 500, null);
-
-			if (!$this->validateSelf())
-				throw new CloudonixGeneralException('Tenant name or Tenant ID not loaded or cached', 500, null);
-
-			$toggleApikey = $this->httpConnector->request('PUT',
-				'/tenants/' . $this->name . '/keys/' . $apikeyId,
-				[
-					'headers' => $this->httpHeaders,
-					'json' => ['active' => $active]
-				]
-			);
-
-			return json_decode((string)$toggleApikey->getBody());
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (CloudonixGeneralException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
-	}
-
-	/**
-	 * Create a new Cloudonix domain in the assigned tenant
+	 * Update a Tenant API key
 	 *
-	 * @param string $domain The domain name to create (recommended: use a formal FQDN).
-	 * @param null|object $profile An array, representing a JSON Object of meta-data properties of the domain to create. Leave as `null` for no meta-data.
-	 * @param bool $active Enable or Disable the newly created domain, default to TRUE.
-	 * @param null|string $application The default application to assign to the domain. Leave as `null` for the default call routing application
-	 * @param null|array $aliases An array of domain aliases. Leave as `null` for no aliases creation.
+	 * @param array $object An API key create object (represented as an array) as following:
+	 * [
+	 *  'id' => 'the_apikey_id_to_update',
+	 * 	'name' => 'mandatory_name'
+	 * ]
+	 * @return object A Cloudonix API key datamodel object
+	 */
+	public function updateApikey($object)
+	{
+		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/apikeys/' . $object['id'], $object);
+		return json_decode((string)$result->getBody());
+	}
+
+	/**
+	 * Delete a Tenant API key
+	 *
+	 * @param array $object An API key delete object (represented as an array) as following:
+	 * [
+	 *  'id' => 'the_apikey_id_to_delete',
+	 * ]
+	 * @return void
+	 */
+	public function deleteApikey($object)
+	{
+		$this->client->httpRequest('DELETE', '/tenants/' . $this->client->tenantId . '/apikeys/' . $object['id']);
+	}
+
+	/**
+	 * Get a Tenant API key list
+	 *
+	 * @param null $object
 	 * @return mixed
 	 */
-	public function createDomain($domain, $profile = null, $active = true, $application = null, $aliases = null)
+	public function getApikeys($object = null)
 	{
-		try {
-
-			if (!$domain)
-				throw new CloudonixGeneralException('domain must be provided', 500, null);
-
-			if (!$this->validateSelf())
-				throw new CloudonixGeneralException('Tenant name or Tenant ID not loaded or cached', 500, null);
-
-			$createDomainResult = $this->httpConnector->request('POST',
-				'/tenants/' . $this->id . '/domains',
-				[
-					'headers' => $this->httpHeaders,
-					'json' => [
-						'domain' => $domain,
-						'profile' => $profile,
-						'active' => $active,
-						'application' => $application,
-						'aliases' => $aliases
-					]
-				]
-			);
-
-			return json_decode((string)$createDomainResult->getBody());
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (CloudonixGeneralException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
-	}
-
-	/**
-	 * Delete a specific domain in the tenant model, based upon the domain ID.
-	 *
-	 * @param int $domainId The domain ID number
-	 * @return object
-	 */
-	public function deleteDomain($domainId)
-	{
-		try {
-
-			if (!$domainId)
-				throw new CloudonixGeneralException('domain ID must be provided', 500, null);
-
-			if (!$this->validateSelf())
-				throw new CloudonixGeneralException('Tenant name or Tenant ID not loaded or cached', 500, null);
-
-			$deleteDomainResult = $this->httpConnector->request('DELETE',
-				'/tenants/' . $this->id . '/domains/' . $domainId,
-				[
-					'headers' => $this->httpHeaders
-				]
-			);
-
-			return json_decode((string)$deleteDomainResult->getBody());
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (CloudonixGeneralException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
-	}
-
-	/**
-	 * Get a list of all domains associated with the current tenant.
-	 *
-	 * @return object
-	 */
-	public function getDomains()
-	{
-		try {
-
-			if (!$this->validateSelf())
-				throw new CloudonixGeneralException('Tenant name or Tenant ID not loaded or cached', 500, null);
-
-			$listDomainsResult = $this->httpConnector->request('GET',
-				'/tenants/' . $this->id . '/domains',
-				[
-					'headers' => $this->httpHeaders
-				]
-			);
-
-			return json_decode((string)$listDomainsResult->getBody());
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (CloudonixGeneralException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
-	}
-
-	/**
-	 * Create a domain API key
-	 *
-	 * @param bool|int $domainId An integer ID of the domain ID to create the API key for. Default to false for no input.
-	 * @param bool|string $name A string representing the domain API key name. Default to false for no input.
-	 * @return mixed
-	 */
-	public function createDomainApikey($domainId = false, $name = false)
-	{
-		try {
-
-			if (!$this->validateSelf())
-				throw new CloudonixGeneralException('Tenant name or Tenant ID not loaded or cached', 500, null);
-
-			if (!$domainId)
-				throw new CloudonixGeneralException('domain ID must be provided', 500, null);
-
-			if (!$name)
-				throw new CloudonixGeneralException('domain name must be provided', 500, null);
-
-
-			$createDomainApikeyResult = $this->httpConnector->request('POST',
-				'/tenants/' . $this->id . '/domains/' . $domainId . '/apikeys',
-				[
-					'headers' => $this->httpHeaders,
-					'json' => ['name' => $name]
-				]
-			);
-
-			return json_decode((string)$createDomainApikeyResult->getBody());
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (CloudonixGeneralException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
+		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId . '/apikeys');
+		return json_decode((string)$result->getBody());
 	}
 }

@@ -11,122 +11,144 @@
  * Creator: nirs | 2019-06-27
  */
 
-namespace Cloudonix\Datamodels;
+namespace Cloudonix;
 
-use Cloudonix\Client;
-use Cloudonix\DatamodelConnector;
-use Cloudonix\Exceptions\CloudonixGeneralException;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
-use Noodlehaus\Exception;
+use Exception;
 
-class Domains extends Client
+class Domains implements Datamodel
 {
-	/** @var string A Cloudonix Domain API key */
-	public $apikey;
+	public $client;
+	public $name;
+	public $id;
 
-	/** @var int A Cloudonix Domain ID (obtained via getSelf() function */
-	public $id = 0;
-
-	/** @var string A Cloudonix Domain Name (obtained via getSelf() function */
-	public $apikeyName = null;
-
-	public function __construct($apikey, $clientHandler)
-	{
-		if (null == $apikey)
-			throw new CloudonixGeneralException('API Key Exception raised', 500, null);
-
-		$this->apikey = $apikey;
-
-		parent::__construct($apikey, $clientHandler);
-	}
-
-	/**
-	 * Get Domain self related information, based upon the API key provided in the constructor. Store data in Cache
-	 * for future usage.
-	 *
-	 * @return object API key self information
-	 */
-	public function getSelf() {
-		try {
-
-			$mySelfKeyResult = $this->httpConnector->request('GET',
-				'/keys/self',
-				['headers' => $this->httpHeaders]
-			);
-
-			$myDomainData = json_decode((string)$mySelfKeyResult->getBody());
-
-			/* Store Domain Information to Cache */
-			$this->handler->cacheHandler->write($this->apikey . '-cxDomainId', $myDomainData->domainId);
-			$this->handler->cacheHandler->write($this->apikey . '-cxDomainName', $myDomainData->name);
-
-			$this->apikeyName = $myDomainData->name;
-			$this->id = $myDomainData->domainId;
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
-	}
-
-	/**
-	 * Validate our the existance of a domain, either in the object or the cache storage.
-	 *
-	 * @return bool False on failure
-	 * @throws CloudonixGeneralException
-	 */
-	public function validateSelf() {
-		try {
-
-			if ((null == $this->name) || (!$this->name)) {
-				$this->name = $this->handler->cacheHandler->read($this->apikey . '-cxDomainName');
-				if ((!$this->name) || (!$this->name))
-					throw new CloudonixGeneralException('Domain name not loaded or cached', 500, null);
-			}
-
-			if ((null == $this->id) || (!$this->id)) {
-				$this->id = $this->handler->cacheHandler->read($this->apikey . '-cxDomainId');
-				if ((!$this->id) || (!$this->id))
-					throw new CloudonixGeneralException('Domain ID not loaded or cached', 500, null);
-			}
-
-			return true;
-
-		} catch (Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Get a list of the current assinged API keys, associated with the domain (as designated by the API key)
-	 * @return Object
-	 */
-	public function getKeys()
+	public function __construct(Client $client)
 	{
 		try {
+			if (!$client)
+				throw new Exception('Datamodel construction error', 500, null);
+			$this->client = $client;
 
-			if (!$this->validateSelf())
-				throw new Exception('Tenant name or Tenant ID not loaded or cached', 500);
-
-			$myTenantApiKeys = $this->httpConnector->request('GET',
-				'/tenants/' . $this->clientTenantId . '/domains/' . $this->id . '/keys',
-				['headers' => $this->httpHeaders]
-			);
-
-			return json_decode((string)$myTenantApiKeys->getBody());
-
-		} catch (ServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (CloudonixGeneralException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
 		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
 		}
+	}
+
+	/**
+	 * Create a new Cloudonix Domain
+	 *
+	 * @param array $object A domain create object (represented as an array) as following:
+	 * [
+	 * 	'domain' => 'mandatory domain name to create'
+	 * ]
+	 * @return object $object The created Cloudonix Domain Object
+	 */
+	public function create($object)
+	{
+		$result = $this->client->httpRequest('POST', '/tenants/' . $this->client->tenantId . '/domains', $object);
+		return json_decode((string)$result->getBody());
+	}
+
+	/**
+	 * Update an existing Cloudonix Tenant
+	 *
+	 * @param array $object A domain update object (represented as an array) as following:
+	 * [
+	 *  'id' => 'domain ID number to update',
+	 * 	'domain' => 'mandatory domain name to create'
+	 * ]
+	 * @return object $object The created Cloudonix Domain Object
+	 */
+	public function update($object)
+	{
+		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/domains/' . $object['id'], $object);
+		return json_decode((string)$result->getBody());
+	}
+
+	/**
+	 * Get a domain by domain ID or domain name
+	 *
+	 * @param integer|string $object
+	 * @return object
+	 */
+	public function get($object = null)
+	{
+		$filter = (($object != null) && (strlen($object))) ? "/" . $object : "";
+		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId . '/domains' . $filter);
+		return json_decode((string)$result->getBody());
+	}
+
+	/**
+	 * Delete a domain by domain ID or domain name
+	 *
+	 * @param integer|string $object
+	 * @return boolean
+	 */
+	public function delete($object)
+	{
+		$result = $this->client->httpRequest('DELETE', '/tenants/' . $this->client->tenantId . '/domains/' . $object);
+		return true;
+	}
+
+	/**
+	 * Create a Domain API key
+	 *
+	 * @param array $object An API key create object (represented as an array) as following:
+	 * [
+	 *  'domainId' => 'mandatory_domain_id_or_name'
+	 * 	'name' => 'mandatory_name',
+	 * ]
+	 * @return object A Cloudonix API key datamodel object
+	 */
+	public function createApikey($object)
+	{
+		$result = $this->client->httpRequest('POST', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys', $object);
+		return json_decode((string)$result->getBody());
+	}
+
+	/**
+	 * Update a Domain API key
+	 *
+	 * @param array $object An API key update object (represented as an array) as following:
+	 * [
+	 *  'domainId' => 'mandatory_domain_id_or_name',
+	 *  'apikeyId' => 'the_apikey_id_to_update',
+	 * 	'name' => 'mandatory_name'
+	 * ]
+	 * @return object A Cloudonix API key datamodel object
+	 */
+	public function updateApikey($object)
+	{
+		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys/' . $object['apikeyId'], $object);
+		return json_decode((string)$result->getBody());
+	}
+
+	/**
+	 * Delete a Domain API key
+	 *
+	 * @param array $object An API key delete object (represented as an array) as following:
+	 * [
+	 *  'domainId' => 'mandatory_domain_id_or_name',
+	 *  'apikeyId' => 'the_apikey_id_to_update',
+	 * ]
+	 * @return void
+	 */
+	public function deleteApikey($object)
+	{
+		$this->client->httpRequest('DELETE', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys/' . $object['apikeyId']);
+	}
+
+	/**
+	 * Get a Domain API key list
+	 *
+	 * @param array $object An API key list object (represented as an array) as following:
+	 * [
+	 *  'domainId' => 'mandatory_domain_id_or_name',
+	 * ]
+	 * @return object
+	 */
+	public function getApikeys($object = null)
+	{
+		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys');
+		return json_decode((string)$result->getBody());
 	}
 }
