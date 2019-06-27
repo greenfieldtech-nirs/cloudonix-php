@@ -50,7 +50,7 @@ will increase the chances of your issue being dealt with quickly:
 * **Overview of the Issue** - if an error is being thrown a non-minified stack
   trace helps
 * **Motivation for or Use Case** - explain why this is a bug for you
-* **`twilio-php` Version(s)** - is it a regression?
+* **`cloudonix-php` Version(s)** - is it a regression?
 * **Operating System (if relevant)** - is this a problem with all systems or
   only specific ones?
 * **Reproduce the Error** - provide an isolated code snippet or an unambiguous
