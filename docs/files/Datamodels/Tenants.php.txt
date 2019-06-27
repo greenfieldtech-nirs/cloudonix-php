@@ -15,6 +15,11 @@ namespace Cloudonix;
 
 use Exception;
 
+/**
+ * Cloudonix API.Core Client - Tenants Datamodel CRUD Interface
+ *
+ * @package Cloudonix
+ */
 class Tenants implements Datamodel
 {
 	public $client;

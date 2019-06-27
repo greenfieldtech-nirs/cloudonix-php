@@ -15,6 +15,11 @@ namespace Cloudonix;
 
 use Exception;
 
+/**
+ * Cloudonix API.Core Client - Domains Datamodel CRUD Interface
+ *
+ * @package Cloudonix
+ */
 class Domains implements Datamodel
 {
 	public $client;
@@ -49,18 +54,20 @@ class Domains implements Datamodel
 	}
 
 	/**
-	 * Update an existing Cloudonix Tenant
+	 * Update an existing Cloudonix Domain
 	 *
 	 * @param array $object A domain update object (represented as an array) as following:
 	 * [
 	 *  'id' => 'domain ID number to update',
-	 * 	'domain' => 'mandatory domain name to create'
+	 *  'profile' => 'optional array of key value pairs (registration-free-control-endpoint|registration-free-control-endpoint-api-key|call-timeout)'
 	 * ]
 	 * @return object $object The created Cloudonix Domain Object
 	 */
 	public function update($object)
 	{
-		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/domains/' . $object['id'], $object);
+		$domainId = $object['id'];
+		unset($object['id']);
+		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/domains/' . $domainId, $object);
 		return json_decode((string)$result->getBody());
 	}
 

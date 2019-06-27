@@ -128,6 +128,13 @@ class Client
 		return $this->domainsInterface;
 	}
 
+	public function applications() {
+		if (!$this->applicationsInterface) {
+			$this->applicationsInterface = new Applications($this);
+		}
+		return $this->applicationsInterface;
+	}
+
 	public function httpRequest($method, $request, $data = null)
 	{
 		try {
