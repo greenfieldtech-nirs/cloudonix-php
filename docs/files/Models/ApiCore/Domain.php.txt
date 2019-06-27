@@ -1,0 +1,145 @@
+<?php
+/**
+ * cloudonix-php - A PHP Class for interfacing with the Cloudonix API.Core Interface
+ *
+ * Cloudonix API.Core provides its users with a programmable API to manage and control their Cloudonix platform
+ * account, domains, applications, trunks, DNIDs, subscribers and more. The class library provides its entire
+ * functionality via models, located under the /src/Models/ApiCore/ directory.
+ *
+ * @author: Nir Simionovich
+ * @license: LGPL 3.0 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
+ * @copyright: Cloudonix, Inc. May 2019. All Rights Reserved.
+ * @site: https://cloudonix.io
+ * @package Cloudonix\ApiCore
+ * @filesource
+ */
+
+namespace Cloudonix\ApiCore;
+
+/**
+ * Domain Class - Cloudonix Api.Core Domain Data Model API
+ *
+ * A Domain represents a logical unit, normally attached to a specific tenant. When a call is intercepted by Cloudonix,
+ * either from a remote UA (User Agent) or from a remote carrier - before being parsed for Dnid routing, it will be associated
+ * to a specific domain, based upon the initated call and UA or Trunk information. Additional information can be found
+ * at https://cloudonix.io/wp-content/uploads/2018/12/Cloudonix-Platform-Administrator-Guide.pdf
+ *
+ * @package Cloudonix\ApiCore
+ */
+class Domain
+{
+	/** @var ApiCoreClient $apiClientConnector The previously initiated ApiCoreClient object */
+	public $apiClientConnector = null;
+
+	/** @var integer $tenantId The tenant ID initiating the API, for system privilage - null */
+	public $tenantId = null;
+
+	/**
+	 * Domain constructor.
+	 * @param ApiCoreClient $connector Cloudonix ApiCoreClient object
+	 */
+	public function __construct($connector = null)
+	{
+		try {
+
+			if ($connector == null) {
+				throw new \Exception("Input values can not be null");
+			}
+
+			$this->apiClientConnector = $connector->apiClientConnector;
+			$this->tenantId = $connector->tenantId;
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Domain destructor
+	 */
+	public function __destruct()
+	{
+		// TODO: Implement __destruct() method.
+	}
+
+	/**
+	 * Create a new domain in a specific Tenant
+	 *
+	 * Tenant ID will be obtained from the ApiCoreClient object, if defined. If not defined, it must be defined here.
+	 *
+	 * @param string $domain The domain to create
+	 * @param array $profile The domain assigned profile - not mandatory
+	 * @param integer $tenant_id The Tenant ID where to create the new domain (Optional)
+	 * @return boolean|object False on failure or a JSON object containing the remote Cloudonix response
+	 */
+	public function create($domain = null, $profile = null, $tenant_id = null)
+	{
+		$result = false;
+
+		return $result;
+	}
+
+	/**
+	 * Get the information of a specific domain ID, for a specific tenant
+	 *
+	 * @param integer $domain_id The domain ID to retrieve
+	 * @param integer $tenant_id The Tenant ID where to create the new domain (Optional)
+	 * @return boolean|object False on failure or a JSON object containing the remote Cloudonix response
+	 */
+	public function get($domain_id = null, $tenant_id = null)
+	{
+		$result = false;
+
+		return $result;
+	}
+
+	/**
+	 * Update the domain name of a specific domain for a specified tenant
+	 *
+	 * Tenant ID will be obtained from the ApiCoreClient object, if defined. If not defined, it must be defined here.
+	 *
+	 * @param integer $domain_id The domain ID to update
+	 * @param string $domain The new domain name for the specified domain ID
+	 * @param integer $tenant_id The Tenant ID where to create the new domain (Optional)
+	 * @return boolean|object False on failure or a JSON object containing the remote Cloudonix response
+	 */
+	public function patch($domain_id = null, $domain = null, $tenant_id = null)
+	{
+		$result = false;
+
+		return $result;
+	}
+
+	/**
+	 * Delete a domain from a specific tenant
+	 *
+	 * Tenant ID will be obtained from the ApiCoreClient object, if defined. If not defined, it must be defined here.
+	 *
+	 * @param integer $domain_id The domain ID we want to delete
+	 * @param integer $tenant_id The Tenant ID where to create the new domain (Optional)
+	 * @return boolean|object False on failure or a JSON object containing the remote Cloudonix response
+	 */
+	public function delete($domain_id = null, $tenant_id = null)
+	{
+		$result = false;
+
+		return $result;
+	}
+
+	/**
+	 * Update the profile of a specific domain
+	 *
+	 * Tenant ID will be obtained from the ApiCoreClient object, if defined. If not defined, it must be defined here.
+	 *
+	 * @param integer $domain_id The domain ID we want to delete
+	 * @param array $profile The new profile to assign to the domain designated by domain ID
+	 * @param integer $tenant_id The Tenant ID where to create the new domain (Optional)
+	 * @return boolean|object False on failure or a JSON object containing the remote Cloudonix response
+	 */
+	public function patchProfile($domain_id = null, $profile = null, $tenant_id = null)
+	{
+		$result = false;
+
+		return $result;
+	}
+}

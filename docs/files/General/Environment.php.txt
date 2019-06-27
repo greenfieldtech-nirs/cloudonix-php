@@ -1,0 +1,79 @@
+<?php
+/**
+ * cloudonix-php - A PHP Class for interfacing with the Cloudonix API.Core Interface
+ *
+ * Cloudonix API.Core provides its users with a programmable API to manage and control their Cloudonix platform
+ * account, domains, applications, trunks, DNIDs, subscribers and more. The class library provides its entire
+ * functionality via models, located under the /src/Models/ApiCore/ directory.
+ *
+ * @author: Nir Simionovich
+ * @license: LGPL 3.0 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
+ * @copyright: Cloudonix, Inc. May 2019. All Rights Reserved.
+ * @site: https://cloudonix.io
+ */
+
+namespace Cloudonix\Common;
+
+use Noodlehaus\Config;
+use Noodlehaus\Parser\Yaml;
+
+/**
+ * Class Environment - Credentials loader class
+ *
+ * @example src/samples/credentials.yaml A sample credentials.yaml sample file
+ * @package Cloudonix\Common
+ */
+class Environment
+{
+	/** @var string $cx_url The Cloudonix API.Core Endpoint */
+	public $cx_url = "https://api.cloudonix.io";
+
+	/** @var integer $cx_tenant_id The Cloudonix Tenant ID to use */
+	public $cx_tenant_id = "";
+
+	/** @var string $cx_apikey The Cloudonix Tenant/Domain API key */
+	public $cx_apikey = "";
+
+	/** @var bool $cx_debug Activate logging to syslog */
+	public $cx_debug = false;
+
+	/**
+	 * Environment constructor
+	 * @param string $environment Environment to load from credentials.yaml - if null, default to 'production'
+	 */
+	public function __construct($environment = null)
+	{
+
+		/* If no environment variable had been defined, we assume we are in production mode */
+		try {
+
+			/** @var string $myEnvironment What environment should we use from credentials.yaml file? */
+			if ($environment != null) {
+				$myEnvironment = $environment;
+			} else {
+				$myEnvironment = getenv('CX_ENV');
+				if (!$myEnvironment)
+					$myEnvironment = "production";
+			}
+
+			$myCredentials = new Config('credentials.yaml', new Yaml);
+
+			$this->cx_url = $myCredentials->get($myEnvironment . '.url', 'https://api.cloudonix.io');
+			$this->cx_tenant_id = $myCredentials->get($myEnvironment . '.tenant');
+			$this->cx_apikey = $myCredentials->get($myEnvironment . '.apikey');
+			$this->cx_debug = $myCredentials->get($myEnvironment . '.debug');
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Environment destructor
+	 */
+	public function __destruct()
+	{
+		// TODO: Implement __destruct() method.
+	}
+
+}

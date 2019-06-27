@@ -1,0 +1,50 @@
+<?php
+/**
+ *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
+ * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
+ * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
+ * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
+ * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
+ *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
+ *
+ * Project: cloudonix-php | ClientExceptions.php
+ * Creator: nirs | 2019-06-27
+ */
+
+namespace Cloudonix\Exceptions;
+
+use Noodlehaus\Exception;
+
+/**
+ * Class CloudonixGeneralException
+ * @package Cloudonix\Exceptions
+ */
+class CloudonixGeneralException extends CloudonixException {
+	public function __construct($message, $code, Exception $previous)
+	{
+		parent::__construct($message, $code, $previous);
+	}
+}
+
+/**
+ * Class CloudonixCacheException
+ * @package Cloudonix\Exceptions
+ */
+class CloudonixCacheException extends CloudonixException {
+	public function __construct($message, $code, Exception $previous)
+	{
+		parent::__construct($message, $code, $previous);
+	}
+}
+
+/**
+ * Class CloudonixApikeyException
+ * @package Cloudonix\Exceptions
+ */
+class CloudonixApikeyException extends CloudonixException {
+	public function __construct($message, $code, Exception $previous)
+	{
+		parent::__construct($message, $code, $previous);
+	}
+}
+

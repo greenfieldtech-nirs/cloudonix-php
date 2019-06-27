@@ -1,0 +1,97 @@
+<?php
+/**
+ * cloudonix-php - A PHP Class for interfacing with the Cloudonix API.Core Interface
+ *
+ * Cloudonix API.Core provides its users with a programmable API to manage and control their Cloudonix platform
+ * account, domains, applications, trunks, DNIDs, subscribers and more. The class library provides its entire
+ * functionality via models, located under the /src/Models/ApiCore/ directory.
+ *
+ * @author: Nir Simionovich
+ * @license: LGPL 3.0 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
+ * @copyright: Cloudonix, Inc. May 2019. All Rights Reserved.
+ * @site: https://cloudonix.io
+ */
+
+namespace Cloudonix\Common;
+
+use Monolog\Logger;
+use Monolog\Handler\SyslogHandler;
+use Monolog\Formatter\LineFormatter;
+
+/**
+ * Class CxLogger - Logging to syslog via Monolog
+ *
+ * @package Cloudonix\Common
+ */
+class CxLogger
+{
+
+	public $cx_logger = null;
+
+	public $cx_syslog = null;
+
+	public $cx_logger_enabled = false;
+
+	public function __construct($loggerEnabled = false)
+	{
+		if ($loggerEnabled) {
+			$myCxDateFormat = "Y n j, g:i a";
+			$myCxLogOutput = "%datetime% > %level_name% > %message% %context% %extra%\n";
+			$myCxLogFormat = new LineFormatter($myCxLogOutput, $myCxDateFormat);
+
+			$this->cx_logger = new Logger('cxlog');
+			$this->cx_syslog = new SyslogHandler('cxlog', LOG_USER);
+			$this->cx_syslog->setFormatter($myCxLogFormat);
+			$this->cx_logger->pushHandler($this->cx_syslog);
+			$this->cx_logger_enabled = true;
+		}
+	}
+
+	public function __destruct()
+	{
+		// TODO: Implement __destruct() method.
+	}
+
+	public function info($text = null, $context = array())
+	{
+		if ($this->cx_logger_enabled)
+			$this->cx_logger->info($text, $context);
+	}
+
+	public function crit($text = null, $context = array())
+	{
+		if ($this->cx_logger_enabled)
+			$this->cx_logger->crit($text, $context);
+	}
+
+	public function err($text = null, $context = array())
+	{
+		if ($this->cx_logger_enabled)
+			$this->cx_logger->error($text, $context);
+	}
+
+	public function notice($text = null, $context = array())
+	{
+		if ($this->cx_logger_enabled)
+			$this->cx_logger->notice($text, $context);
+	}
+
+	public function alert($text = null, $context = array())
+	{
+		if ($this->cx_logger_enabled)
+			$this->cx_logger->alert($text, $context);
+	}
+
+	public function emer($text = null, $context = array())
+	{
+		if ($this->cx_logger_enabled)
+			$this->cx_logger->emerg($text, $context);
+	}
+
+	public function warn($text = null, $context = array())
+	{
+		if ($this->cx_logger_enabled)
+			$this->cx_logger->warn($text, $context);
+	}
+
+}

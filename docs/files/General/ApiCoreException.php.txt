@@ -1,0 +1,24 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: nirs
+ * Date: 07/05/2019
+ * Time: 23:29
+ */
+
+namespace Cloudonix\Common;
+
+class ApiCoreException extends Exception
+{
+
+	public function onErrorNullValue() {
+		$errorMsg = 'Provided values can not by NULL';
+		return $errorMsg;
+	}
+
+	public function onErrorHttpConnect() {
+		$errorMsg = 'Remote Api.Core API server is unreachable';
+		return $errorMsg;
+	}
+
+}

@@ -1,0 +1,41 @@
+{
+  "name": "cloudonix/cloudonix-php",
+  "description": "PHP Class Library for interacting with Cloudonix APIs and Voice Developer APIs",
+  "version": "1.0.0",
+  "type": "library",
+  "keywords": [
+	"cloudonix",
+	"cxml"
+  ],
+  "homepage": "https://github.com/cloudonix/cloudonix-php",
+  "license": "MIT",
+  "autoload": {
+	"psr-4": {
+	  "Cloudonix\\": [
+		"src/Interfaces/",
+		"src/Datamodels/",
+		"src/"
+	  ]
+	}
+  },
+  "authors": [
+	{
+	  "name": "Cloudonix Team",
+	  "email": "support@cloudonix.io"
+	}
+  ],
+  "require": {
+	"ratchet/pawl": "^0.3.4",
+	"monolog/monolog": "^1.24",
+	"ramsey/uuid": "^3.8",
+	"php-vcr/php-vcr": "^1.4.4",
+    "hassankhan/config": "^2.0",
+    "guzzlehttp/guzzle": "^6.3",
+    "giggsey/libphonenumber-for-php": "^8.10",
+    "opis/cache": "^4.0"
+  },
+  "require-dev": {
+	"php-vcr/php-vcr": "dev-master",
+	"phpunit/phpunit": "^7"
+  }
+}

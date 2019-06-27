@@ -1,0 +1,238 @@
+<?php
+/**
+ * cloudonix-php - A PHP Class for interfacing with the Cloudonix API.Core Interface
+ *
+ * Cloudonix API.Core provides its users with a programmable API to manage and control their Cloudonix platform
+ * account, domains, applications, trunks, DNIDs, subscribers and more. The class library provides its entire
+ * functionality via models, located under the /src/Models/ApiCore/ directory.
+ *
+ * @author: Nir Simionovich
+ * @license: LGPL 3.0 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
+ * @copyright: Cloudonix, Inc. May 2019. All Rights Reserved.
+ * @site: https://cloudonix.io
+ * @package Cloudonix\ApiCore
+ * @filesource
+ */
+
+namespace Cloudonix\ApiCore;
+
+/**
+ * Apikey Class - Cloudonix Api.Core API Keys Data Model API
+ *
+ * In Cloudonix, API keys are provided as a means of interacting with the Cloudonix API.Core. API keys may be generated
+ * by either the system administrator, a tenant administrator or a domain administrator. Once an API key had been created
+ * it is limited to the scope of operations, in which it was created.
+ *
+ * @package Cloudonix\ApiCore
+ */
+class Apikey
+{
+	/** @var object ApiCoreClient        The previously initiated ApiCoreClient object */
+	public $apiClientConnector = null;
+
+	/** @var integer The tenant ID initiating the API, for system privilage - null */
+	public $tenantId = null;
+
+	/**
+	 * Apikey constructor.
+	 * @param ApiCoreClient $connector Cloudonix ApiCoreClient object
+	 */
+	public function __construct($connector = null)
+	{
+		try {
+
+			if ($connector == null) {
+				throw new \Exception("Input values can not be null");
+			}
+
+			$this->apiClientConnector = $connector->apiClientConnector;
+			$this->tenantId = $connector->tenantId;
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Apikey destructor
+	 */
+	public function __destruct()
+	{
+		// TODO: Implement __destruct() method.
+	}
+
+	/**
+	 * Get a list of API keys
+	 *
+	 * API Keys can be obtained at the System level, a tenant, a specific domain or a specific application within a domain
+	 *
+	 * @param integer $domain_id A Domain ID to retrieve API keys for
+	 * @param integer $application_id An application ID within a domain, to retrieve API keys for
+	 * @return mixed                     A JSON object, containing the result of the request
+	 */
+	public function get($domain_id = null, $application_id = null)
+	{
+		try {
+
+			if ($this->apiClientConnector == null) {
+				throw new \Exception("Cloudonix Client had not been initialised properly");
+			}
+
+			if ($this->tenantId == null) {
+				$request_result = $this->apiClientConnector->request('GET', '/api-keys');
+			} else {
+				$rest_query = "/tenants/" . $this->tenantId;
+				if ($domain_id != null) {
+					$rest_query .= "/domains/" . $domain_id;
+
+					if ($application_id != null) {
+						$rest_query .= "/applications/" . $application_id;
+					}
+				}
+				$request_result = $this->apiClientConnector->request('GET', $rest_query . "/api-keys");
+			}
+
+			return json_decode($request_result->getBody());
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Create an API Key
+	 *
+	 * API Keys can be crated at the System level, a tenant, a specific domain or a specific application within a domain
+	 *
+	 * @param integer $domain_id A Domain ID to create the API key for
+	 * @param integer $application_id An application ID within a domain, to create and API key for
+	 * @param string $name An optional name for the created API key
+	 * @return mixed                     A JSON object, containing the result of the request
+	 */
+	public function create($domain_id = null, $application_id = null, $name = null)
+	{
+		try {
+
+			if ($this->apiClientConnector == null) {
+				throw new \Exception("Cloudonix Client had not been initialised properly");
+			}
+
+			if ($this->tenantId == null) {
+				$request_result = $this->apiClientConnector->request('POST', '/api-keys');
+			} else {
+				$rest_query = "/tenants/" . $this->tenantId;
+				if ($domain_id != null) {
+					$rest_query .= "/domains/" . $domain_id;
+
+					if ($application_id != null) {
+						$rest_query .= "/applications/" . $application_id;
+					}
+				}
+				$request_result = $this->apiClientConnector->request('POST', $rest_query . "/api-keys",
+					['json' => ["name" => $name]]);
+			}
+
+			return json_decode($request_result->getBody());
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Delete an API Key
+	 *
+	 * API Keys can be delete at the System level, a tenant, a specific domain or a specific application within a domain
+	 *
+	 * @param integer $apikey_id The API key ID to delete
+	 * @param integer $domain_id A Domain ID to create the API key for
+	 * @param integer $application_id An application ID within a domain, to create and API key for
+	 * @return mixed                     A JSON object, containing the result of the request
+	 */
+	public function delete($apikey_id = null, $domain_id = null, $application_id = null)
+	{
+		try {
+
+			if ($this->apiClientConnector == null) {
+				throw new \Exception("Cloudonix Client had not been initialised properly");
+			}
+
+			if ($apikey_id == null) {
+				throw new \Exception("Cloudonix apikey_id can not be null");
+			}
+
+			if ($this->tenantId == null) {
+				$request_result = $this->apiClientConnector->request('DELETE', '/api-keys/' . $apikey_id);
+			} else {
+				$rest_query = "/tenants/" . $this->tenantId;
+				if ($domain_id != null) {
+					$rest_query .= "/domains/" . $domain_id;
+
+					if ($application_id != null) {
+						$rest_query .= "/applications/" . $application_id;
+					}
+				}
+				$request_result = $this->apiClientConnector->request('DELETE', $rest_query . '/api-keys/' . $apikey_id);
+			}
+
+			return json_decode($request_result->getBody());
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Update/Patch an API Key
+	 *
+	 * API Keys can be crated at the System level, a tenant, a specific domain or a specific application within a domain
+	 *
+	 * @param integer $apikey_id An API key integer ID number
+	 * @param integer $domain_id A Domain ID to create the API key for
+	 * @param integer $application_id An application ID within a domain, to create and API key for
+	 * @param string $name An optional name for the created API key
+	 * @param boolean $active A Boolean value indicating if the API key is active or not, DEFAULT: true
+	 * @return mixed                     A JSON object, containing the result of the request
+	 */
+	public function patch($apikey_id = null, $domain_id = null, $application_id = null, $name = null, $active = true)
+	{
+		try {
+
+			if ($this->apiClientConnector == null) {
+				throw new \Exception("Cloudonix Client had not been initialised properly");
+			}
+
+			if ($apikey_id == null) {
+				throw new \Exception("Cloudonix apikey_id can not be null");
+			}
+
+			$patch_data = [
+				'json' => [
+					'name' => $name,
+					'active' => $active
+				]
+			];
+
+			if ($this->tenantId == null) {
+				$request_result = $this->apiClientConnector->request('PUT', '/api-keys/' . $apikey_id, $patch_data);
+			} else {
+				$rest_query = "/tenants/" . $this->tenantId;
+				if ($domain_id != null) {
+					$rest_query .= "/domains/" . $domain_id;
+
+					if ($application_id != null) {
+						$rest_query .= "/applications/" . $application_id;
+					}
+				}
+				$request_result = $this->apiClientConnector->request('PUT', $rest_query . '/api-keys/' . $apikey_id,
+					$patch_data);
+			}
+
+			return json_decode($request_result->getBody());
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+}

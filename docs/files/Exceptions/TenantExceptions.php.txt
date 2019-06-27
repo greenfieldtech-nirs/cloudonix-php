@@ -1,0 +1,60 @@
+<?php
+/**
+ *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
+ * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
+ * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
+ * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
+ * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
+ *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
+ *
+ * Project: cloudonix-php | TenantExceptions.php
+ * Creator: nirs | 2019-06-27
+ */
+
+namespace Cloudonix\Exceptions;
+
+use Noodlehaus\Exception;
+
+/**
+ * Class TenantGeneralException
+ * @package Cloudonix\Exceptions
+ */
+class TenantGeneralException extends CloudonixException {
+	public function __construct($message, $code, Exception $previous)
+	{
+		parent::__construct($message, $code, $previous);
+	}
+}
+
+/**
+ * Class TenantCreateException
+ * @package Cloudonix\Exceptions
+ */
+class TenantCreateException extends CloudonixException {
+	public function __construct($message, $code, Exception $previous)
+	{
+		parent::__construct($message, $code, $previous);
+	}
+}
+
+/**
+ * Class TenantUpdateException
+ * @package Cloudonix\Exceptions
+ */
+class TenantUpdateException extends CloudonixException {
+	public function __construct($message, $code, Exception $previous)
+	{
+		parent::__construct($message, $code, $previous);
+	}
+}
+
+/**
+ * Class TenantDeleteException
+ * @package Cloudonix\Exceptions
+ */
+class TenantDeleteException extends CloudonixException {
+	public function __construct($message, $code, Exception $previous)
+	{
+		parent::__construct($message, $code, $previous);
+	}
+}

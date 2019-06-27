@@ -1,0 +1,190 @@
+<?php
+/**
+ * cloudonix-php - A PHP Class for interfacing with the Cloudonix API.Core Interface
+ *
+ * Tenant Data Model
+ *
+ * The Tenant data model is a privileged data model API. In order to access this data model, you are
+ * required to use a "System Privileged" token key.
+ *
+ * @author: Nir Simionovich
+ * @license: LGPL 3.0 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
+ * @copyright: Cloudonix, Inc. May 2019. All Rights Reserved.
+ * @site: https://cloudonix.io
+ * @package Cloudonix\ApiCore
+ * @filesource
+ */
+namespace Cloudonix\ApiCore\Privileged;
+
+/**
+ * Tenant Class - Cloudonix Api.Core Tenant Data Model API
+ *
+ * Tenants are the highest level of Cloudonix data elementes. A tenanat is a customer of Cloudonix, Inc. Domains, Subscribers,
+ * Trunks and Applications are always attached to a specific tenant. This API may be invoked by a System Administrator API key
+ * only. All other keys, when used with this API will generate a security violation error.
+ *
+ * More information can be found at https://cloudonix.io/wp-content/uploads/2018/12/Cloudonix-Platform-Administrator-Guide.pdf
+ *
+ * @package Cloudonix\ApiCore\Priviliged
+ */
+class Tenant
+{
+	/** @var ApiCoreClient $apiClientConnector The previously initiated ApiCoreClient object */
+	public $apiClientConnector = null;
+
+	/** @var integer $tenantId The tenant ID initiating the API, for system privilage - null */
+	public $tenantId = null;
+
+	/**
+	 * Tenant constructor.
+	 * @param ApiCoreClient $connector Cloudonix ApiCoreClient object
+	 */
+	public function __construct($connector = null)
+	{
+		try {
+
+			if ($connector == null) {
+				throw new \Exception("Input values can not be null");
+			}
+
+			$this->apiClientConnector = $connector->apiClientConnector;
+			$this->tenantId = $connector->tenantId;
+
+		} catch (\Exception $e) {
+			$this->apiClientConnector->logger->crit("Exception raised in Subscriber Class", [
+				"file" => $e->getFile(),
+				"line" => $e->getLine(),
+				"error" => $e->getMessage()
+			]);
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Tenant destructor
+	 */
+	public function __destruct()
+	{
+		// TODO: Implement __destruct() method.
+	}
+
+	/**
+	 * Get a single tenant from the system, or a complete list of tenants
+	 *
+	 * @param integer $id The tenant ID to retrieve. If null, get all tenants
+	 * @return mixed          A JSON object, containing the result of the request
+	 */
+	public function get($id = null)
+	{
+		try {
+
+			if ($this->apiClientConnector == null) {
+				throw new \Exception("Cloudonix Client had not been initialised properly");
+			}
+
+			$request_result = $this->apiClientConnector->request('GET', '/tenants/' . $id);
+
+			$this->apiClientConnector->logger->info("Tenant information received", $request_result->getBody());
+
+			return json_decode($request_result->getBody());
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Delete a single tenant from the platform - will remove all related domain/subscriber/applications
+	 *
+	 * @param integer $id The tenant ID to retrieve. If null, get all tenants
+	 * @return mixed       A JSON object, containing the result of the request
+	 */
+	public function delete($id = null)
+	{
+		try {
+
+			if ($this->apiClientConnector == null) {
+				throw new \Exception("Cloudonix Client had not been initialised properly");
+			}
+
+			if ($id == null) {
+				throw new \Exception("Tenant ID can not be null");
+			}
+
+			$request_result = $this->apiClientConnector->request('DELETE', '/tenants/' . $id);
+
+			return json_decode($request_result->getBody());
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Create a new tenant on the system
+	 *
+	 * @param string $name The name of the tenant to create
+	 * @param array $profile An associative array, containing the tenants profile settings
+	 * @return mixed            A JSON object, containing the result of the request
+	 */
+	public function create($name = null, $profile = null)
+	{
+		try {
+
+			if ($this->apiClientConnector == null) {
+				throw new \Exception("Cloudonix Client had not been initialised properly");
+			}
+
+			if ($name == null) {
+				throw new \Exception("Tenant name can not be null");
+			}
+
+			$input = [
+				"name" => $name,
+				"profile" => $profile
+			];
+
+			$request_result = $this->apiClientConnector->request('POST', '/tenants', ['json' => $input]);
+
+			return json_decode($request_result->getBody());
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+
+	/**
+	 * Update the information of a specific tenant
+	 *
+	 * @param integer $id The tenant ID to update
+	 * @param string $name The new name to assign to the tenant, indicated by $id
+	 * @param array $profile An associative array, containing the tenants profile settings
+	 * @return mixed             A JSON object, containing the result of the request
+	 */
+	public function patch($id = null, $name = null, $profile = null)
+	{
+		try {
+
+			if ($this->apiClientConnector == null) {
+				throw new \Exception("Cloudonix Client had not been initialised properly");
+			}
+
+			if (($id == null) || ($name == null)) {
+				throw new \Exception("Tenant ID/name can not be null");
+			}
+
+			$input = [
+				"name" => $name,
+				"profile" => $profile
+			];
+
+			$request_result = $this->apiClientConnector->request('PUT', '/tenants/' . $id, ['json' => $input]);
+
+			return json_decode($request_result->getBody());
+
+		} catch (\Exception $e) {
+			die("Exception Raised at " . $e->getFile() . " Line: " . $e->getLine() . " Message: [" . $e->getMessage() . "]");
+		}
+	}
+}
+
