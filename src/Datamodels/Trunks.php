@@ -109,7 +109,6 @@ class Trunks implements Datamodel
 	 * ]
 	 * @return object $object The created Cloudonix Trunk Object
 	 */
-
 	public function get($object)
 	{
 		$domainId = $object['domainId'];
@@ -120,8 +119,7 @@ class Trunks implements Datamodel
 		$result = $this->client->httpRequest('GET',
 			'/tenants/' . $this->client->tenantId .
 			'/domains/' . $domainId .
-			'/trunks/' . $trunkId,
-			$object);
+			'/trunks/' . $trunkId);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -130,8 +128,8 @@ class Trunks implements Datamodel
 	 *
 	 * @param array $object A trunk delete object (represented as an array) as following:
 	 * [
-	 *    'domainId' => 'The domain ID the application will be created in',
-	 *    'trunkId' => 'The trunk ID to be updated',
+	 *    'domainId' => 'The domain ID of the trunk to delete',
+	 *    'trunkId' => 'The trunk ID to be deleted',
 	 * ]
 	 * @return boolean
 	 */

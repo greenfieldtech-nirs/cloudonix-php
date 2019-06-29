@@ -12,6 +12,7 @@
   "autoload": {
 	"psr-4": {
 	  "Cloudonix\\": [
+		"src/Helpers/",
 		"src/Interfaces/",
 		"src/Datamodels/",
 		"src/"

@@ -15,10 +15,12 @@
 namespace Cloudonix;
 
 use Exception;
+use GuzzleHttp\Psr7\Response;
 use Opis\Cache\Drivers\File;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Cloudonix API.Core Client - Command and Control REST Client
@@ -57,6 +59,7 @@ class Client
 	protected $applicationsInterface;
 	protected $subscribersInterface;
 	protected $trunksInterface;
+	protected $dnidsInterface;
 
 	/**
 	 * Client constructor.
@@ -114,28 +117,35 @@ class Client
 
 	}
 
-	public function tenants() {
+	public function tenants(): Tenants {
 		if (!$this->tenantsInterface) {
 			$this->tenantsInterface = new Tenants($this);
 		}
 		return $this->tenantsInterface;
 	}
 
-	public function domains() {
+	public function domains(): Domains {
 		if (!$this->domainsInterface) {
 			$this->domainsInterface = new Domains($this);
 		}
 		return $this->domainsInterface;
 	}
 
-	public function applications() {
+	public function applications(): Applications {
 		if (!$this->applicationsInterface) {
 			$this->applicationsInterface = new Applications($this);
 		}
 		return $this->applicationsInterface;
 	}
 
-	public function httpRequest($method, $request, $data = null)
+	public function dnids(): Dnids {
+		if (!$this->dnidsInterface) {
+			$this->dnidsInterface = new Dnids($this);
+		}
+		return $this->dnidsInterface;
+	}
+
+	public function httpRequest($method, $request, $data = null): Response
 	{
 		try {
 			if ($data != null)
@@ -188,7 +198,7 @@ class Client
 	}
 
 
-	public function getSelf() {
+	public function getSelf(): array {
 		try {
 
 			$mySelfKeyResult = $this->httpRequest('GET', 'keys/self');
