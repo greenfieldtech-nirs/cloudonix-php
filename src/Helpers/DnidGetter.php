@@ -14,14 +14,12 @@
 namespace Cloudonix;
 
 use Exception;
-use Cloudonix\Exceptions\MissingDomainIdException;
-use Cloudonix\Exceptions\DatamodelBuilderException;
 
 class DnidGetter
 {
 	public $baseFilter;
-	public $baseQuery;
-	public $domainId;
+	public $baseQuery = false;
+	public $domainId = false;
 	public $dnids;
 	public $client;
 	public $name;
@@ -35,7 +33,6 @@ class DnidGetter
 
 			$this->client = $client;
 			$this->baseFilter = "?";
-			$this->baseQuery = '/domains/' . $this->domainId;
 
 		} catch (Exception $e) {
 			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
@@ -62,16 +59,17 @@ class DnidGetter
 		return $this;
 	}
 
-	public function setDomainId($domainId) {
+	public function byDomainId($domainId) {
 		$this->domainId = $domainId;
+		$this->baseQuery = '/domains/' . $this->domainId;
 		return $this;
 	}
 
 	public function run() {
 
 		try {
-			if (!$this->domainId)
-				throw new MissingDomainIdException('`setDomainId` MUST be called before `run`', 500);
+			if ((!$this->domainId) || (!$this->baseQuery))
+				throw new MissingDomainIdException('`byDomainId` MUST be called before `run`', 500);
 
 			$result = $this->client->httpRequest('GET', $this->baseQuery . '/dnids' . $this->baseFilter);
 			return json_decode((string)$result->getBody());

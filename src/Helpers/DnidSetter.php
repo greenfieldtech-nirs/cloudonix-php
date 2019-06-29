@@ -14,16 +14,11 @@
 namespace Cloudonix;
 
 use Exception;
-use Cloudonix\Exceptions\MissingAdditionalDataException;
-use Cloudonix\Exceptions\MissingApplicationIdException;
-use Cloudonix\Exceptions\MissingDnidIdException;
-use Cloudonix\Exceptions\MissingDomainIdException;
-use Cloudonix\Exceptions\DatamodelBuilderException;
 
 class DnidSetter
 {
 	public $baseFilter;
-	public $baseQuery;
+	public $baseQuery = false;
 	public $domainId = false;
 	public $dnids;
 	public $client;
@@ -45,7 +40,6 @@ class DnidSetter
 
 			$this->client = $client;
 			$this->action = $action;
-			$this->baseQuery = '/domains/' . $this->domainId;
 
 		} catch (DatamodelBuilderException $e) {
 			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
@@ -105,8 +99,14 @@ class DnidSetter
 		return $this;
 	}
 
+	public function setKey($key, $value) {
+		$this->actionData[$key] = $value;
+		return $this;
+	}
+
 	public function setDomainId($domainId) {
 		$this->domainId = $domainId;
+		$this->baseQuery = '/domains/' . $this->domainId;
 		return $this;
 	}
 
@@ -114,7 +114,7 @@ class DnidSetter
 	{
 
 		try {
-			if (!$this->domainId)
+			if ((!$this->domainId) || (!$this->baseQuery))
 				throw new MissingDomainIdException('`setDomainId` MUST be called before `run`', 500);
 
 			if (!$this->applicationId)

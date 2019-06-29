@@ -20,7 +20,6 @@ use Opis\Cache\Drivers\File;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Cloudonix API.Core Client - Command and Control REST Client
@@ -63,6 +62,7 @@ class Client
 
 	/**
 	 * Client constructor.
+	 * @param string $apikey Cloudonix assigned API key.
 	 * @param string $cacheDirectory A designated Cache Memory directory - default '/tmp'
 	 * @param string $httpEndpoint An alternative Cloudonix API Endpoint - default 'https://api.cloudonix.io'
 	 * @throws Exception In case of library init error
@@ -82,7 +82,17 @@ class Client
 				throw new Exception('Cache engine not properly working, bailing out', 500);
 			$this->cacheHandler->clear();
 
-			$this->init($apikey);
+			$this->apikey = $apikey;
+
+			$this->httpConnector = new GuzzleClient([
+				'base_uri' => $this->httpEndpoint,
+				'timeout' => 2.0
+			]);
+
+			$this->httpHeaders = [
+				'Authorization' => 'Bearer ' . $apikey,
+				'User-Agent' => $this->httpClientIdent
+			];
 
 		} catch (Exception $e) {
 			die($e->getMessage() . '  code: ' . $e->getCode());
@@ -98,25 +108,8 @@ class Client
 	}
 
 	/**
-	 * Initialise the Guzzle HTTP Client
+	 * @return Tenants
 	 */
-	public function init($apikey)
-	{
-
-		$this->apikey = $apikey;
-
-		$this->httpConnector = new GuzzleClient([
-			'base_uri' => $this->httpEndpoint,
-			'timeout' => 2.0
-		]);
-
-		$this->httpHeaders = [
-			'Authorization' => 'Bearer ' . $apikey,
-			'User-Agent' => $this->httpClientIdent
-		];
-
-	}
-
 	public function tenants(): Tenants {
 		if (!$this->tenantsInterface) {
 			$this->tenantsInterface = new Tenants($this);
@@ -124,6 +117,9 @@ class Client
 		return $this->tenantsInterface;
 	}
 
+	/**
+	 * @return Domains
+	 */
 	public function domains(): Domains {
 		if (!$this->domainsInterface) {
 			$this->domainsInterface = new Domains($this);
@@ -131,6 +127,9 @@ class Client
 		return $this->domainsInterface;
 	}
 
+	/**
+	 * @return Applications
+	 */
 	public function applications(): Applications {
 		if (!$this->applicationsInterface) {
 			$this->applicationsInterface = new Applications($this);
@@ -138,6 +137,9 @@ class Client
 		return $this->applicationsInterface;
 	}
 
+	/**
+	 * @return Dnids
+	 */
 	public function dnids(): Dnids {
 		if (!$this->dnidsInterface) {
 			$this->dnidsInterface = new Dnids($this);
@@ -145,6 +147,14 @@ class Client
 		return $this->dnidsInterface;
 	}
 
+	/**
+	 * Issue a REST HTTP request to Cloudonix API endpoint - based on provided information
+	 *
+	 * @param $method
+	 * @param $request
+	 * @param null $data
+	 * @return Response
+	 */
 	public function httpRequest($method, $request, $data = null): Response
 	{
 		try {
@@ -197,7 +207,11 @@ class Client
 		}
 	}
 
-
+	/**
+	 * Get Self information for the provided API key
+	 *
+	 * @return array
+	 */
 	public function getSelf(): array {
 		try {
 
@@ -221,9 +235,9 @@ class Client
 
 			return $result;
 
-		} catch (ServerException $e) {
+		} catch (GuzzleServerException $e) {
 			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (ClientException $e) {
+		} catch (GuzzleClientException $e) {
 			die($e->getMessage() . '  code: ' . $e->getCode());
 		} catch (Exception $e) {
 			die($e->getMessage() . '  code: ' . $e->getCode());

@@ -11,7 +11,7 @@
  * Creator: nirs | 2019-06-29
  */
 
-namespace Cloudonix\Exceptions;
+namespace Cloudonix;
 
 use Exception;
 
