@@ -42,12 +42,12 @@ class SubscriberGetter
 
 	public function byDomain($domain) {
 		$this->domain = $domain;
-		$this->baseQuery .= '/domains/' . $domain . '/subscribers';
+		$this->baseQuery .= '/domains/' . $domain;
 		return $this;
 	}
 
 	public function byDomainId($domainId) {
-		return $this->byDomainId($domainId);
+		return $this->byDomain($domainId);
 	}
 
 	public function bySubscriber($subscriber) {
@@ -63,18 +63,22 @@ class SubscriberGetter
 
 	public function bySubscriberId($id) {
 		$this->filterBySubscriberId = true;
-		$this->baseQuery = "?";
-		$this->baseQuery .= '/' . $id;
+		$this->baseFilter = "?";
+		$this->baseQuery .= '/subscribers/' . $id;
 		return $this;
 	}
 
 	public function run() {
 
 		try {
-			if ((!$this->domainId) || (!$this->baseQuery))
-				throw new MissingDomainIdException('`byDomainId` MUST be called before `run`', 500);
+			if ((!$this->domain) || (!$this->baseQuery))
+				throw new MissingDomainIdException('`byDomainId|byDomain` MUST be called before `run`', 500);
 
-			$result = $this->client->httpRequest('GET', $this->baseQuery . '/subscribers' . $this->baseFilter);
+			if ($this->filterBySubscriberId) {
+				$result = $this->client->httpRequest('GET', $this->baseQuery . $this->baseFilter);
+			} else {
+				$result = $this->client->httpRequest('GET', $this->baseQuery . '/subscribers' . $this->baseFilter);
+			}
 			return json_decode((string)$result->getBody());
 
 		} catch (MissingDomainIdException $e) {

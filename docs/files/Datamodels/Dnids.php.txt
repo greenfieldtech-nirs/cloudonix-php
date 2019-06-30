@@ -42,62 +42,53 @@ class Dnids implements LazyDatamodel
 	}
 
 	/**
-	 * Create a DNID in a Domain
+	 * Create a DNID
 	 *
-	 * @return DnidSetter $object The DNID (or list) retrieved from the datamodel
+	 * @return DnidSetter The created DNID object
 	 */
 	public function create(): DnidSetter
 	{
-		if (!$this->dnidSetter) {
-			$this->dnidSetter = new DnidSetter($this->client, 'create');
-		}
+		$this->dnidSetter = new DnidSetter($this->client, 'create');
 		return $this->dnidSetter;
 	}
 
 	/**
-	 * Update a DNID in a Domain
+	 * Update a DNID
 	 *
-	 * @return DnidSetter $object The DNID (or list) retrieved from the datamodel
+	 * @return DnidSetter The updated DNID object
 	 */
 	public function update(): DnidSetter
 	{
-		if (!$this->dnidSetter) {
-			$this->dnidSetter = new DnidSetter($this->client, 'update');
-		}
+		$this->dnidSetter = new DnidSetter($this->client, 'update');
 		return $this->dnidSetter;
 	}
 
 	/**
-	 * Get DNID information from a Domain
+	 * Get DNID information
 	 *
-	 * @return DnidGetter $object The DNID (or list) retrieved from the datamodel
+	 * @return DnidGetter A DNID (or list of) object (or objects)
 	 */
 	public function get(): DnidGetter
 	{
-		if (!$this->dnidGetter) {
-			$this->dnidGetter = new DnidGetter($this->client);
-		}
+		$this->dnidGetter = new DnidGetter($this->client);
 		return $this->dnidGetter;
 	}
 
 	/**
-	 * Delete a DNID in a Domain designated by an ID
+	 * Delete a DNID
 	 *
-	 * @return DnidSetter $object The DNID (or list) retrieved from the datamodel
+	 * @return DnidSetter True on success
 	 */
 	public function delete(): DnidSetter
 	{
-		if (!$this->dnidSetter) {
-			$this->dnidSetter = new DnidSetter($this->client, 'delete');
-		}
+		$this->dnidSetter = new DnidSetter($this->client, 'delete');
 		return $this->dnidSetter;
 	}
 
 	/**
 	 * Create a new API key in the data model - Not Applicable
 	 *
-	 * @param $object
-	 * @return bool
+	 * @return false
 	 */
 	public function createApikey()
 	{
@@ -107,8 +98,7 @@ class Dnids implements LazyDatamodel
 	/**
 	 * Update an existing API key object in the data model - Not Applicable
 	 *
-	 * @param $object
-	 * @return bool
+	 * @return false
 	 */
 	public function updateApikey()
 	{
@@ -118,7 +108,6 @@ class Dnids implements LazyDatamodel
 	/**
 	 * Delete an existing API key object from the data model - Not Applicable
 	 *
-	 * @param $object
 	 * @return bool
 	 */
 	public function deleteApikey()
@@ -129,7 +118,6 @@ class Dnids implements LazyDatamodel
 	/**
 	 * Get a list of currently available API keys in the data model - Not Applicable
 	 *
-	 * @param $object
 	 * @return bool
 	 */
 	public function getApikeys()

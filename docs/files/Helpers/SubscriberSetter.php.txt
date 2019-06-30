@@ -2,14 +2,14 @@
 /**
  *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
  * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
- * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝ 
- * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗ 
+ * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
+ * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
  * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
  * Project: cloudonix-php | ${FILE_NAME}
  * Creator: nirs | 2019-06-29
- */  
+ */
 
 namespace Cloudonix;
 
@@ -18,14 +18,14 @@ use Exception;
 
 class SubscriberSetter
 {
-	public $baseFilter;
-	public $baseQuery;
-	public $domainId;
-	public $client;
-	public $name;
-	public $id;
+	public $baseFilter = false;
+	public $baseQuery = false;
+	public $domain = false;
+	public $client = false;
+	public $name = false;
+	public $id = false;
 
-	private $action;
+	private $action = false;
 	private $actionData = [];
 
 	public function __construct(Client $client, $action)
@@ -36,16 +36,80 @@ class SubscriberSetter
 
 			$this->client = $client;
 			$this->action = $action;
-			$this->baseQuery = '/domains/' . $this->domainId;
+			$this->baseQuery = '/tenants/' . $client->tenantId;
 
 		} catch (Exception $e) {
 			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
 		}
 	}
 
-	public function setDomainId($domainId) {
-		$this->domainId = $domainId;
+	public function setDomain($domain)
+	{
+		$this->domain = $domain;
+		$this->baseQuery .= '/domains/' . $domain;
 		return $this;
+	}
+
+	public function setDomainId($domainId)
+	{
+		return $this->setDomain($domainId);
+	}
+
+	public function setMsisdn($msdisn)
+	{
+		$this->actionData['msisdn'] = $msdisn;
+		return $this;
+	}
+
+	public function setSubscriberNumber($msisdn)
+	{
+		return $this->setMsisdn($msisdn);
+	}
+
+	public function setPhoneNumber($msisdn)
+	{
+		return $this->setMsisdn($msisdn);
+	}
+
+	public function bySubscriberId($id)
+	{
+		$this->id = $id;
+		return $this;
+	}
+
+	public function setProfileKey($key, $value)
+	{
+		$this->actionData['profile']['key'] = $value;
+		return $this;
+	}
+
+	public function setActive($active)
+	{
+		$this->actionData['active'] = (int)$active;
+		return $this;
+	}
+
+	public function setSipPassword($password)
+	{
+		$this->actionData['sip-password'] = $password;
+		return $this;
+	}
+
+	public function setSipRandomPassword()
+	{
+		$this->actionData['sip-password'] = $this->generateRandomString(16);
+		return $this;
+	}
+
+	private function generateRandomString($length = 10)
+	{
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%^&*()[]{}-_=+';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
 	}
 
 	public function run()
@@ -53,16 +117,22 @@ class SubscriberSetter
 
 		try {
 
+			if ((!$this->domain) || (!$this->baseQuery))
+				throw new MissingDomainIdException('`setDomainId|setDomain` MUST be called before `run`', 500);
+
 			switch (strtolower($this->action)) {
 				case "create":
+					$result = $this->client->httpRequest('POST', $this->baseQuery . '/subscribers', $this->actionData);
+					break;
 				case "update":
-
-					$httpAction = (strtolower($this->action) == "create") ? "POST" : "PUT";
-					$result = $this->client->httpRequest($httpAction, $this->baseQuery, $this->actionData);
+					if (!$this->id)
+						throw new MissingSubscriberIdException('`setSubscriberId|bySubscriberId` MUST be called before `run`', 500);
+					$result = $this->client->httpRequest('PUT', $this->baseQuery . '/subscribers/' . $this->id, $this->actionData);
 					break;
 				case "delete":
-
-					$this->client->httpRequest('DELETE', $this->baseQuery);
+					if (!$this->id)
+						throw new MissingSubscriberIdException('`setSubscriberId|bySubscriberId` MUST be called before `run`', 500);
+					$result = $this->client->httpRequest('DELETE', $this->baseQuery . '/subscribers/' . $this->id);
 					return true;
 					break;
 				default:
@@ -71,6 +141,14 @@ class SubscriberSetter
 			}
 			return json_decode((string)$result->getBody());
 
+		} catch (MissingDomainIdException $e) {
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+		} catch (MissingApplicationIdException $e) {
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+		} catch (MissingAdditionalDataException $e) {
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+		} catch (MissingDnidIdException $e) {
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
 		} catch (Exception $e) {
 			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
 		}

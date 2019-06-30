@@ -82,6 +82,7 @@ class Client
 	 * @param string $apikey Cloudonix assigned API key.
 	 * @param string $cacheDirectory A designated Cache Memory directory - default '/tmp'
 	 * @param string $httpEndpoint An alternative Cloudonix API Endpoint - default 'https://api.cloudonix.io'
+	 *
 	 * @throws Exception In case of library init error
 	 */
 	public function __construct($apikey = null, $httpEndpoint = null, $cacheDirectory = null)

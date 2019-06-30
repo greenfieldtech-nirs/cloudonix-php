@@ -41,24 +41,44 @@ class Trunks implements LazyDatamodel
 		}
 	}
 
+	/**
+	 * Create a new trunk
+	 *
+	 * @return TrunkSetter The newly created trunk object
+	 */
 	public function create(): TrunkSetter
 	{
 		$this->trunkSetter = new TrunkSetter($this->client, 'create');
 		return $this->trunkSetter;
 	}
 
+	/**
+	 * Update an existing trunk
+	 *
+	 * @return TrunkSetter The updated trunk object
+	 */
 	public function update(): TrunkSetter
 	{
 		$this->trunkSetter = new TrunkSetter($this->client, 'update');
 		return $this->trunkSetter;
 	}
 
+	/**
+	 * Retrieve trunk information
+	 *
+	 * @return TrunkGetter The trunk (or list of) object (or objects)
+	 */
 	public function get(): TrunkGetter
 	{
 		$this->trunkGetter = new TrunkGetter($this->client);
 		return $this->trunkGetter;
 	}
 
+	/**
+	 * Delete a trunk
+	 *
+	 * @return TrunkSetter Returns True on success
+	 */
 	public function delete(): TrunkSetter
 	{
 		$this->trunkSetter = new TrunkSetter($this->client, 'delete');

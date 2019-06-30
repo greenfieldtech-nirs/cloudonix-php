@@ -42,9 +42,9 @@ class Subscribers implements LazyDatamodel
 	}
 
 	/**
-	 * Create a Subscriber in a the Domain
+	 * Create a Subscriber
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return SubscriberSetter The created subscriber object
 	 */
 	public function create(): SubscriberSetter
 	{
@@ -53,9 +53,9 @@ class Subscribers implements LazyDatamodel
 	}
 
 	/**
-	 * Update a Subscriber in a the Domain
+	 * Update a Subscriber
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return SubscriberSetter The updated subscriber object
 	 */
 	public function update(): SubscriberSetter
 	{
@@ -64,9 +64,9 @@ class Subscribers implements LazyDatamodel
 	}
 
 	/**
-	 * Get Subscriber (or list of) in a the Domain
+	 * Get Subscriber (or list of)
 	 *
-	 * @return SubscriberGetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return SubscriberGetter A subscriber (or list of) object
 	 */
 	public function get(): SubscriberGetter
 	{
@@ -75,9 +75,9 @@ class Subscribers implements LazyDatamodel
 	}
 
 	/**
-	 * Delete a Subscriber in a the Domain
+	 * Delete a Subscriber
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return SubscriberSetter True on success
 	 */
 	public function delete(): SubscriberSetter
 	{

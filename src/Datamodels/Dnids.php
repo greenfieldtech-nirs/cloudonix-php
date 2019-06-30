@@ -42,9 +42,9 @@ class Dnids implements LazyDatamodel
 	}
 
 	/**
-	 * Create a DNID in a Domain
+	 * Create a DNID
 	 *
-	 * @return DnidSetter $object The DNID (or list) retrieved from the datamodel
+	 * @return DnidSetter The created DNID object
 	 */
 	public function create(): DnidSetter
 	{
@@ -53,9 +53,9 @@ class Dnids implements LazyDatamodel
 	}
 
 	/**
-	 * Update a DNID in a Domain
+	 * Update a DNID
 	 *
-	 * @return DnidSetter $object The DNID (or list) retrieved from the datamodel
+	 * @return DnidSetter The updated DNID object
 	 */
 	public function update(): DnidSetter
 	{
@@ -64,9 +64,9 @@ class Dnids implements LazyDatamodel
 	}
 
 	/**
-	 * Get DNID information from a Domain
+	 * Get DNID information
 	 *
-	 * @return DnidGetter $object The DNID (or list) retrieved from the datamodel
+	 * @return DnidGetter A DNID (or list of) object (or objects)
 	 */
 	public function get(): DnidGetter
 	{
@@ -75,9 +75,9 @@ class Dnids implements LazyDatamodel
 	}
 
 	/**
-	 * Delete a DNID in a Domain designated by an ID
+	 * Delete a DNID
 	 *
-	 * @return DnidSetter $object The DNID (or list) retrieved from the datamodel
+	 * @return DnidSetter True on success
 	 */
 	public function delete(): DnidSetter
 	{

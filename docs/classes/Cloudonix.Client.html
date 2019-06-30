@@ -114,12 +114,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">162</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">235</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
@@ -144,19 +144,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-59013338"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-681296445"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-59013338" class="accordion-body collapse in">
+            <div id="namespace-681296445" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1326851754"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-757606296"></a>
                                 <a href="../namespaces/Cloudonix.html" style="margin-left: 30px; padding-left: 0">Cloudonix</a>
             </div>
-            <div id="namespace-1326851754" class="accordion-body collapse ">
+            <div id="namespace-757606296" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -180,7 +180,9 @@
                                                     <li class="class"><a href="../classes/Cloudonix.Subscribers.html">Subscribers</a></li>
                                                     <li class="class"><a href="../classes/Cloudonix.SubscriberSetter.html">SubscriberSetter</a></li>
                                                     <li class="class"><a href="../classes/Cloudonix.Tenants.html">Tenants</a></li>
+                                                    <li class="class"><a href="../classes/Cloudonix.TrunkGetter.html">TrunkGetter</a></li>
                                                     <li class="class"><a href="../classes/Cloudonix.Trunks.html">Trunks</a></li>
+                                                    <li class="class"><a href="../classes/Cloudonix.TrunkSetter.html">TrunkSetter</a></li>
                                             </ul>
                 </div>
             </div>
@@ -233,6 +235,7 @@
                                                                     <a href="../classes/Cloudonix.Client.html#method_applications" class="">applications()</a><br />
                                                                     <a href="../classes/Cloudonix.Client.html#method_dnids" class="">dnids()</a><br />
                                                                     <a href="../classes/Cloudonix.Client.html#method_subscribers" class="">subscribers()</a><br />
+                                                                    <a href="../classes/Cloudonix.Client.html#method_trunks" class="">trunks()</a><br />
                                                                     <a href="../classes/Cloudonix.Client.html#method_httpRequest" class="">httpRequest()</a><br />
                                                                     <a href="../classes/Cloudonix.Client.html#method_getSelf" class="">getSelf()</a><br />
                                                             </section>
@@ -270,7 +273,7 @@
                         </section>
                         <section class="row-fluid private">
                             <section class="span4">
-                                                                    <em>No private methods found</em>
+                                                                    <a href="../classes/Cloudonix.Client.html#method_buildHttpClient" class="">buildHttpClient()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No private properties found</em>
@@ -488,13 +491,13 @@
             <a id="property_apikey" name="property_apikey" class="anchor"></a>
             <article class="property">
                 <h3 class="public ">$apikey</h3>
-                <pre class="signature">$apikey : </pre>
+                <pre class="signature">$apikey : string</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                string
+                &mdash; Cloudonix assigned API key for client init                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -512,13 +515,13 @@
             <a id="property_tenantName" name="property_tenantName" class="anchor"></a>
             <article class="property">
                 <h3 class="public ">$tenantName</h3>
-                <pre class="signature">$tenantName : </pre>
+                <pre class="signature">$tenantName : string</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                string
+                &mdash; Cloudonix provisioned Tenant name                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -536,13 +539,13 @@
             <a id="property_tenantId" name="property_tenantId" class="anchor"></a>
             <article class="property">
                 <h3 class="public ">$tenantId</h3>
-                <pre class="signature">$tenantId : </pre>
+                <pre class="signature">$tenantId : integer</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                integer
+                &mdash; Cloudonix provisioned Tenant ID                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -560,13 +563,13 @@
             <a id="property_tenantsInterface" name="property_tenantsInterface" class="anchor"></a>
             <article class="property">
                 <h3 class="protected ">$tenantsInterface</h3>
-                <pre class="signature">$tenantsInterface : </pre>
+                <pre class="signature">$tenantsInterface : \Cloudonix\Tenants</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                <a href="../classes/Cloudonix.Tenants.html">\Cloudonix\Tenants</a>
+                &mdash; Cloudonix Tenants REST API Connector                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -584,13 +587,13 @@
             <a id="property_domainsInterface" name="property_domainsInterface" class="anchor"></a>
             <article class="property">
                 <h3 class="protected ">$domainsInterface</h3>
-                <pre class="signature">$domainsInterface : </pre>
+                <pre class="signature">$domainsInterface : \Cloudonix\Domains</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                <a href="../classes/Cloudonix.Domains.html">\Cloudonix\Domains</a>
+                &mdash; Cloudonix Domains REST API Connector                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -608,13 +611,13 @@
             <a id="property_applicationsInterface" name="property_applicationsInterface" class="anchor"></a>
             <article class="property">
                 <h3 class="protected ">$applicationsInterface</h3>
-                <pre class="signature">$applicationsInterface : </pre>
+                <pre class="signature">$applicationsInterface : \Cloudonix\Applications</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                <a href="../classes/Cloudonix.Applications.html">\Cloudonix\Applications</a>
+                &mdash; Cloudonix Applications REST API Connector                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -632,13 +635,13 @@
             <a id="property_subscribersInterface" name="property_subscribersInterface" class="anchor"></a>
             <article class="property">
                 <h3 class="protected ">$subscribersInterface</h3>
-                <pre class="signature">$subscribersInterface : </pre>
+                <pre class="signature">$subscribersInterface : \Cloudonix\Subscribers</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                <a href="../classes/Cloudonix.Subscribers.html">\Cloudonix\Subscribers</a>
+                &mdash; Cloudonix Subscribers REST API Connector                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -656,13 +659,13 @@
             <a id="property_trunksInterface" name="property_trunksInterface" class="anchor"></a>
             <article class="property">
                 <h3 class="protected ">$trunksInterface</h3>
-                <pre class="signature">$trunksInterface : </pre>
+                <pre class="signature">$trunksInterface : \Cloudonix\Trunks</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                <a href="../classes/Cloudonix.Trunks.html">\Cloudonix\Trunks</a>
+                &mdash; Cloudonix Trunks REST API Connector                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -680,13 +683,13 @@
             <a id="property_dnidsInterface" name="property_dnidsInterface" class="anchor"></a>
             <article class="property">
                 <h3 class="protected ">$dnidsInterface</h3>
-                <pre class="signature">$dnidsInterface : </pre>
+                <pre class="signature">$dnidsInterface : \Cloudonix\Dnids</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
-                
-                                            </article>
+                <a href="../classes/Cloudonix.Dnids.html">\Cloudonix\Dnids</a>
+                &mdash; Cloudonix Dnids REST API Connector                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -899,14 +902,42 @@
             <article class="method">
                 <h3 class="public ">subscribers()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">subscribers() : \Cloudonix\Dnids</pre>
+                <pre class="signature" style="margin-right: 54px;">subscribers() : \Cloudonix\Subscribers</pre>
                 <p><em></em></p>
                 
 
                 
                 
                                     <h4>Returns</h4>
-                    <a href="../classes/Cloudonix.Dnids.html">\Cloudonix\Dnids</a>
+                    <a href="../classes/Cloudonix.Subscribers.html">\Cloudonix\Subscribers</a>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_trunks" name="method_trunks" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">trunks()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">trunks() : \Cloudonix\Trunks</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Cloudonix.Trunks.html">\Cloudonix\Trunks</a>
                                     				
                             </article>
         </div>
@@ -995,7 +1026,43 @@
         </aside>
     </div>
 
-                                                                    </div>
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buildHttpClient" name="method_buildHttpClient" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">buildHttpClient()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buildHttpClient(string  <span class="argument">$apikey</span>) : \GuzzleHttp\Client</pre>
+                <p><em>Build the Client Guzzle HTTP Client</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$apikey </td>
+                                <td><p>Cloudonix assigned API key.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \GuzzleHttp\Client
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
     </section>
 
     <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
@@ -1045,7 +1112,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on June 30th, 2019 at 10:40.
+                    on June 30th, 2019 at 15:30.
                 </section>
             </section>
         </section>

@@ -42,106 +42,86 @@ class Subscribers implements LazyDatamodel
 	}
 
 	/**
-	 * Create a Subscriber in a the Domain
+	 * Create a Subscriber
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return SubscriberSetter The created subscriber object
 	 */
 	public function create(): SubscriberSetter
 	{
-		if (!$this->subscriberSetter) {
-			$this->subscriberSetter = new SubscriberSetter($this->client, 'create');
-		}
+		$this->subscriberSetter = new SubscriberSetter($this->client, 'create');
 		return $this->subscriberSetter;
 	}
 
 	/**
-	 * Update a Subscriber in a the Domain
+	 * Update a Subscriber
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return SubscriberSetter The updated subscriber object
 	 */
 	public function update(): SubscriberSetter
 	{
-		if (!$this->subscriberSetter) {
-			$this->subscriberSetter = new SubscriberSetter($this->client, 'update');
-		}
+		$this->subscriberSetter = new SubscriberSetter($this->client, 'update');
 		return $this->subscriberSetter;
 	}
 
 	/**
-	 * Get Subscriber (or list of) in a the Domain
+	 * Get Subscriber (or list of)
 	 *
-	 * @return SubscriberGetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return SubscriberGetter A subscriber (or list of) object
 	 */
 	public function get(): SubscriberGetter
 	{
-		if (!$this->subscriberGetter) {
-			$this->subscriberGetter = new SubscriberGetter($this->client);
-		}
+		$this->subscriberGetter = new SubscriberGetter($this->client);
 		return $this->subscriberGetter;
 	}
 
 	/**
-	 * Delete a Subscriber in a the Domain
+	 * Delete a Subscriber
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return SubscriberSetter True on success
 	 */
 	public function delete(): SubscriberSetter
 	{
-		if (!$this->subscriberSetter) {
-			$this->subscriberSetter = new SubscriberSetter($this->client, 'delete');
-		}
+		$this->subscriberSetter = new SubscriberSetter($this->client, 'delete');
 		return $this->subscriberSetter;
 	}
 
 	/**
-	 * Create a Subscriber API key in a domain
+	 * Create a Subscriber API key in a domain - not applicable
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return false
 	 */
 	public function createApikey()
 	{
-		if (!$this->subscriberSetter) {
-			$this->subscriberSetter = new SubscriberSetter($this->client, 'delete');
-		}
-		return $this->subscriberSetter;
+		return false;
 	}
 
 	/**
-	 * Update a Subscriber API key in a domain
+	 * Update a Subscriber API key in a domain - not applicable
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return false
 	 */
 	public function updateApikey()
 	{
-		if (!$this->subscriberSetter) {
-			$this->subscriberSetter = new SubscriberSetter($this->client, 'delete');
-		}
-		return $this->subscriberSetter;
+		return false;
 	}
 
 	/**
-	 * Delete a Subscriber API key in a domain
+	 * Delete a Subscriber API key in a domain - not applicable
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return false
 	 */
 	public function deleteApikey()
 	{
-		if (!$this->subscriberSetter) {
-			$this->subscriberSetter = new SubscriberSetter($this->client, 'delete');
-		}
-		return $this->subscriberSetter;
+		return false;
 	}
 
 	/**
-	 * Get a Subscriber API key (or list of) in a domain
+	 * Get a Subscriber API key in a domain - not applicable
 	 *
-	 * @return SubscriberSetter $object The Subscriber (or list of) object created in the datamodel
+	 * @return false
 	 */
 	public function getApikeys()
 	{
-		if (!$this->subscriberGetter) {
-			$this->subscriberGetter = new SubscriberGetter($this->client);
-		}
-		return $this->subscriberGetter;
+		return false;
 	}
 }
