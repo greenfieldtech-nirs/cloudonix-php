@@ -11,7 +11,7 @@
  * Creator: nirs | 2019-06-27
  */
 
-namespace Cloudonix;
+namespace Cloudonix\Datamodels;
 
 use Exception;
 
@@ -28,14 +28,9 @@ class Domains implements Datamodel
 
 	public function __construct(Client $client)
 	{
-		try {
-			if (!$client)
-				throw new Exception('Datamodel construction error', 500, null);
-			$this->client = $client;
-
-		} catch (Exception $e) {
-			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
-		}
+		if (!$client)
+			throw new Exception('Datamodel construction error', 500, null);
+		$this->client = $client;
 	}
 
 	/**
@@ -43,7 +38,7 @@ class Domains implements Datamodel
 	 *
 	 * @param array $object A domain create object (represented as an array) as following:
 	 * [
-	 * 	'domain' => 'mandatory domain name to create'
+	 *    'domain' => 'mandatory domain name to create'
 	 * ]
 	 * @return object $object The created Cloudonix Domain Object
 	 */
@@ -110,7 +105,7 @@ class Domains implements Datamodel
 	 * @param array $object An API key create object (represented as an array) as following:
 	 * [
 	 *  'domainId' => 'mandatory_domain_id_or_name'
-	 * 	'name' => 'mandatory_name',
+	 *    'name' => 'mandatory_name',
 	 * ]
 	 * @return object A Cloudonix API key datamodel object
 	 */
@@ -130,7 +125,7 @@ class Domains implements Datamodel
 	 * [
 	 *  'domainId' => 'mandatory_domain_id_or_name',
 	 *  'apikeyId' => 'the_apikey_id_to_update',
-	 * 	'name' => 'mandatory_name'
+	 *    'name' => 'mandatory_name'
 	 * ]
 	 * @return object A Cloudonix API key datamodel object
 	 */

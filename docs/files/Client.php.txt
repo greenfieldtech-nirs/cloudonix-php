@@ -20,6 +20,14 @@ use Opis\Cache\Drivers\File;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use Cloudonix\Datamodels\Tenants as Tenants;
+use Cloudonix\Datamodels\Trunks as Trunks;
+use Cloudonix\Datamodels\Subscribers as Subscribers;
+use Cloudonix\Datamodels\Domains as Domains;
+use Cloudonix\Datamodels\Dnids as Dnids;
+use Cloudonix\Datamodels\Applications as Applications;
+use Cloudonix\WorkflowViolation as WorkflowViolation;
+use Cloudonix\WorkflowViolationBadResponse as WorkflowViolationBadResponse;
 
 /**
  * Cloudonix API.Core Client - Command and Control REST Client
@@ -82,9 +90,11 @@ class Client
 	 * @param string $apikey Cloudonix assigned API key.
 	 * @param string $cacheDirectory A designated Cache Memory directory - default '/tmp'
 	 * @param string $httpEndpoint An alternative Cloudonix API Endpoint - default 'https://api.cloudonix.io'
+	 * @param double $timeout An alternative HTTP timeout value for HTTP requests - default 2.0 seconds
+	 *
 	 * @throws Exception In case of library init error
 	 */
-	public function __construct($apikey = null, $httpEndpoint = null, $cacheDirectory = null)
+	public function __construct($apikey = null, $httpEndpoint = null, $cacheDirectory = null, $timeout = 2.0)
 	{
 		try {
 
@@ -99,7 +109,7 @@ class Client
 				throw new Exception('Cache engine not properly working, bailing out', 500);
 			$this->cacheHandler->clear();
 
-			$this->httpConnector = $this->buildHttpClient($apikey);
+			$this->httpConnector = $this->buildHttpClient($apikey, $timeout);
 
 		} catch (Exception $e) {
 			die($e->getMessage() . '  code: ' . $e->getCode());
@@ -118,15 +128,16 @@ class Client
 	 * Build the Client Guzzle HTTP Client
 	 *
 	 * @param string $apikey Cloudonix assigned API key.
+	 * @param double $timeout An alternative HTTP timeout value for HTTP requests
 	 * @return GuzzleClient
 	 */
-	private function buildHttpClient($apikey):GuzzleClient
+	private function buildHttpClient($apikey, $timeout = 2.0):GuzzleClient
 	{
 
 		$this->apikey = $apikey;
 		$httpConnector = new GuzzleClient([
 			'base_uri' => $this->httpEndpoint,
-			'timeout' => 2.0,
+			'timeout' => $timeout,
 			'http_errors' => false
 		]);
 
@@ -210,70 +221,66 @@ class Client
 	 * @param $request
 	 * @param null $data
 	 * @return GuzzleResponse
+	 * @throws Exception
+	 * @throws GuzzleClientException
+	 * @throws GuzzleServerException
 	 */
 	public function httpRequest($method, $request, $data = null): GuzzleResponse
 	{
-		try {
-			if ($data != null)
-				$this->httpHeaders['Content-Type'] = "application/json";
+		if ($data != null)
+			$this->httpHeaders['Content-Type'] = "application/json";
 
-			switch (strtoupper($method)) {
-				case "POST":
-					if ($data != null)
-						$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-					else
-						$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('POST', $request, $requestData);
-					break;
-				case "GET":
+		switch (strtoupper($method)) {
+			case "POST":
+				if ($data != null)
+					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+				else
 					$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('GET', $request, $requestData);
-					break;
-				case "DELETE":
+				$result = $this->httpConnector->request('POST', $request, $requestData);
+				break;
+			case "GET":
+				$requestData = ['headers' => $this->httpHeaders];
+				$result = $this->httpConnector->request('GET', $request, $requestData);
+				break;
+			case "DELETE":
+				$requestData = ['headers' => $this->httpHeaders];
+				$result = $this->httpConnector->request('DELETE', $request, $requestData);
+				break;
+			case "PUT":
+				if ($data != null)
+					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+				else
 					$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('DELETE', $request, $requestData);
-					break;
-				case "PUT":
-					if ($data != null)
-						$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-					else
-						$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('PUT', $request, $requestData);
-					break;
-				case "PATCH":
-					if ($data != null)
-						$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-					else
-						$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('PATCH', $request, $requestData);
-					break;
-				default:
-					throw new Exception('HTTP Method request not allowed', 500, null);
-					break;
-			}
+				$result = $this->httpConnector->request('PUT', $request, $requestData);
+				break;
+			case "PATCH":
+				if ($data != null)
+					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+				else
+					$requestData = ['headers' => $this->httpHeaders];
+				$result = $this->httpConnector->request('PATCH', $request, $requestData);
+				break;
+			default:
+				throw new Exception('HTTP Method request not allowed', 500, null);
+				break;
+		}
 
-			switch ($result->getStatusCode()) {
-				case 204:
-				case 200:
-				case 404:
-					return $result;
-					break;
-				case 401:
-				case 407:
-				case 403:
-					throw new GuzzleClientException('Access denied!', $result->getStatusCode(), null);
-					break;
-				default:
-					throw new GuzzleClientException('General error - unspecified', $result->getStatusCode(), null);
-					break;
-			}
-
-		} catch (GuzzleServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (GuzzleClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
+		switch ($result->getStatusCode()) {
+			case 204:
+			case 200:
+				return $result;
+				break;
+			case 404:
+				throw new WorkflowViolationBadResponse('Resource not found', $result->getStatusCode(), null);
+				break;
+			case 401:
+			case 407:
+			case 403:
+				throw new GuzzleClientException('Access denied!', $result->getStatusCode(), null);
+				break;
+			default:
+				throw new GuzzleClientException('General error - unspecified', $result->getStatusCode(), null);
+				break;
 		}
 	}
 
@@ -284,34 +291,24 @@ class Client
 	 */
 	public function getSelf(): array
 	{
-		try {
+		$mySelfKeyResult = $this->httpRequest('GET', 'keys/self');
+		$myTenantData = json_decode((string)$mySelfKeyResult->getBody());
 
-			$mySelfKeyResult = $this->httpRequest('GET', 'keys/self');
-			$myTenantData = json_decode((string)$mySelfKeyResult->getBody());
+		/* Store Tenant Information to Cache */
+		$this->cacheHandler->write($this->apikey . '-cxTenantId', $myTenantData->tenantId);
+		$this->cacheHandler->write($this->apikey . '-cxTenantName', $myTenantData->name);
+		$this->cacheHandler->write($this->apikey . '-cxTenantApikey', $myTenantData->keyId);
+		$this->cacheHandler->write($this->apikey . '-cxTenantApiSecret', $myTenantData->secret);
 
-			/* Store Tenant Information to Cache */
-			$this->cacheHandler->write($this->apikey . '-cxTenantId', $myTenantData->tenantId);
-			$this->cacheHandler->write($this->apikey . '-cxTenantName', $myTenantData->name);
-			$this->cacheHandler->write($this->apikey . '-cxTenantApikey', $myTenantData->keyId);
-			$this->cacheHandler->write($this->apikey . '-cxTenantApiSecret', $myTenantData->secret);
+		$this->tenantName = $myTenantData->name;
+		$this->tenantId = $myTenantData->tenantId;
 
-			$this->tenantName = $myTenantData->name;
-			$this->tenantId = $myTenantData->tenantId;
+		$result = [
+			'tenant-name' => $this->tenantName,
+			'tenant-id' => $this->tenantId,
+			'datamodel' => $myTenantData
+		];
 
-			$result = [
-				'tenant-name' => $this->tenantName,
-				'tenant-id' => $this->tenantId,
-				'datamodel' => $myTenantData
-			];
-
-			return $result;
-
-		} catch (GuzzleServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (GuzzleClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
+		return $result;
 	}
 }

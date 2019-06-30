@@ -11,9 +11,15 @@
  * Creator: nirs | 2019-06-29
  */
 
-namespace Cloudonix;
+namespace Cloudonix\Helpers;
 
 use Exception;
+use Cloudonix\Client as Client;
+use Cloudonix\Exceptions\DatamodelBuilderException;
+use Cloudonix\Exceptions\MissingAdditionalDataException;
+use Cloudonix\Exceptions\MissingApplicationIdException;
+use Cloudonix\Exceptions\MissingDnidIdException;
+use Cloudonix\Exceptions\MissingDomainIdException;
 
 class DnidSetter
 {

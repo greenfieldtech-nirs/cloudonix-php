@@ -11,9 +11,12 @@
  * Creator: nirs | 2019-06-30
  */
 
-namespace Cloudonix;
+namespace Cloudonix\Helpers;
 
 use Exception;
+use Cloudonix\Client as Client;
+use Cloudonix\Exceptions\MissingApikeyIdException;
+use Cloudonix\Exceptions\MissingTenantNameException;
 
 class TenantSetter
 {
@@ -97,7 +100,7 @@ class TenantSetter
 				if ((!$this->name) && (!$this->id))
 					throw new MissingTenantNameException('`byTenantId|byTenantName` must be called before `run`');
 				if (!$this->apikeyId)
-					throw new MissinnApikeyIdException('`byApikeyId` must be called before `run`');
+					throw new MissingApikeyIdException('`byApikeyId` must be called before `run`');
 
 				$this->client->httpRequest('DELETE',
 					$this->baseQuery . '/' . (($this->name) ? $this->name : $this->id) . '/apikeys/' . $this->apikeyId);

@@ -11,7 +11,7 @@
  * Creator: nirs | 2019-06-27
  */
 
-namespace Cloudonix;
+namespace Cloudonix\Datamodels;
 
 use Exception;
 

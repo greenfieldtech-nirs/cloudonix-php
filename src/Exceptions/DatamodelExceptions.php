@@ -7,23 +7,13 @@
  * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
- * Project: cloudonix-php | ClientExceptions.php
- * Creator: nirs | 2019-06-29
+ * Project: cloudonix-php | DatamodelExceptions.php
+ * Creator: nirs | 2019-07-01
  */
 
-namespace Cloudonix;
+namespace Cloudonix\Exceptions;
 
 use Exception;
+use GuzzleHttp\Exception\BadResponseException;
 
 class DatamodelBuilderException extends Exception {}
-
-class MissingDomainIdException extends Exception {}
-class MissingDnidIdException extends Exception {}
-class MissingApplicationIdException extends Exception {}
-class MissingSubscriberIdException extends Exception {}
-class MissingTrunkIdException extends Exception {}
-class MissingAdditionalDataException extends Exception {}
-class MissingTenantNameException extends Exception {}
-class MissingTenantIdException extends Exception {}
-
-class WorkflowViolation extends Exception {}

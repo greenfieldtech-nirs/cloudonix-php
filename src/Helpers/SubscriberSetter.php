@@ -11,10 +11,12 @@
  * Creator: nirs | 2019-06-29
  */
 
-namespace Cloudonix;
-
+namespace Cloudonix\Helpers;
 
 use Exception;
+use Cloudonix\Client as Client;
+use Cloudonix\Exceptions\MissingDomainIdException;
+use Cloudonix\Exceptions\MissingSubscriberIdException;
 
 class SubscriberSetter
 {

@@ -11,8 +11,13 @@
  * Creator: nirs | 2019-06-28
  */
 
-namespace Cloudonix;
+namespace Cloudonix\Datamodels;
 
+use Cloudonix\Helpers\DnidGetter;
+use Cloudonix\Helpers\DnidSetter;
+use Cloudonix\Client as Client;
+use Cloudonix\Datamodel as Datamodel;
+use Cloudonix\LazyDatamodel as LazyDatamodel;
 use Exception;
 
 /**

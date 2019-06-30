@@ -20,6 +20,14 @@ use Opis\Cache\Drivers\File;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use Cloudonix\Datamodels\Tenants as Tenants;
+use Cloudonix\Datamodels\Trunks as Trunks;
+use Cloudonix\Datamodels\Subscribers as Subscribers;
+use Cloudonix\Datamodels\Domains as Domains;
+use Cloudonix\Datamodels\Dnids as Dnids;
+use Cloudonix\Datamodels\Applications as Applications;
+use Cloudonix\WorkflowViolation as WorkflowViolation;
+use Cloudonix\WorkflowViolationBadResponse as WorkflowViolationBadResponse;
 
 /**
  * Cloudonix API.Core Client - Command and Control REST Client
@@ -263,7 +271,7 @@ class Client
 				return $result;
 				break;
 			case 404:
-				throw new GuzzleClientException('Resource not found', $result->getStatusCode(), null);
+				throw new WorkflowViolationBadResponse('Resource not found', $result->getStatusCode(), null);
 				break;
 			case 401:
 			case 407:
@@ -283,34 +291,24 @@ class Client
 	 */
 	public function getSelf(): array
 	{
-		try {
+		$mySelfKeyResult = $this->httpRequest('GET', 'keys/self');
+		$myTenantData = json_decode((string)$mySelfKeyResult->getBody());
 
-			$mySelfKeyResult = $this->httpRequest('GET', 'keys/self');
-			$myTenantData = json_decode((string)$mySelfKeyResult->getBody());
+		/* Store Tenant Information to Cache */
+		$this->cacheHandler->write($this->apikey . '-cxTenantId', $myTenantData->tenantId);
+		$this->cacheHandler->write($this->apikey . '-cxTenantName', $myTenantData->name);
+		$this->cacheHandler->write($this->apikey . '-cxTenantApikey', $myTenantData->keyId);
+		$this->cacheHandler->write($this->apikey . '-cxTenantApiSecret', $myTenantData->secret);
 
-			/* Store Tenant Information to Cache */
-			$this->cacheHandler->write($this->apikey . '-cxTenantId', $myTenantData->tenantId);
-			$this->cacheHandler->write($this->apikey . '-cxTenantName', $myTenantData->name);
-			$this->cacheHandler->write($this->apikey . '-cxTenantApikey', $myTenantData->keyId);
-			$this->cacheHandler->write($this->apikey . '-cxTenantApiSecret', $myTenantData->secret);
+		$this->tenantName = $myTenantData->name;
+		$this->tenantId = $myTenantData->tenantId;
 
-			$this->tenantName = $myTenantData->name;
-			$this->tenantId = $myTenantData->tenantId;
+		$result = [
+			'tenant-name' => $this->tenantName,
+			'tenant-id' => $this->tenantId,
+			'datamodel' => $myTenantData
+		];
 
-			$result = [
-				'tenant-name' => $this->tenantName,
-				'tenant-id' => $this->tenantId,
-				'datamodel' => $myTenantData
-			];
-
-			return $result;
-
-		} catch (GuzzleServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (GuzzleClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
+		return $result;
 	}
 }

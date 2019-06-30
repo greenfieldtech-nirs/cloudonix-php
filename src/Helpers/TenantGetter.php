@@ -11,12 +11,12 @@
  * Creator: nirs | 2019-06-30
  */
 
-namespace Cloudonix;
+namespace Cloudonix\Helpers;
 
 use Exception;
-use Cloudonix\WorkflowViolation as WorkflowViolation;
-use Cloudonix\MissingTenantIdException;
-use Cloudonix\MissingTenantNameException;
+use Cloudonix\Client as Client;
+use Cloudonix\Exceptions\MissingTenantNameException;
+use Cloudonix\Exceptions\WorkflowViolation;
 
 class TenantGetter
 {

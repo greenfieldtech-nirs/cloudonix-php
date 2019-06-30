@@ -11,8 +11,13 @@
  * Creator: nirs | 2019-06-27
  */
 
-namespace Cloudonix;
+namespace Cloudonix\Datamodels;
 
+use Cloudonix\Helpers\TenantGetter;
+use Cloudonix\Helpers\TenantSetter;
+use Cloudonix\Client as Client;
+use Cloudonix\Datamodel as Datamodel;
+use Cloudonix\LazyDatamodel as LazyDatamodel;
 use Exception;
 
 /**

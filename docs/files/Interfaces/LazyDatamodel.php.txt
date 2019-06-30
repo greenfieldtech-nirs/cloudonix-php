@@ -13,7 +13,6 @@
 
 namespace Cloudonix;
 
-
 interface LazyDatamodel
 {
 	/**
