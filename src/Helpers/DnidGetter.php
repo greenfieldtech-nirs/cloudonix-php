@@ -39,9 +39,13 @@ class DnidGetter
 		}
 	}
 
-	public function byApplication($applicationId) {
-		$this->baseQuery .= '/applications/' . $applicationId;
+	public function byApplication($application) {
+		$this->baseQuery .= '/applications/' . $application;
 		return $this;
+	}
+
+	public function byApplicationId($applicationId) {
+		return $this->byApplicationId($applicationId);
 	}
 
 	public function byActive($active) {

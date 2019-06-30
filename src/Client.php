@@ -15,7 +15,7 @@
 namespace Cloudonix;
 
 use Exception;
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Opis\Cache\Drivers\File;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
@@ -49,19 +49,36 @@ class Client
 	/** @var array HTTP Headers to be used with all Guzzle HTTP Client requests */
 	public $httpHeaders;
 
+	/** @var string Cloudonix assigned API key for client init */
 	public $apikey;
+
+	/** @var string Cloudonix provisioned Tenant name */
 	public $tenantName;
+
+	/** @var integer Cloudonix provisioned Tenant ID */
 	public $tenantId;
 
+	/** @var Tenants Cloudonix Tenants REST API Connector */
 	protected $tenantsInterface;
+
+	/** @var Domains Cloudonix Domains REST API Connector */
 	protected $domainsInterface;
+
+	/** @var Applications Cloudonix Applications REST API Connector */
 	protected $applicationsInterface;
+
+	/** @var Subscribers Cloudonix Subscribers REST API Connector */
 	protected $subscribersInterface;
+
+	/** @var Trunks Cloudonix Trunks REST API Connector */
 	protected $trunksInterface;
+
+	/** @var Dnids Cloudonix Dnids REST API Connector */
 	protected $dnidsInterface;
 
 	/**
 	 * Client constructor.
+	 *
 	 * @param string $apikey Cloudonix assigned API key.
 	 * @param string $cacheDirectory A designated Cache Memory directory - default '/tmp'
 	 * @param string $httpEndpoint An alternative Cloudonix API Endpoint - default 'https://api.cloudonix.io'
@@ -82,17 +99,7 @@ class Client
 				throw new Exception('Cache engine not properly working, bailing out', 500);
 			$this->cacheHandler->clear();
 
-			$this->apikey = $apikey;
-
-			$this->httpConnector = new GuzzleClient([
-				'base_uri' => $this->httpEndpoint,
-				'timeout' => 2.0
-			]);
-
-			$this->httpHeaders = [
-				'Authorization' => 'Bearer ' . $apikey,
-				'User-Agent' => $this->httpClientIdent
-			];
+			$this->httpConnector = $this->buildHttpClient($apikey);
 
 		} catch (Exception $e) {
 			die($e->getMessage() . '  code: ' . $e->getCode());
@@ -108,9 +115,33 @@ class Client
 	}
 
 	/**
+	 * Build the Client Guzzle HTTP Client
+	 *
+	 * @param string $apikey Cloudonix assigned API key.
+	 * @return GuzzleClient
+	 */
+	private function buildHttpClient($apikey):GuzzleClient
+	{
+
+		$this->apikey = $apikey;
+		$httpConnector = new GuzzleClient([
+			'base_uri' => $this->httpEndpoint,
+			'timeout' => 2.0,
+			'http_errors' => false
+		]);
+
+		$this->httpHeaders = [
+			'Authorization' => 'Bearer ' . $apikey,
+			'User-Agent' => $this->httpClientIdent
+		];
+		return $httpConnector;
+	}
+
+	/**
 	 * @return Tenants
 	 */
-	public function tenants(): Tenants {
+	public function tenants(): Tenants
+	{
 		if (!$this->tenantsInterface) {
 			$this->tenantsInterface = new Tenants($this);
 		}
@@ -120,7 +151,8 @@ class Client
 	/**
 	 * @return Domains
 	 */
-	public function domains(): Domains {
+	public function domains(): Domains
+	{
 		if (!$this->domainsInterface) {
 			$this->domainsInterface = new Domains($this);
 		}
@@ -130,7 +162,8 @@ class Client
 	/**
 	 * @return Applications
 	 */
-	public function applications(): Applications {
+	public function applications(): Applications
+	{
 		if (!$this->applicationsInterface) {
 			$this->applicationsInterface = new Applications($this);
 		}
@@ -140,11 +173,34 @@ class Client
 	/**
 	 * @return Dnids
 	 */
-	public function dnids(): Dnids {
+	public function dnids(): Dnids
+	{
 		if (!$this->dnidsInterface) {
 			$this->dnidsInterface = new Dnids($this);
 		}
 		return $this->dnidsInterface;
+	}
+
+	/**
+	 * @return Subscribers
+	 */
+	public function subscribers(): Subscribers
+	{
+		if (!$this->subscribersInterface) {
+			$this->subscribersInterface = new Subscribers($this);
+		}
+		return $this->subscribersInterface;
+	}
+
+	/**
+	 * @return Trunks
+	 */
+	public function trunks(): Trunks
+	{
+		if (!$this->trunksInterface) {
+			$this->trunksInterface = new Trunks($this);
+		}
+		return $this->trunksInterface;
 	}
 
 	/**
@@ -153,9 +209,9 @@ class Client
 	 * @param $method
 	 * @param $request
 	 * @param null $data
-	 * @return Response
+	 * @return GuzzleResponse
 	 */
-	public function httpRequest($method, $request, $data = null): Response
+	public function httpRequest($method, $request, $data = null): GuzzleResponse
 	{
 		try {
 			if ($data != null)
@@ -196,7 +252,21 @@ class Client
 					break;
 			}
 
-			return $result;
+			switch ($result->getStatusCode()) {
+				case 204:
+				case 200:
+				case 404:
+					return $result;
+					break;
+				case 401:
+				case 407:
+				case 403:
+					throw new GuzzleClientException('Access denied!', $result->getStatusCode(), null);
+					break;
+				default:
+					throw new GuzzleClientException('General error - unspecified', $result->getStatusCode(), null);
+					break;
+			}
 
 		} catch (GuzzleServerException $e) {
 			die($e->getMessage() . '  code: ' . $e->getCode());
@@ -212,7 +282,8 @@ class Client
 	 *
 	 * @return array
 	 */
-	public function getSelf(): array {
+	public function getSelf(): array
+	{
 		try {
 
 			$mySelfKeyResult = $this->httpRequest('GET', 'keys/self');

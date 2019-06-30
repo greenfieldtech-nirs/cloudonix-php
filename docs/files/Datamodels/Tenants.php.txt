@@ -66,7 +66,8 @@ class Tenants implements Datamodel
 	 */
 	public function update($object)
 	{
-		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId, $object);
+		$result = $this->client->httpRequest('PUT',
+			'/tenants/' . $this->client->tenantId, $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -78,7 +79,8 @@ class Tenants implements Datamodel
 	 */
 	public function get($object = null)
 	{
-		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId);
+		$result = $this->client->httpRequest('GET',
+			'/tenants/' . $this->client->tenantId);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -86,12 +88,11 @@ class Tenants implements Datamodel
 	 * Delete a tenant by Object (Not supported)
 	 *
 	 * @param object $object
-	 * @return array
+	 * @return bool
 	 */
 	public function delete($object)
 	{
-		$result = [ 'status' => false, 'message' => 'Deleting a tenant is a restricted function'];
-		return $result;
+		return false;
 	}
 
 	/**
@@ -105,7 +106,9 @@ class Tenants implements Datamodel
 	 */
 	public function createApikey($object)
 	{
-		$result = $this->client->httpRequest('POST', '/tenants/' . $this->client->tenantId . '/apikeys', $object);
+		$result = $this->client->httpRequest('POST',
+			'/tenants/' . $this->client->tenantId .
+			'/apikeys', $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -121,7 +124,9 @@ class Tenants implements Datamodel
 	 */
 	public function updateApikey($object)
 	{
-		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/apikeys/' . $object['id'], $object);
+		$result = $this->client->httpRequest('PUT',
+			'/tenants/' . $this->client->tenantId .
+			'/apikeys/' . $object['id'], $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -136,7 +141,9 @@ class Tenants implements Datamodel
 	 */
 	public function deleteApikey($object)
 	{
-		$this->client->httpRequest('DELETE', '/tenants/' . $this->client->tenantId . '/apikeys/' . $object['id']);
+		$this->client->httpRequest('DELETE',
+			'/tenants/' . $this->client->tenantId .
+			'/apikeys/' . $object['id']);
 	}
 
 	/**
@@ -147,7 +154,9 @@ class Tenants implements Datamodel
 	 */
 	public function getApikeys($object = null)
 	{
-		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId . '/apikeys');
+		$result = $this->client->httpRequest('GET',
+			'/tenants/' . $this->client->tenantId .
+			'/apikeys');
 		return json_decode((string)$result->getBody());
 	}
 }

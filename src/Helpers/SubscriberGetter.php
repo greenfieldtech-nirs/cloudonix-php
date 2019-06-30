@@ -13,14 +13,14 @@
 
 namespace Cloudonix;
 
-
 use Exception;
 
 class SubscriberGetter
 {
-	public $baseFilter;
-	public $baseQuery;
-	public $domainId;
+	public $baseFilter = false;
+	public $baseQuery = false;
+	public $filterBySubscriberId = false;
+	public $domain = false;
 	public $client;
 	public $name;
 	public $id;
@@ -32,22 +32,61 @@ class SubscriberGetter
 				throw new Exception('Datamodel Helper construction error', 500, null);
 
 			$this->client = $client;
+			$this->baseQuery = '/tenants/' . $client->tenantId;
 			$this->baseFilter = "?";
-			$this->baseQuery = '/domains/' . $this->domainId;
 
 		} catch (Exception $e) {
 			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
 		}
 	}
 
-	public function setDomainId($domainId) {
-		$this->domainId = $domainId;
+	public function byDomain($domain) {
+		$this->domain = $domain;
+		$this->baseQuery .= '/domains/' . $domain;
+		return $this;
+	}
+
+	public function byDomainId($domainId) {
+		return $this->byDomain($domainId);
+	}
+
+	public function bySubscriber($subscriber) {
+		if (!$this->filterBySubscriberId) {
+			$this->baseFilter .= 'by_msisdn=' . $subscriber;
+			return $this;
+		}
+	}
+
+	public function byMSISDN($msisdn) {
+		return $this->bySubscriber($msisdn);
+	}
+
+	public function bySubscriberId($id) {
+		$this->filterBySubscriberId = true;
+		$this->baseFilter = "?";
+		$this->baseQuery .= '/subscribers/' . $id;
 		return $this;
 	}
 
 	public function run() {
-		$result = $this->client->httpRequest('GET', $this->baseQuery . '/subscribers' . $this->baseFilter);
-		return json_decode((string)$result->getBody());
+
+		try {
+			if ((!$this->domain) || (!$this->baseQuery))
+				throw new MissingDomainIdException('`byDomainId|byDomain` MUST be called before `run`', 500);
+
+			if ($this->filterBySubscriberId) {
+				$result = $this->client->httpRequest('GET', $this->baseQuery . $this->baseFilter);
+			} else {
+				$result = $this->client->httpRequest('GET', $this->baseQuery . '/subscribers' . $this->baseFilter);
+			}
+			return json_decode((string)$result->getBody());
+
+		} catch (MissingDomainIdException $e) {
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+		} catch (Exception $e) {
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+		}
+
 	}
 
 }

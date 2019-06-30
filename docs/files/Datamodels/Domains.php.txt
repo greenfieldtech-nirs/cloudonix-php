@@ -49,7 +49,9 @@ class Domains implements Datamodel
 	 */
 	public function create($object)
 	{
-		$result = $this->client->httpRequest('POST', '/tenants/' . $this->client->tenantId . '/domains', $object);
+		$result = $this->client->httpRequest('POST',
+			'/tenants/' . $this->client->tenantId .
+			'/domains', $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -67,7 +69,9 @@ class Domains implements Datamodel
 	{
 		$domainId = $object['id'];
 		unset($object['id']);
-		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/domains/' . $domainId, $object);
+		$result = $this->client->httpRequest('PUT',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $domainId, $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -80,7 +84,9 @@ class Domains implements Datamodel
 	public function get($object = null)
 	{
 		$filter = (($object != null) && (strlen($object))) ? "/" . $object : "";
-		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId . '/domains' . $filter);
+		$result = $this->client->httpRequest('GET',
+			'/tenants/' . $this->client->tenantId .
+			'/domains' . $filter);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -92,7 +98,9 @@ class Domains implements Datamodel
 	 */
 	public function delete($object)
 	{
-		$result = $this->client->httpRequest('DELETE', '/tenants/' . $this->client->tenantId . '/domains/' . $object);
+		$result = $this->client->httpRequest('DELETE',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $object);
 		return true;
 	}
 
@@ -108,7 +116,10 @@ class Domains implements Datamodel
 	 */
 	public function createApikey($object)
 	{
-		$result = $this->client->httpRequest('POST', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys', $object);
+		$result = $this->client->httpRequest('POST',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $object['domainId'] .
+			'/apikeys', $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -125,7 +136,10 @@ class Domains implements Datamodel
 	 */
 	public function updateApikey($object)
 	{
-		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys/' . $object['apikeyId'], $object);
+		$result = $this->client->httpRequest('PUT',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $object['domainId'] .
+			'/apikeys/' . $object['apikeyId'], $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -141,7 +155,10 @@ class Domains implements Datamodel
 	 */
 	public function deleteApikey($object)
 	{
-		$this->client->httpRequest('DELETE', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys/' . $object['apikeyId']);
+		$this->client->httpRequest('DELETE',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $object['domainId'] .
+			'/apikeys/' . $object['apikeyId']);
 	}
 
 	/**
@@ -155,7 +172,10 @@ class Domains implements Datamodel
 	 */
 	public function getApikeys($object = null)
 	{
-		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys');
+		$result = $this->client->httpRequest('GET',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $object['domainId'] .
+			'/apikeys');
 		return json_decode((string)$result->getBody());
 	}
 }

@@ -48,11 +48,23 @@ class DnidSetter
 		}
 	}
 
-	public function setApplicationId($applicationId)
+	public function setApplication($application)
 	{
-		$this->applicationId = $applicationId;
-		$this->baseQuery .= '/applications/' . $applicationId . '/dnids';
+		$this->applicationId = $application;
+		$this->baseQuery .= '/applications/' . $application . '/dnids';
 		return $this;
+	}
+
+	public function byApplication($application) {
+		return $this->setApplication($application);
+	}
+
+	public function setApplicationId($applicationId) {
+		return $this->setApplication($applicationId);
+	}
+
+	public function byApplicationId($applicationId) {
+		return $this->setApplication($applicationId);
 	}
 
 	public function setDnid($dnid)

@@ -48,9 +48,7 @@ class Dnids implements LazyDatamodel
 	 */
 	public function create(): DnidSetter
 	{
-		if (!$this->dnidSetter) {
-			$this->dnidSetter = new DnidSetter($this->client, 'create');
-		}
+		$this->dnidSetter = new DnidSetter($this->client, 'create');
 		return $this->dnidSetter;
 	}
 
@@ -61,9 +59,7 @@ class Dnids implements LazyDatamodel
 	 */
 	public function update(): DnidSetter
 	{
-		if (!$this->dnidSetter) {
-			$this->dnidSetter = new DnidSetter($this->client, 'update');
-		}
+		$this->dnidSetter = new DnidSetter($this->client, 'update');
 		return $this->dnidSetter;
 	}
 
@@ -74,9 +70,7 @@ class Dnids implements LazyDatamodel
 	 */
 	public function get(): DnidGetter
 	{
-		if (!$this->dnidGetter) {
-			$this->dnidGetter = new DnidGetter($this->client);
-		}
+		$this->dnidGetter = new DnidGetter($this->client);
 		return $this->dnidGetter;
 	}
 
@@ -87,17 +81,14 @@ class Dnids implements LazyDatamodel
 	 */
 	public function delete(): DnidSetter
 	{
-		if (!$this->dnidSetter) {
-			$this->dnidSetter = new DnidSetter($this->client, 'delete');
-		}
+		$this->dnidSetter = new DnidSetter($this->client, 'delete');
 		return $this->dnidSetter;
 	}
 
 	/**
 	 * Create a new API key in the data model - Not Applicable
 	 *
-	 * @param $object
-	 * @return bool
+	 * @return false
 	 */
 	public function createApikey()
 	{
@@ -107,8 +98,7 @@ class Dnids implements LazyDatamodel
 	/**
 	 * Update an existing API key object in the data model - Not Applicable
 	 *
-	 * @param $object
-	 * @return bool
+	 * @return false
 	 */
 	public function updateApikey()
 	{
@@ -118,7 +108,6 @@ class Dnids implements LazyDatamodel
 	/**
 	 * Delete an existing API key object from the data model - Not Applicable
 	 *
-	 * @param $object
 	 * @return bool
 	 */
 	public function deleteApikey()
@@ -129,7 +118,6 @@ class Dnids implements LazyDatamodel
 	/**
 	 * Get a list of currently available API keys in the data model - Not Applicable
 	 *
-	 * @param $object
 	 * @return bool
 	 */
 	public function getApikeys()

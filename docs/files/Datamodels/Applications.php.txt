@@ -56,7 +56,9 @@ class Applications implements Datamodel
 		$domainId = $object['domainId'];
 		unset($object['domainId']);
 		$result = $this->client->httpRequest('POST',
-			'/tenants/' . $this->client->tenantId . '/domains/' . $domainId . '/applications',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $domainId .
+			'/applications',
 			$object);
 		return json_decode((string)$result->getBody());
 	}
@@ -79,7 +81,9 @@ class Applications implements Datamodel
 		unset($object['domainId']);
 		unset($object['name']);
 		$result = $this->client->httpRequest('PUT',
-			'/tenants/' . $this->client->tenantId . '/domains/' . $domainId . '/applications',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $domainId .
+			'/applications',
 			$object);
 		return json_decode((string)$result->getBody());
 	}
@@ -99,14 +103,16 @@ class Applications implements Datamodel
 		$filter = ((array_key_exists('applicationIdent', $object)) && ($object['applicationIdent'] != null) && (strlen($object['applicationIdent']))) ? "/" . $object['applicationIdent'] : "";
 
 		$result = $this->client->httpRequest('GET',
-			'/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/applications' . $filter);
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $object['domainId'] .
+			'/applications' . $filter);
 		return json_decode((string)$result->getBody());
 	}
 
 	/**
 	 * Delete an application from a domain ID
 	 *
-	 * @param array $object A domain update object (represented as an array) as following:
+	 * @param array $object A domain delete object (represented as an array) as following:
 	 * [
 	 * 	'domainId' => '(Mandatory) The domain ID the application will be created in',
 	 * 	'applicationIdent' => '(Mandaotry) Application ID number or application name',
@@ -116,7 +122,9 @@ class Applications implements Datamodel
 	public function delete($object)
 	{
 		$result = $this->client->httpRequest('DELETE',
-			'/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/applications/' . $object['applicationIdent']);
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $object['domainId'] .
+			'/applications/' . $object['applicationIdent']);
 		return true;
 	}
 
@@ -125,14 +133,24 @@ class Applications implements Datamodel
 	 *
 	 * @param array $object An API key create object (represented as an array) as following:
 	 * [
-	 *  'domainId' => 'mandatory_domain_id_or_name'
+	 *  'domainId' => 'mandatory domain ID or name',
+	 *  'applicationId' => 'mandatory application ID to create an API key for',
 	 * 	'name' => 'mandatory_name',
 	 * ]
 	 * @return object A Cloudonix API key datamodel object
 	 */
 	public function createApikey($object)
 	{
-		$result = $this->client->httpRequest('POST', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys', $object);
+		$domainId = $object['domainId'];
+		$applicationId = $object['applicationId'];
+		unset($object['domainId']);
+		unset($object['applicationId']);
+
+		$result = $this->client->httpRequest('POST',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $domainId .
+			'/applications/' . $applicationId .
+			'/apikeys', $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -141,7 +159,8 @@ class Applications implements Datamodel
 	 *
 	 * @param array $object An API key update object (represented as an array) as following:
 	 * [
-	 *  'domainId' => 'mandatory_domain_id_or_name',
+	 *  'domainId' => 'mandatory domain ID or name',
+	 *  'applicationId' => 'mandatory application ID to udpate an API key for',
 	 *  'apikeyId' => 'the_apikey_id_to_update',
 	 * 	'name' => 'mandatory_name'
 	 * ]
@@ -149,7 +168,18 @@ class Applications implements Datamodel
 	 */
 	public function updateApikey($object)
 	{
-		$result = $this->client->httpRequest('PUT', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys/' . $object['apikeyId'], $object);
+		$apikeyId = $object['apikeyId'];
+		$domainId = $object['domainId'];
+		$applicationId = $object['applicationId'];
+		unset($object['domainId']);
+		unset($object['applicationId']);
+		unset($object['apikeyId']);
+
+		$result = $this->client->httpRequest('PUT',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $domainId .
+			'/applications/' . $applicationId .
+			'/apikeys/' . $apikeyId, $object);
 		return json_decode((string)$result->getBody());
 	}
 
@@ -158,14 +188,23 @@ class Applications implements Datamodel
 	 *
 	 * @param array $object An API key delete object (represented as an array) as following:
 	 * [
-	 *  'domainId' => 'mandatory_domain_id_or_name',
-	 *  'apikeyId' => 'the_apikey_id_to_update',
+	 *  'domainId' => 'mandatory domain ID or name',
+	 *  'applicationId' => 'mandatory application ID to delete an API key for',
+	 *  'apikeyId' => 'the apikey ID to delete',
 	 * ]
 	 * @return void
 	 */
 	public function deleteApikey($object)
 	{
-		$this->client->httpRequest('DELETE', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys/' . $object['apikeyId']);
+		$apikeyId = $object['apikeyId'];
+		$domainId = $object['domainId'];
+		$applicationId = $object['applicationId'];
+
+		$this->client->httpRequest('DELETE',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $domainId .
+			'/applications/' . $applicationId .
+			'/apikeys/' . $apikeyId);
 	}
 
 	/**
@@ -173,13 +212,21 @@ class Applications implements Datamodel
 	 *
 	 * @param array $object An API key list object (represented as an array) as following:
 	 * [
-	 *  'domainId' => 'mandatory_domain_id_or_name',
+	 *  'domainId' => 'mandatory domain ID or name',
+	 *  'applicationId' => 'mandatory application ID to get the API key list for',
 	 * ]
 	 * @return object
 	 */
 	public function getApikeys($object = null)
 	{
-		$result = $this->client->httpRequest('GET', '/tenants/' . $this->client->tenantId . '/domains/' . $object['domainId'] . '/apikeys');
+		$domainId = $object['domainId'];
+		$applicationId = $object['applicationId'];
+
+		$result = $this->client->httpRequest('GET',
+			'/tenants/' . $this->client->tenantId .
+			'/domains/' . $domainId .
+			'/applications/' . $applicationId .
+			'/apikeys');
 		return json_decode((string)$result->getBody());
 	}
 }
