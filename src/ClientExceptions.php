@@ -23,3 +23,7 @@ class MissingApplicationIdException extends Exception {}
 class MissingSubscriberIdException extends Exception {}
 class MissingTrunkIdException extends Exception {}
 class MissingAdditionalDataException extends Exception {}
+class MissingTenantNameException extends Exception {}
+class MissingTenantIdException extends Exception {}
+
+class WorkflowViolation extends Exception {}

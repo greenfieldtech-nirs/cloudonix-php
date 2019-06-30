@@ -20,11 +20,14 @@ use Exception;
  *
  * @package Cloudonix
  */
-class Tenants implements Datamodel
+class Tenants implements LazyDatamodel
 {
 	public $client;
 	public $name;
 	public $id;
+
+	private $tenantGetter;
+	private $tenantSetter;
 
 	public function __construct(Client $client)
 	{
@@ -41,56 +44,42 @@ class Tenants implements Datamodel
 	/**
 	 * Create a new Cloudonix Tenant
 	 *
-	 * @param array $object An tenant create object (represented as an array) as following:
-	 * [
-	 * 	'name' => 'mandatory_name',
-	 * 	'profile' => [ optional array of key-value pairs]
-	 * ]
-	 * @return object $object The created Cloudonix Tenant Object
+	 * @return TenantSetter The created Cloudonix Tenant Object
 	 */
-	public function create($object)
+	public function create(): TenantSetter
 	{
-		$result = $this->client->httpRequest('POST', '/tenants/', $object);
-		return $result;
+		$this->tenantSetter = new TenantSetter($this->client, 'create');
+		return $this->tenantSetter;
 	}
 
 	/**
-	 * Update an existing Cloudonix Tenant
+	 * Update an a Cloudonix Tenant object
 	 *
-	 * @param array $object A tenant update object (represented as an array) as following:
-	 * [
-	 * 	'name' => 'mandatory_name',
-	 * 	'profile' => [ optional array of key-value pairs]
-	 * ]
-	 * @return object $object The updated Cloudonix Tenant Object
+	 * @return TenantSetter The updated Cloudonix Tenant Object
 	 */
-	public function update($object)
+	public function update(): TenantSetter
 	{
-		$result = $this->client->httpRequest('PUT',
-			'/tenants/' . $this->client->tenantId, $object);
-		return json_decode((string)$result->getBody());
+		$this->tenantSetter = new TenantSetter($this->client, 'update');
+		return $this->tenantSetter;
 	}
 
 	/**
-	 * Get a tenant by Object (Not supported, return error referring to the correct function)
+	 * Get a tenant by Object (or list of)
 	 *
-	 * @param object $object
-	 * @return object
+	 * @return TenantGetter
 	 */
-	public function get($object = null)
+	public function get(): TenantGetter
 	{
-		$result = $this->client->httpRequest('GET',
-			'/tenants/' . $this->client->tenantId);
-		return json_decode((string)$result->getBody());
+		$this->tenantGetter = new TenantGetter($this->client);
+		return $this->tenantGetter;
 	}
 
 	/**
 	 * Delete a tenant by Object (Not supported)
 	 *
-	 * @param object $object
-	 * @return bool
+	 * @return false
 	 */
-	public function delete($object)
+	public function delete()
 	{
 		return false;
 	}
@@ -98,65 +87,44 @@ class Tenants implements Datamodel
 	/**
 	 * Create a Tenant API key
 	 *
-	 * @param array $object An API key create object (represented as an array) as following:
-	 * [
-	 * 	'name' => 'mandatory_name',
-	 * ]
-	 * @return object A Cloudonix API key datamodel object
+	 * @return TenantSetter The created API key object
 	 */
-	public function createApikey($object)
+	public function createApikey(): TenantSetter
 	{
-		$result = $this->client->httpRequest('POST',
-			'/tenants/' . $this->client->tenantId .
-			'/apikeys', $object);
-		return json_decode((string)$result->getBody());
+		$this->tenantSetter = new TenantSetter($this->client, 'createApikey');
+		return $this->tenantSetter;
 	}
 
 	/**
 	 * Update a Tenant API key
 	 *
-	 * @param array $object An API key create object (represented as an array) as following:
-	 * [
-	 *  'id' => 'the_apikey_id_to_update',
-	 * 	'name' => 'mandatory_name'
-	 * ]
-	 * @return object A Cloudonix API key datamodel object
+	 * @return TenantSetter The update API key object
 	 */
-	public function updateApikey($object)
+	public function updateApikey(): TenantSetter
 	{
-		$result = $this->client->httpRequest('PUT',
-			'/tenants/' . $this->client->tenantId .
-			'/apikeys/' . $object['id'], $object);
-		return json_decode((string)$result->getBody());
+		$this->tenantSetter = new TenantSetter($this->client, 'updateApikey');
+		return $this->tenantSetter;
 	}
 
 	/**
 	 * Delete a Tenant API key
 	 *
-	 * @param array $object An API key delete object (represented as an array) as following:
-	 * [
-	 *  'id' => 'the_apikey_id_to_delete',
-	 * ]
-	 * @return void
+	 * @return true on success
 	 */
-	public function deleteApikey($object)
+	public function deleteApikey(): TenantSetter
 	{
-		$this->client->httpRequest('DELETE',
-			'/tenants/' . $this->client->tenantId .
-			'/apikeys/' . $object['id']);
+		$this->tenantSetter = new TenantSetter($this->client, 'deleteApikey');
+		return $this->tenantSetter;
 	}
 
 	/**
-	 * Get a Tenant API key list
+	 * Get a Tenants API key (or list of)
 	 *
-	 * @param null $object
-	 * @return mixed
+	 * @return TenantGetter
 	 */
-	public function getApikeys($object = null)
+	public function getApikeys(): TenantGetter
 	{
-		$result = $this->client->httpRequest('GET',
-			'/tenants/' . $this->client->tenantId .
-			'/apikeys');
-		return json_decode((string)$result->getBody());
+		$this->tenantGetter = new TenantGetter($this->client, true);
+		return $this->tenantGetter;
 	}
 }

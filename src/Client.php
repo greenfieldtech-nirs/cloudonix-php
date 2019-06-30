@@ -82,10 +82,11 @@ class Client
 	 * @param string $apikey Cloudonix assigned API key.
 	 * @param string $cacheDirectory A designated Cache Memory directory - default '/tmp'
 	 * @param string $httpEndpoint An alternative Cloudonix API Endpoint - default 'https://api.cloudonix.io'
+	 * @param double $timeout An alternative HTTP timeout value for HTTP requests - default 2.0 seconds
 	 *
 	 * @throws Exception In case of library init error
 	 */
-	public function __construct($apikey = null, $httpEndpoint = null, $cacheDirectory = null)
+	public function __construct($apikey = null, $httpEndpoint = null, $cacheDirectory = null, $timeout = 2.0)
 	{
 		try {
 
@@ -100,7 +101,7 @@ class Client
 				throw new Exception('Cache engine not properly working, bailing out', 500);
 			$this->cacheHandler->clear();
 
-			$this->httpConnector = $this->buildHttpClient($apikey);
+			$this->httpConnector = $this->buildHttpClient($apikey, $timeout);
 
 		} catch (Exception $e) {
 			die($e->getMessage() . '  code: ' . $e->getCode());
@@ -119,15 +120,16 @@ class Client
 	 * Build the Client Guzzle HTTP Client
 	 *
 	 * @param string $apikey Cloudonix assigned API key.
+	 * @param double $timeout An alternative HTTP timeout value for HTTP requests
 	 * @return GuzzleClient
 	 */
-	private function buildHttpClient($apikey):GuzzleClient
+	private function buildHttpClient($apikey, $timeout = 2.0):GuzzleClient
 	{
 
 		$this->apikey = $apikey;
 		$httpConnector = new GuzzleClient([
 			'base_uri' => $this->httpEndpoint,
-			'timeout' => 2.0,
+			'timeout' => $timeout,
 			'http_errors' => false
 		]);
 
