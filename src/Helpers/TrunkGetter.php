@@ -2,14 +2,14 @@
 /**
  *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
  * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
- * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝ 
- * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗ 
+ * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
+ * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
  * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
  * Project: cloudonix-php | TrunkGetter.php
  * Creator: nirs | 2019-06-30
- */  
+ */
 
 namespace Cloudonix;
 
@@ -27,17 +27,12 @@ class TrunkGetter
 
 	public function __construct(Client $client)
 	{
-		try {
-			if (!$client)
-				throw new Exception('Datamodel Helper construction error', 500, null);
+		if (!$client)
+			throw new Exception('Datamodel Helper construction error', 500, null);
 
-			$this->client = $client;
-			$this->baseFilter = "?";
-			$this->baseQuery = '/tenants/' . $client->tenantId;
-
-		} catch (Exception $e) {
-			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
-		}
+		$this->client = $client;
+		$this->baseFilter = "?";
+		$this->baseQuery = '/tenants/' . $client->tenantId;
 	}
 
 	public function byDomain($domain)
@@ -58,7 +53,8 @@ class TrunkGetter
 		return $this;
 	}
 
-	public function run() {
+	public function run()
+	{
 		$result = $this->client->httpRequest('GET', $this->baseQuery . '/trunks' . $this->baseFilter);
 		return json_decode((string)$result->getBody());
 	}

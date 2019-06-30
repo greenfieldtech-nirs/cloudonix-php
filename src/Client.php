@@ -213,70 +213,66 @@ class Client
 	 * @param $request
 	 * @param null $data
 	 * @return GuzzleResponse
+	 * @throws Exception
+	 * @throws GuzzleClientException
+	 * @throws GuzzleServerException
 	 */
 	public function httpRequest($method, $request, $data = null): GuzzleResponse
 	{
-		try {
-			if ($data != null)
-				$this->httpHeaders['Content-Type'] = "application/json";
+		if ($data != null)
+			$this->httpHeaders['Content-Type'] = "application/json";
 
-			switch (strtoupper($method)) {
-				case "POST":
-					if ($data != null)
-						$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-					else
-						$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('POST', $request, $requestData);
-					break;
-				case "GET":
+		switch (strtoupper($method)) {
+			case "POST":
+				if ($data != null)
+					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+				else
 					$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('GET', $request, $requestData);
-					break;
-				case "DELETE":
+				$result = $this->httpConnector->request('POST', $request, $requestData);
+				break;
+			case "GET":
+				$requestData = ['headers' => $this->httpHeaders];
+				$result = $this->httpConnector->request('GET', $request, $requestData);
+				break;
+			case "DELETE":
+				$requestData = ['headers' => $this->httpHeaders];
+				$result = $this->httpConnector->request('DELETE', $request, $requestData);
+				break;
+			case "PUT":
+				if ($data != null)
+					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+				else
 					$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('DELETE', $request, $requestData);
-					break;
-				case "PUT":
-					if ($data != null)
-						$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-					else
-						$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('PUT', $request, $requestData);
-					break;
-				case "PATCH":
-					if ($data != null)
-						$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-					else
-						$requestData = ['headers' => $this->httpHeaders];
-					$result = $this->httpConnector->request('PATCH', $request, $requestData);
-					break;
-				default:
-					throw new Exception('HTTP Method request not allowed', 500, null);
-					break;
-			}
+				$result = $this->httpConnector->request('PUT', $request, $requestData);
+				break;
+			case "PATCH":
+				if ($data != null)
+					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+				else
+					$requestData = ['headers' => $this->httpHeaders];
+				$result = $this->httpConnector->request('PATCH', $request, $requestData);
+				break;
+			default:
+				throw new Exception('HTTP Method request not allowed', 500, null);
+				break;
+		}
 
-			switch ($result->getStatusCode()) {
-				case 204:
-				case 200:
-				case 404:
-					return $result;
-					break;
-				case 401:
-				case 407:
-				case 403:
-					throw new GuzzleClientException('Access denied!', $result->getStatusCode(), null);
-					break;
-				default:
-					throw new GuzzleClientException('General error - unspecified', $result->getStatusCode(), null);
-					break;
-			}
-
-		} catch (GuzzleServerException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (GuzzleClientException $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
+		switch ($result->getStatusCode()) {
+			case 204:
+			case 200:
+				return $result;
+				break;
+			case 404:
+				throw new GuzzleClientException('Resource not found', $result->getStatusCode(), null);
+				break;
+			case 401:
+			case 407:
+			case 403:
+				throw new GuzzleClientException('Access denied!', $result->getStatusCode(), null);
+				break;
+			default:
+				throw new GuzzleClientException('General error - unspecified', $result->getStatusCode(), null);
+				break;
 		}
 	}
 

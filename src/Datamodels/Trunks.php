@@ -31,14 +31,9 @@ class Trunks implements LazyDatamodel
 
 	public function __construct(Client $client)
 	{
-		try {
-			if (!$client)
-				throw new Exception('Datamodel construction error', 500, null);
-			$this->client = $client;
-
-		} catch (Exception $e) {
-			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
-		}
+		if (!$client)
+			throw new Exception('Datamodel construction error', 500, null);
+		$this->client = $client;
 	}
 
 	/**
