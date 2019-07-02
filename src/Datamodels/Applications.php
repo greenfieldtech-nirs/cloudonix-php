@@ -7,12 +7,16 @@
  * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
- * Project: cloudonix-php | Domains.php
- * Creator: nirs | 2019-06-27
+ * Project: cloudonix-php | Applications.php
+ * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-06-27
  */
 
 namespace Cloudonix\Datamodels;
 
+use Cloudonix\Client as Client;
+use Cloudonix\LazyDatamodel as LazyDatamodel;
+use Cloudonix\Helpers\ApplicationGetter;
+use Cloudonix\Helpers\ApplicationSetter;
 use Exception;
 
 /**
@@ -20,209 +24,100 @@ use Exception;
  *
  * @package Cloudonix
  */
-class Applications implements Datamodel
+class Applications implements LazyDatamodel
 {
 	public $client;
 	public $name;
 	public $id;
 
+	protected $applicationGetter;
+	protected $applicationSetter;
+
 	public function __construct(Client $client)
 	{
-			if (!$client)
-				throw new Exception('Datamodel construction error', 500, null);
-			$this->client = $client;
+		if (!$client)
+			throw new Exception('Datamodel construction error', 500, null);
+		$this->client = $client;
 
 	}
 
 	/**
-	 * Create a new Application in a Domain
-	 *
-	 * @param array $object A domain create object (represented as an array) as following:
-	 * [
-	 * 	'domainId' => 'The domain ID the application will be created in',
-	 * 	'name' => 'name of the new application',
-	 * 	'type' => 'Application language type (applicable values are cloudonix|twilio',
-	 * 	'url' => 'Remote URL where the application is hosted - normally this will the first application script',
- 	 *  'profile' => 'optional array of key value pairs'
-	 * ]
-	 * @return object $object The created Cloudonix Domain Object
+	 * Create a new Application
+	 * @return ApplicationSetter The created Cloudonix Domain Application Object
 	 */
-	public function create($object)
+	public function create(): ApplicationSetter
 	{
-		$domainId = $object['domainId'];
-		unset($object['domainId']);
-		$result = $this->client->httpRequest('POST',
-			'/tenants/' . $this->client->tenantId .
-			'/domains/' . $domainId .
-			'/applications',
-			$object);
-		return $result;
+		$this->applicationSetter = new ApplicationSetter($this->client, 'create');
+		return $this->applicationSetter;
 	}
 
 	/**
-	 * Update an existing Cloudonix Tenant
-	 *
-	 * @param array $object A domain update object (represented as an array) as following:
-	 * [
-	 * 	'domainId' => 'The domain ID the application will be created in',
-	 * 	'type' => 'Application language type (applicable values are cloudonix|twilio',
-	 * 	'url' => 'Remote URL where the application is hosted - normally this will the first application script',
-	 *  'profile' => 'optional array of key value pairs'
-	 * ]
-	 * @return object $object The created Cloudonix Domain Object
+	 * Update an application in the data model
+	 * @return ApplicationSetter The updated Cloudonix Domain Application Object
 	 */
-	public function update($object)
+	public function update(): ApplicationSetter
 	{
-		$domainId = $object['domainId'];
-		unset($object['domainId']);
-		unset($object['name']);
-		$result = $this->client->httpRequest('PUT',
-			'/tenants/' . $this->client->tenantId .
-			'/domains/' . $domainId .
-			'/applications',
-			$object);
-		return $result;
+		$this->applicationSetter = new ApplicationSetter($this->client, 'update');
+		return $this->applicationSetter;
 	}
 
 	/**
-	 * Get applications by domain ID or domain name
-	 *
-	 * @param array $object A domain update object (represented as an array) as following:
-	 * [
-	 * 	'domainId' => '(Mandatory) The domain ID the application will be created in',
-	 * 	'applicationIdent' => '(Optional) Application ID number or application name',
-	 * ]
-	 * @return object
+	 * Get an application from the data model
+	 * @return ApplicationGetter A Cloudonix Domain Application Object (or list of)
 	 */
-	public function get($object = null)
+	public function get(): ApplicationGetter
 	{
-		$filter = ((array_key_exists('applicationIdent', $object)) && ($object['applicationIdent'] != null) && (strlen($object['applicationIdent']))) ? "/" . $object['applicationIdent'] : "";
-
-		$result = $this->client->httpRequest('GET',
-			'/tenants/' . $this->client->tenantId .
-			'/domains/' . $object['domainId'] .
-			'/applications' . $filter);
-		return $result;
+		$this->applicationGetter = new ApplicationGetter($this->client);
+		return $this->applicationGetter;
 	}
 
 	/**
-	 * Delete an application from a domain ID
-	 *
-	 * @param array $object A domain delete object (represented as an array) as following:
-	 * [
-	 * 	'domainId' => '(Mandatory) The domain ID the application will be created in',
-	 * 	'applicationIdent' => '(Mandaotry) Application ID number or application name',
-	 * ]
-	 * @return boolean
+	 * Delete an application from the data model
+	 * @return ApplicationSetter
 	 */
-	public function delete($object)
+	public function delete(): ApplicationSetter
 	{
-		$result = $this->client->httpRequest('DELETE',
-			'/tenants/' . $this->client->tenantId .
-			'/domains/' . $object['domainId'] .
-			'/applications/' . $object['applicationIdent']);
-		return true;
+		$this->applicationSetter = new ApplicationSetter($this->client, 'delete');
+		return $this->applicationSetter;
 	}
 
 	/**
-	 * Create an Application API key
-	 *
-	 * @param array $object An API key create object (represented as an array) as following:
-	 * [
-	 *  'domainId' => 'mandatory domain ID or name',
-	 *  'applicationId' => 'mandatory application ID to create an API key for',
-	 * 	'name' => 'mandatory_name',
-	 * ]
-	 * @return object A Cloudonix API key datamodel object
+	 * Create a new application API key in the data model
+	 * @return ApplicationSetter The created Cloudonix Domain Application API key Object
 	 */
-	public function createApikey($object)
+	public function createApikey(): ApplicationSetter
 	{
-		$domainId = $object['domainId'];
-		$applicationId = $object['applicationId'];
-		unset($object['domainId']);
-		unset($object['applicationId']);
-
-		$result = $this->client->httpRequest('POST',
-			'/tenants/' . $this->client->tenantId .
-			'/domains/' . $domainId .
-			'/applications/' . $applicationId .
-			'/apikeys', $object);
-		return $result;
+		$this->applicationSetter = new ApplicationSetter($this->client, 'createApikey');
+		return $this->applicationSetter;
 	}
 
 	/**
-	 * Update an Application API key
-	 *
-	 * @param array $object An API key update object (represented as an array) as following:
-	 * [
-	 *  'domainId' => 'mandatory domain ID or name',
-	 *  'applicationId' => 'mandatory application ID to udpate an API key for',
-	 *  'apikeyId' => 'the_apikey_id_to_update',
-	 * 	'name' => 'mandatory_name'
-	 * ]
-	 * @return object A Cloudonix API key datamodel object
+	 * Update an existing application API key object in the data model
+	 * @return ApplicationSetter The updated Cloudonix Domain Application API key Object
 	 */
-	public function updateApikey($object)
+	public function updateApikey(): ApplicationSetter
 	{
-		$apikeyId = $object['apikeyId'];
-		$domainId = $object['domainId'];
-		$applicationId = $object['applicationId'];
-		unset($object['domainId']);
-		unset($object['applicationId']);
-		unset($object['apikeyId']);
-
-		$result = $this->client->httpRequest('PUT',
-			'/tenants/' . $this->client->tenantId .
-			'/domains/' . $domainId .
-			'/applications/' . $applicationId .
-			'/apikeys/' . $apikeyId, $object);
-		return $result;
+		$this->applicationSetter = new ApplicationSetter($this->client, 'updateApikey');
+		return $this->applicationSetter;
 	}
 
 	/**
-	 * Delete an Application API key
-	 *
-	 * @param array $object An API key delete object (represented as an array) as following:
-	 * [
-	 *  'domainId' => 'mandatory domain ID or name',
-	 *  'applicationId' => 'mandatory application ID to delete an API key for',
-	 *  'apikeyId' => 'the apikey ID to delete',
-	 * ]
-	 * @return void
+	 * Delete an existing application API key object from the data model
+	 * @return ApplicationSetter
 	 */
-	public function deleteApikey($object)
+	public function deleteApikey(): ApplicationSetter
 	{
-		$apikeyId = $object['apikeyId'];
-		$domainId = $object['domainId'];
-		$applicationId = $object['applicationId'];
-
-		$this->client->httpRequest('DELETE',
-			'/tenants/' . $this->client->tenantId .
-			'/domains/' . $domainId .
-			'/applications/' . $applicationId .
-			'/apikeys/' . $apikeyId);
+		$this->applicationSetter = new ApplicationSetter($this->client, 'deleteApikey');
+		return $this->applicationSetter;
 	}
 
 	/**
-	 * Get an Application API key list
-	 *
-	 * @param array $object An API key list object (represented as an array) as following:
-	 * [
-	 *  'domainId' => 'mandatory domain ID or name',
-	 *  'applicationId' => 'mandatory application ID to get the API key list for',
-	 * ]
-	 * @return object
+	 * Get a list of currently available application API keys in the data model
+	 * @return ApplicationGetter List of Cloudonix Application API keys
 	 */
-	public function getApikeys($object = null)
+	public function getApikeys(): ApplicationGetter
 	{
-		$domainId = $object['domainId'];
-		$applicationId = $object['applicationId'];
-
-		$result = $this->client->httpRequest('GET',
-			'/tenants/' . $this->client->tenantId .
-			'/domains/' . $domainId .
-			'/applications/' . $applicationId .
-			'/apikeys');
-		return $result;
+		$this->applicationGetter = new ApplicationGetter($this->client, 'getApikeys');
+		return $this->applicationGetter;
 	}
 }

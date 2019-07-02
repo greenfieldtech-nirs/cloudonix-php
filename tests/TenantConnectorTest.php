@@ -8,7 +8,7 @@
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
  * Project: cloudonix-php | TenantConnectorTest.php
- * Creator: nirs | 2019-06-26
+ * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-06-26
  */
 
 require '../vendor/autoload.php';

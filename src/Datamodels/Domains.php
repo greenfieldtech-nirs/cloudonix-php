@@ -8,7 +8,7 @@
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
  * Project: cloudonix-php | Domains.php
- * Creator: nirs | 2019-06-27
+ * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-06-27
  */
 
 namespace Cloudonix\Datamodels;
@@ -43,7 +43,7 @@ class Domains implements LazyDatamodel
 	/**
 	 * Create a new Cloudonix Domain
 	 *
-	 * @return object $object The created Cloudonix Domain Object
+	 * @return DomainSetter $object The created Cloudonix Domain Object
 	 */
 	public function create(): DomainSetter
 	{
@@ -54,7 +54,7 @@ class Domains implements LazyDatamodel
 	/**
 	 * Update an existing Cloudonix Domain
 	 *
-	 * @return object $object The created Cloudonix Domain Object
+	 * @return DomainSetter $object The created Cloudonix Domain Object
 	 */
 	public function update(): DomainSetter
 	{
@@ -63,34 +63,14 @@ class Domains implements LazyDatamodel
 	}
 
 	/**
-	 * Create a domain alias
-	 *
-	 * @return object $object The created Cloudonix Domain Alias Object
-	 */
-	public function createAlias(): DomainSetter
-	{
-		$this->domainSetter = new DomainSetter($this->client, 'createAlias');
-		return $this->domainSetter;
-	}
-
-	/**
-	 * Delete a domain alias
-	 *
-	 * @return object $object An empty response for success
-	 */
-	public function deleteAlias(): DomainSetter
-	{
-		$this->domainSetter = new DomainSetter($this->client, 'deleteAlias');
-		return $this->domainSetter;
-	}
-
-	/**
 	 * Get a domain by domain ID or domain name
 	 *
-	 * @return object
+	 * @return DomainGetter
 	 */
-	public function get()
+	public function get(): DomainGetter
 	{
+		$this->domainGetter = new DomainGetter($this->client, 'get');
+		return $this->domainGetter;
 	}
 
 	/**
@@ -102,6 +82,39 @@ class Domains implements LazyDatamodel
 	{
 		$this->domainSetter = new DomainSetter($this->client, 'delete');
 		return $this->domainSetter;
+	}
+
+	/**
+	 * Create a domain alias
+	 *
+	 * @return DomainSetter $object The created Cloudonix Domain Alias Object
+	 */
+	public function createAlias(): DomainSetter
+	{
+		$this->domainSetter = new DomainSetter($this->client, 'createAlias');
+		return $this->domainSetter;
+	}
+
+	/**
+	 * Delete a domain alias
+	 *
+	 * @return DomainSetter $object An empty response for success
+	 */
+	public function deleteAlias(): DomainSetter
+	{
+		$this->domainSetter = new DomainSetter($this->client, 'deleteAlias');
+		return $this->domainSetter;
+	}
+
+	/**
+	 * List aliases of a domain
+	 *
+	 * @return DomainSetter $object An empty response for success
+	 */
+	public function listAliases(): DomainGetter
+	{
+		$this->domainGetter = new DomainGetter($this->client, 'listAliases');
+		return $this->domainGetter;
 	}
 
 	/**
@@ -140,9 +153,11 @@ class Domains implements LazyDatamodel
 	/**
 	 * Get a Domain API key list
 	 *
-	 * @return object
+	 * @return DomainGetter
 	 */
-	public function getApikeys()
+	public function getApikeys(): DomainGetter
 	{
+		$this->domainGetter = new DomainGetter($this->client, 'getApikeys');
+		return $this->domainGetter;
 	}
 }

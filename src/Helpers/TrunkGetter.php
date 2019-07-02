@@ -8,7 +8,7 @@
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
  * Project: cloudonix-php | TrunkGetter.php
- * Creator: nirs | 2019-06-30
+ * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-06-30
  */
 
 namespace Cloudonix\Helpers;

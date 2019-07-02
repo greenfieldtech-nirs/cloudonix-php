@@ -7,29 +7,28 @@
  * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
- * Project: cloudonix-php | DomainGetter.php
- * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-07-01
+ * Project: cloudonix-php | ApplicationSetter.php
+ * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-07-02
  */  
-
 namespace Cloudonix\Helpers;
 
 use Exception;
 use Cloudonix\Client as Client;
+use Cloudonix\Exceptions\DatamodelBuilderException as DatamodelBuilderException;
 use Cloudonix\Exceptions\MissingDomainIdException;
-use Cloudonix\Exceptions\WorkflowViolation;
 
-class DomainGetter
+class ApplicationSetter
 {
-	public $baseFilter;
-	public $baseQuery;
+	public $baseFilter = "?";
+	public $baseQuery = false;
 	public $client;
 	public $name;
 	public $id;
 
-	private $domainIdent = false;
 	private $action = false;
+	private $actionData = [];
 
-	public function __construct(Client $client, $action = 'get')
+	public function __construct(Client $client, $action)
 	{
 		try {
 			if (!$client)
@@ -37,45 +36,41 @@ class DomainGetter
 
 			$this->client = $client;
 			$this->action = $action;
-			$this->baseFilter = "?";
-			$this->baseQuery = '/tenants/' . $client->tenantId . '/domains';
+			$this->baseQuery = '/tenants/' . $client->tenantId;
 
 		} catch (Exception $e) {
 			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
 		}
 	}
 
-	public function byDomainId($param) {
-		$this->domainIdent = (int)$param;
-		return $this;
-	}
 
-	public function byDomainName($param) {
-		$this->domainIdent = $param;
-		return $this;
-	}
+	public function run()
+	{
 
-	public function byDomain($param) {
-		return (is_numeric($param)) ? $this->byDomainId($param) : $this->byDomainName($param);
-	}
+		try {
 
-	public function run() {
-		switch (strtolower($this->action)) {
-			case "get":
-				$result = $this->client->httpRequest('GET', $this->baseQuery . ((strlen($this->domainIdent)) ? '/' . $this->domainIdent : ''));
-				break;
-			case "listaliases":
-				if ((!$this->domainIdent) || (!strlen($this->domainIdent)))
-					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500);
-				$result = $this->client->httpRequest('GET', $this->baseQuery . '/' . $this->domainIdent . '/aliases');
-				break;
-			case "getapikeys":
-				if ((!$this->domainIdent) || (!strlen($this->domainIdent)))
-					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500);
-				$result = $this->client->httpRequest('GET', $this->baseQuery . '/' . $this->domainIdent . '/apikeys');
-				break;
+			switch (strtolower($this->action)) {
+				case "create":
+				case "update":
+
+					$httpAction = (strtolower($this->action) == "create") ? "POST" : "PUT";
+					$result = $this->client->httpRequest($httpAction, $this->baseQuery, $this->actionData);
+					break;
+				case "delete":
+
+					$this->client->httpRequest('DELETE', $this->baseQuery);
+					return true;
+					break;
+				default:
+					return false;
+					break;
+			}
+			return json_decode((string)$result->getBody());
+
+		} catch (Exception $e) {
+			die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
 		}
-		return $result;
 	}
+
 
 }

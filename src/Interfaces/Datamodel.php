@@ -8,7 +8,7 @@
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
  * Project: cloudonix-php | Datamodel.php
- * Creator: nirs | 2019-06-27
+ * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-06-27
  */
 
 namespace Cloudonix;

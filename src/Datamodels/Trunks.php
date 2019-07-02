@@ -8,7 +8,7 @@
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
  * Project: cloudonix-php | Trunks.php
- * Creator: nirs | 2019-06-28
+ * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-06-28
  */
 
 namespace Cloudonix\Datamodels;
