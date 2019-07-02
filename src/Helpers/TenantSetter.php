@@ -102,9 +102,8 @@ class TenantSetter
 				if (!$this->apikeyId)
 					throw new MissingApikeyIdException('`byApikeyId` must be called before `run`');
 
-				$this->client->httpRequest('DELETE',
+				$result = $this->client->httpRequest('DELETE',
 					$this->baseQuery . '/' . (($this->name) ? $this->name : $this->id) . '/apikeys/' . $this->apikeyId);
-				return true;
 				break;
 			case "create":
 				if (!$this->name)
@@ -124,7 +123,7 @@ class TenantSetter
 				return false;
 				break;
 		}
-		return json_decode((string)$result->getBody());
+		return $result;
 
 	}
 

@@ -128,13 +128,12 @@ class SubscriberSetter
 				if (!$this->id)
 					throw new MissingSubscriberIdException('`setSubscriberId|bySubscriberId` MUST be called before `run`', 500);
 				$result = $this->client->httpRequest('DELETE', $this->baseQuery . '/subscribers/' . $this->id);
-				return true;
 				break;
 			default:
 				return false;
 				break;
 		}
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 

@@ -157,14 +157,13 @@ class DnidSetter
 				if (!$this->dnidId)
 					throw new MissingAdditionalDataException('`setDnidId` MUST be called on `delete` methods before `run`', 500);
 
-				$this->client->httpRequest('DELETE', $this->baseQuery . '/' . $this->dnidId);
-				return true;
+				$result = $this->client->httpRequest('DELETE', $this->baseQuery . '/' . $this->dnidId);
 				break;
 			default:
 				return false;
 				break;
 		}
-		return json_decode((string)$result->getBody());
+		return $result;
 
 	}
 

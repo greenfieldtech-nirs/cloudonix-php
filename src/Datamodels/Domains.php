@@ -13,10 +13,9 @@
 
 namespace Cloudonix\Datamodels;
 
-use Cloudonix\Helpers\DnidGetter;
-use Cloudonix\Helpers\DnidSetter;
+use Cloudonix\Helpers\DomainGetter;
+use Cloudonix\Helpers\DomainSetter;
 use Cloudonix\Client as Client;
-use Cloudonix\Datamodel as Datamodel;
 use Cloudonix\LazyDatamodel as LazyDatamodel;
 use Exception;
 
@@ -31,6 +30,9 @@ class Domains implements LazyDatamodel
 	public $name;
 	public $id;
 
+	protected $domainGetter;
+	protected $domainSetter;
+
 	public function __construct(Client $client)
 	{
 		if (!$client)
@@ -43,8 +45,10 @@ class Domains implements LazyDatamodel
 	 *
 	 * @return object $object The created Cloudonix Domain Object
 	 */
-	public function create()
+	public function create(): DomainSetter
 	{
+		$this->domainSetter = new DomainSetter($this->client, 'create');
+		return $this->domainSetter;
 	}
 
 	/**
@@ -52,8 +56,32 @@ class Domains implements LazyDatamodel
 	 *
 	 * @return object $object The created Cloudonix Domain Object
 	 */
-	public function update()
+	public function update(): DomainSetter
 	{
+		$this->domainSetter = new DomainSetter($this->client, 'update');
+		return $this->domainSetter;
+	}
+
+	/**
+	 * Create a domain alias
+	 *
+	 * @return object $object The created Cloudonix Domain Alias Object
+	 */
+	public function createAlias(): DomainSetter
+	{
+		$this->domainSetter = new DomainSetter($this->client, 'createAlias');
+		return $this->domainSetter;
+	}
+
+	/**
+	 * Delete a domain alias
+	 *
+	 * @return object $object An empty response for success
+	 */
+	public function deleteAlias(): DomainSetter
+	{
+		$this->domainSetter = new DomainSetter($this->client, 'deleteAlias');
+		return $this->domainSetter;
 	}
 
 	/**
@@ -68,37 +96,45 @@ class Domains implements LazyDatamodel
 	/**
 	 * Delete a domain by domain ID or domain name
 	 *
-	 * @return boolean
+	 * @return DomainSetter $object An empty response for success
 	 */
-	public function delete()
+	public function delete(): DomainSetter
 	{
+		$this->domainSetter = new DomainSetter($this->client, 'delete');
+		return $this->domainSetter;
 	}
 
 	/**
 	 * Create a Domain API key
 	 *
-	 * @return object A Cloudonix API key datamodel object
+	 * @return DomainSetter $object A Cloudonix API key object
 	 */
-	public function createApikey()
+	public function createApikey(): DomainSetter
 	{
+		$this->domainSetter = new DomainSetter($this->client, 'createApikey');
+		return $this->domainSetter;
 	}
 
 	/**
 	 * Update a Domain API key
 	 *
-	 * @return object A Cloudonix API key datamodel object
+	 * @return DomainSetter A Cloudonix API key object
 	 */
-	public function updateApikey()
+	public function updateApikey(): DomainSetter
 	{
+		$this->domainSetter = new DomainSetter($this->client, 'updateApikey');
+		return $this->domainSetter;
 	}
 
 	/**
 	 * Delete a Domain API key
 	 *
-	 * @return void
+	 * @return DomainSetter $object An empty response for success
 	 */
-	public function deleteApikey()
+	public function deleteApikey(): DomainSetter
 	{
+		$this->domainSetter = new DomainSetter($this->client, 'deleteApikey');
+		return $this->domainSetter;
 	}
 
 	/**

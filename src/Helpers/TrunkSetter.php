@@ -155,14 +155,13 @@ class TrunkSetter
 				if (!$this->trunkId)
 					throw new MissingTrunkIdException('`setTrunkId|byTrunkId` MUST be called before `run`', 500);
 
-				$this->client->httpRequest('DELETE', $this->baseQuery . '/trunks/' . $this->trunkId);
-				return true;
+				$result = $this->client->httpRequest('DELETE', $this->baseQuery . '/trunks/' . $this->trunkId);
 				break;
 			default:
 				return false;
 				break;
 		}
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 

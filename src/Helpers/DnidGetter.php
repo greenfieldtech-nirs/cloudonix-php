@@ -18,7 +18,6 @@ use Cloudonix\Client as Client;
 use Cloudonix\Exceptions\DatamodelBuilderException as DatamodelBuilderException;
 use Cloudonix\Exceptions\MissingDomainIdException;
 
-
 class DnidGetter
 {
 	public $baseFilter;
@@ -80,7 +79,7 @@ class DnidGetter
 			throw new MissingDomainIdException('`byDomainId` MUST be called before `run`', 500);
 
 		$result = $this->client->httpRequest('GET', $this->baseQuery . '/dnids' . $this->baseFilter);
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 }

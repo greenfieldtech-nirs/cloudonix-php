@@ -16,7 +16,6 @@ namespace Cloudonix\Datamodels;
 use Cloudonix\Helpers\TrunkGetter;
 use Cloudonix\Helpers\TrunkSetter;
 use Cloudonix\Client as Client;
-use Cloudonix\Datamodel as Datamodel;
 use Cloudonix\LazyDatamodel as LazyDatamodel;
 use Exception;
 

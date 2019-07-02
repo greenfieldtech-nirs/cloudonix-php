@@ -75,7 +75,7 @@ class TenantGetter
 			. (($this->apikeys) ? '/apikeys' : '')
 		);
 
-		return json_decode((string)$result->getBody());
+		return $result;
 
 	}
 

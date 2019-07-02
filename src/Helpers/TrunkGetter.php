@@ -56,7 +56,7 @@ class TrunkGetter
 	public function run()
 	{
 		$result = $this->client->httpRequest('GET', $this->baseQuery . '/trunks' . $this->baseFilter);
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 }

@@ -80,7 +80,7 @@ class SubscriberGetter
 		} else {
 			$result = $this->client->httpRequest('GET', $this->baseQuery . '/subscribers' . $this->baseFilter);
 		}
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 }

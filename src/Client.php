@@ -15,7 +15,7 @@
 namespace Cloudonix;
 
 use Exception;
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use stdClass;
 use Opis\Cache\Drivers\File;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
@@ -220,12 +220,12 @@ class Client
 	 * @param $method
 	 * @param $request
 	 * @param null $data
-	 * @return GuzzleResponse
+	 * @return stdClass
 	 * @throws Exception
 	 * @throws GuzzleClientException
 	 * @throws GuzzleServerException
 	 */
-	public function httpRequest($method, $request, $data = null): GuzzleResponse
+	public function httpRequest($method, $request, $data = null): stdClass
 	{
 		if ($data != null)
 			$this->httpHeaders['Content-Type'] = "application/json";
@@ -267,21 +267,25 @@ class Client
 
 		switch ($result->getStatusCode()) {
 			case 204:
+				$result = ['code' => 204, 'message' => 'No content'];
+				break;
 			case 200:
-				return $result;
+				$result = json_decode((string)$result->getBody());
 				break;
 			case 404:
-				throw new WorkflowViolationBadResponse('Resource not found', $result->getStatusCode(), null);
+				$result = ['code' => 404, 'message' => 'No resource found'];
 				break;
 			case 401:
 			case 407:
 			case 403:
-				throw new GuzzleClientException('Access denied!', $result->getStatusCode(), null);
+				$result = ['code' => (int)$result->getStatusCode(), 'message' => 'Security violation'];
 				break;
 			default:
-				throw new GuzzleClientException('General error - unspecified', $result->getStatusCode(), null);
+				$result = ['code' => (int)$result->getStatusCode(), 'message' => 'General Error'];
 				break;
 		}
+
+		return (object)$result;
 	}
 
 	/**
@@ -291,8 +295,7 @@ class Client
 	 */
 	public function getSelf(): array
 	{
-		$mySelfKeyResult = $this->httpRequest('GET', 'keys/self');
-		$myTenantData = json_decode((string)$mySelfKeyResult->getBody());
+		$myTenantData = $this->httpRequest('GET', 'keys/self');
 
 		/* Store Tenant Information to Cache */
 		$this->cacheHandler->write($this->apikey . '-cxTenantId', $myTenantData->tenantId);

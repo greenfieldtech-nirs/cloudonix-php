@@ -56,7 +56,7 @@ class Applications implements Datamodel
 			'/domains/' . $domainId .
 			'/applications',
 			$object);
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Applications implements Datamodel
 			'/domains/' . $domainId .
 			'/applications',
 			$object);
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Applications implements Datamodel
 			'/tenants/' . $this->client->tenantId .
 			'/domains/' . $object['domainId'] .
 			'/applications' . $filter);
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Applications implements Datamodel
 			'/domains/' . $domainId .
 			'/applications/' . $applicationId .
 			'/apikeys', $object);
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Applications implements Datamodel
 			'/domains/' . $domainId .
 			'/applications/' . $applicationId .
 			'/apikeys/' . $apikeyId, $object);
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 
 	/**
@@ -223,6 +223,6 @@ class Applications implements Datamodel
 			'/domains/' . $domainId .
 			'/applications/' . $applicationId .
 			'/apikeys');
-		return json_decode((string)$result->getBody());
+		return $result;
 	}
 }
