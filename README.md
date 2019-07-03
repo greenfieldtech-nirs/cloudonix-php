@@ -6,7 +6,7 @@ such, it exposes a comprehensive command and control API, allowing developers to
 internal datamodels. These datamodels are the primary building blocks of the Cloudonix framework - and are the core of 
 working with the platform. 
 
-The `php-cloudonix` library provides a rapid development framework for PHP developers, to rapidly interact with the 
+The `cloudonix-php` library provides a rapid development framework for PHP developers, to rapidly interact with the 
 command and control API - and in accordance to the Cloudonix datamodels security paradigms.
 
 ## Installation
@@ -16,10 +16,10 @@ You can install **cloudonix-php** via composer or by downloading the source.
 #### Via Composer:
 
 **cloudonix-php** is available on Packagist as the
-[`cloudonix/php-cloudonix`](http://packagist.org/packages/cloudonix/php-cloudonix) package:
+[`cloudonix/cloudonix-php`](http://packagist.org/packages/cloudonix/cloudonix-php) package:
 
 ```
-composer require cloudonix/php-cloudonix
+composer require cloudonix/cloudonix-php
 ```
 
 ## Quickstart
@@ -80,5 +80,5 @@ The PHP library documentation can be found [here][documentation].
 If you require assistance or had identified a bug in the library, please open an `issue` via the issue tracker of the
 project.
 
-[apidocs]: http://webinc.cloudonix.io/php-cloudonix/index.html
+[apidocs]: http://webinc.cloudonix.io/cloudonix-php/index.html
 [documentation]: https://docs.cloudonix.io/
