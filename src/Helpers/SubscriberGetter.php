@@ -73,7 +73,7 @@ class SubscriberGetter
 	public function run()
 	{
 		if ((!$this->domain) || (!$this->baseQuery))
-			throw new MissingDomainIdException('`byDomainId|byDomain` MUST be called before `run`', 500);
+			throw new MissingDomainIdException('`byDomainId|byDomain` MUST be called before `run`', 500, null);
 
 		if ($this->filterBySubscriberId) {
 			$result = $this->client->httpRequest('GET', $this->baseQuery . $this->baseFilter);

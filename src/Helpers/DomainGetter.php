@@ -66,12 +66,12 @@ class DomainGetter
 				break;
 			case "listaliases":
 				if ((!$this->domainIdent) || (!strlen($this->domainIdent)))
-					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500);
+					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500, null);
 				$result = $this->client->httpRequest('GET', $this->baseQuery . '/' . $this->domainIdent . '/aliases');
 				break;
 			case "getapikeys":
 				if ((!$this->domainIdent) || (!strlen($this->domainIdent)))
-					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500);
+					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500, null);
 				$result = $this->client->httpRequest('GET', $this->baseQuery . '/' . $this->domainIdent . '/apikeys');
 				break;
 		}

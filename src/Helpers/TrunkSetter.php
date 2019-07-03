@@ -142,7 +142,7 @@ class TrunkSetter
 	public function run()
 	{
 		if ((!$this->domain) || (!$this->baseQuery))
-			throw new MissingDomainIdException('`setDomainId|byDomainId` MUST be called before `run`', 500);
+			throw new MissingDomainIdException('`setDomainId|byDomainId` MUST be called before `run`', 500, null);
 
 		switch (strtolower($this->action)) {
 			case "create":
@@ -153,7 +153,7 @@ class TrunkSetter
 			case "delete":
 
 				if (!$this->trunkId)
-					throw new MissingTrunkIdException('`setTrunkId|byTrunkId` MUST be called before `run`', 500);
+					throw new MissingTrunkIdException('`setTrunkId|byTrunkId` MUST be called before `run`', 500, null);
 
 				$result = $this->client->httpRequest('DELETE', $this->baseQuery . '/trunks/' . $this->trunkId);
 				break;

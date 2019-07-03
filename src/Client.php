@@ -106,7 +106,7 @@ class Client
 			$this->cacheHandler->write('mySanityValue', $mySanityCheckValue);
 			$mySanityReadValue = $this->cacheHandler->read('mySanityValue');
 			if ($mySanityCheckValue != $mySanityReadValue)
-				throw new Exception('Cache engine not properly working, bailing out', 500);
+				throw new Exception('Cache engine not properly working, bailing out', 500, null);
 			$this->cacheHandler->clear();
 
 			$this->httpConnector = $this->buildHttpClient($apikey, $timeout);

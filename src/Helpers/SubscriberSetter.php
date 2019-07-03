@@ -113,7 +113,7 @@ class SubscriberSetter
 	public function run()
 	{
 		if ((!$this->domain) || (!$this->baseQuery))
-			throw new MissingDomainIdException('`setDomainId|setDomain` MUST be called before `run`', 500);
+			throw new MissingDomainIdException('`setDomainId|setDomain` MUST be called before `run`', 500, null);
 
 		switch (strtolower($this->action)) {
 			case "create":
@@ -121,12 +121,12 @@ class SubscriberSetter
 				break;
 			case "update":
 				if (!$this->id)
-					throw new MissingSubscriberIdException('`setSubscriberId|bySubscriberId` MUST be called before `run`', 500);
+					throw new MissingSubscriberIdException('`setSubscriberId|bySubscriberId` MUST be called before `run`', 500, null);
 				$result = $this->client->httpRequest('PUT', $this->baseQuery . '/subscribers/' . $this->id, $this->actionData);
 				break;
 			case "delete":
 				if (!$this->id)
-					throw new MissingSubscriberIdException('`setSubscriberId|bySubscriberId` MUST be called before `run`', 500);
+					throw new MissingSubscriberIdException('`setSubscriberId|bySubscriberId` MUST be called before `run`', 500, null);
 				$result = $this->client->httpRequest('DELETE', $this->baseQuery . '/subscribers/' . $this->id);
 				break;
 			default:

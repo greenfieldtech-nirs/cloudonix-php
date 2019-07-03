@@ -129,24 +129,24 @@ class DnidSetter
 	public function run()
 	{
 		if ((!$this->domainId) || (!$this->baseQuery))
-			throw new MissingDomainIdException('`setDomainId` MUST be called before `run`', 500);
+			throw new MissingDomainIdException('`setDomainId` MUST be called before `run`', 500, null);
 
 		if (!$this->applicationId)
-			throw new MissingApplicationIdException('`setApplicationId` MUST be called before `run`', 500);
+			throw new MissingApplicationIdException('`setApplicationId` MUST be called before `run`', 500, null);
 
 		switch (strtolower($this->action)) {
 			case "create":
 			case "update":
 
 				if ((!$this->dnidNumber) && (!$this->dnidSource))
-					throw new MissingDnidIdException('`setDnid` and `setSource` MUST be called before `run`', 500);
+					throw new MissingDnidIdException('`setDnid` and `setSource` MUST be called before `run`', 500, null);
 
 				if ($this->dnidSource) {
 					if ((!array_key_exists('prefix', $this->actionData)) &&
 						(!array_key_exists('expression', $this->actionData)) &&
 						(!array_key_exists('asteriskCompatible', $this->actionData))
 					)
-						throw new MissingAdditionalDataException('`setSource` MUST be followed by either `setPrefix`, `setExpression` or `setAsteriskCompatible` before `run`', 500);
+						throw new MissingAdditionalDataException('`setSource` MUST be followed by either `setPrefix`, `setExpression` or `setAsteriskCompatible` before `run`', 500, null);
 				}
 
 				$httpAction = (strtolower($this->action) == "create") ? "POST" : "PUT";
@@ -155,7 +155,7 @@ class DnidSetter
 			case "delete":
 
 				if (!$this->dnidId)
-					throw new MissingAdditionalDataException('`setDnidId` MUST be called on `delete` methods before `run`', 500);
+					throw new MissingAdditionalDataException('`setDnidId` MUST be called on `delete` methods before `run`', 500, null);
 
 				$result = $this->client->httpRequest('DELETE', $this->baseQuery . '/' . $this->dnidId);
 				break;

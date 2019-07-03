@@ -76,7 +76,7 @@ class DnidGetter
 	public function run()
 	{
 		if ((!$this->domainId) || (!$this->baseQuery))
-			throw new MissingDomainIdException('`byDomainId` MUST be called before `run`', 500);
+			throw new MissingDomainIdException('`byDomainId` MUST be called before `run`', 500, null);
 
 		$result = $this->client->httpRequest('GET', $this->baseQuery . '/dnids' . $this->baseFilter);
 		return $result;

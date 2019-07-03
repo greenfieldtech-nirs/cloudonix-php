@@ -177,11 +177,6 @@ class DomainSetter
 		return $this;
 	}
 
-	public function byApikey($param)
-	{
-		return (is_numeric($param)) ? $this->byApikeyId($param) : $this->byApikeyName($param);
-	}
-
 	/**
 	 * Clean the `actionData` from keys that may create an issue upon create or update methods
 	 *
@@ -206,26 +201,26 @@ class DomainSetter
 		switch (strtolower($this->action)) {
 			case "create":
 				if ((!array_key_exists('domain', $this->actionData)) || (!strlen($this->actionData['domain'])))
-					throw new MissingDomainIdException('`setName` MUST be called before `run`', 500);
+					throw new MissingDomainIdException('`setName` MUST be called before `run`', 500, null);
 				$this->cleanActionData(['alias', 'name'], false);
 
 				$result = $this->client->httpRequest('POST', $this->baseQuery, $this->actionData);
 				break;
 			case "update":
 				if (!$this->domainIdent)
-					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500, null);
 				$this->cleanActionData(['alias', 'name'], false);
 
 				$result = $this->client->httpRequest('PUT', $this->baseQuery . '/' . $this->domainIdent, $this->actionData);
 				break;
 			case "delete":
 				if (!$this->domainIdent)
-					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500, null);
 				$result = $this->client->httpRequest('DELETE', $this->baseQuery . '/' . $this->domainIdent);
 				break;
 			case "createalias":
 				if (!$this->domainIdent)
-					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500, null);
 				$this->cleanActionData(['alias']);
 				$result = $this->client->httpRequest('POST',
 					$this->baseQuery . '/' . $this->domainIdent . '/aliases',
@@ -233,17 +228,17 @@ class DomainSetter
 				break;
 			case "deletealias":
 				if (!$this->domainIdent)
-					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500, null);
 				if (!$this->alias)
-					throw new WorkflowViolation('`byAlias|byAliasId|byAlias` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byAlias|byAliasId|byAlias` MUST be called before `run`', 500, null);
 				$result = $this->client->httpRequest('DELETE',
 					$this->baseQuery . '/' . $this->domainIdent . '/aliases/' . $this->alias);
 				break;
 			case "createapikey":
 				if (!$this->domainIdent)
-					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500, null);
 				if (!$this->actionData['name'])
-					throw new WorkflowViolation('`setName` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`setName` MUST be called before `run`', 500, null);
 
 				$this->cleanActionData(['name']);
 				$result = $this->client->httpRequest('POST',
@@ -253,21 +248,23 @@ class DomainSetter
 				break;
 			case "updateapikey":
 				if (!$this->domainIdent)
-					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500, null);
+				if (!$this->apikeyKeyIdent)
+					throw new WorkflowViolation('`byApikeyId|byApikeyName` MUST be called before `run`', 500, null);
 				if (!$this->actionData['name'])
-					throw new WorkflowViolation('`setName` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`setName` MUST be called before `run`', 500, null);
 
 				$this->cleanActionData(['name']);
 				$result = $this->client->httpRequest('PUT',
-					$this->baseQuery . '/' . $this->domainIdent . '/apikeys',
+					$this->baseQuery . '/' . $this->domainIdent . '/apikeys/' . $this->apikeyKeyIdent,
 					$this->actionData);
 
 				break;
 			case "deleteapikey":
 				if (!$this->domainIdent)
-					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byDomain|byDomainId|byDomain` MUST be called before `run`', 500, null);
 				if (!$this->apikeyKeyIdent)
-					throw new WorkflowViolation('`byApikeyId|byApikeyName|byApikey` MUST be called before `run`', 500);
+					throw new WorkflowViolation('`byApikeyId|byApikeyName` MUST be called before `run`', 500, null);
 
 				$result = $this->client->httpRequest('DELETE',
 					$this->baseQuery . '/' . $this->domainIdent . '/apikeys/' . $this->apikeyKeyIdent);

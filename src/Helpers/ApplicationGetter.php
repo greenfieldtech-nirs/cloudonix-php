@@ -12,6 +12,7 @@
  */  
 namespace Cloudonix\Helpers;
 
+use Cloudonix\Exceptions\MissingApplicationIdException;
 use Exception;
 use Cloudonix\Client as Client;
 use Cloudonix\Exceptions\DatamodelBuilderException as DatamodelBuilderException;
@@ -29,8 +30,6 @@ class ApplicationGetter
 	private $applicationIdent = false;
 	private $applicationType = false;
 	private $applicationUrlEndpoint = false;
-	private $applicationName = false;
-	private $applicationId = false;
 	private $action = false;
 
 	public function __construct(Client $client, $action = 'get')
@@ -50,14 +49,17 @@ class ApplicationGetter
 	}
 
 	public function byId($param) {
-		$this->applicationId = (int)$param;
+		$this->applicationIdent = (int)$param;
 		return $this;
 	}
 
 	public function byName($param) {
-		$this->applicationName = $param;
+		$this->applicationIdent = $param;
 		return $this;
+	}
 
+	public function byApplicationId($param) {
+		return $this->byId($param);
 	}
 
 	public function byUrlEndpoint($param) {
@@ -88,22 +90,24 @@ class ApplicationGetter
 		switch (strtolower($this->action)) {
 			case "get":
 				if ((!$this->domainIdent) || (!strlen($this->domainIdent)))
-					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500);
+					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500, null);
 
 				$this->baseQuery .= $this->domainIdent . '/applications';
-				$this->baseFilter .= (($this->applicationId) ? 'by_id=' . $this->applicationId : '') . '&';
-				$this->baseFilter .= (($this->applicationName) ? 'by_name=' . $this->applicationName : '') . '&';
+				$this->baseFilter .= (($this->applicationIdent) ? ((is_numeric($this->applicationIdent)) ? 'by_id=' . $this->applicationIdent : 'by_name=' . $this->applicationIdent) : '') . '&';
 				$this->baseFilter .= (($this->applicationUrlEndpoint) ? 'by_url=' . $this->applicationUrlEndpoint : '') . '&';
 				$this->baseFilter .= (($this->applicationType) ? 'by_type=' . $this->applicationType : '');
 
 				$result = $this->client->httpRequest('GET',
-					$this->baseQuery . $this->domainIdent . $this->baseFilter);
+					$this->baseQuery . $this->baseFilter);
 				break;
 			case "getapikeys":
 				if ((!$this->domainIdent) || (!strlen($this->domainIdent)))
-					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500);
+					throw new MissingDomainIdException('`byDomainId|byDomainName|byDomain` MUST be called before `run`', 500, null);
+				if ((!$this->applicationIdent) || (!strlen($this->applicationIdent)))
+					throw new MissingApplicationIdException('`byId|byName` MUST be called before `run`', 500, null);
 
-				$result = $this->client->httpRequest('GET', $this->baseQuery . '/' . $this->domainIdent . '/apikeys');
+				$result = $this->client->httpRequest('GET',
+					$this->baseQuery . '/' . $this->domainIdent . '/applications/' . $this->applicationIdent . '/apikeys');
 				break;
 		}
 		return $result;
