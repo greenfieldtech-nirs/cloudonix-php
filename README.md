@@ -44,21 +44,20 @@ try {
 	
 	/* Create a new domain in my own tenant */
 	$myNewDomain = $myCloudonixClient->domains()
-    	->create()
-    	->setName('my-domain.com')
-    	->setActive(true)
-    	->setDomainAlias('my-domain-alias.com')
-    	->setCallTimeout(30)
-    	->setUnknownToBorderCalls(false)
-    	->run();
-    var_dump($myNewDomain);
+		->create()
+		->setName('my-domain.com')
+		->setActive(true)
+		->setDomainAlias('my-domain-alias.com')
+		->setCallTimeout(30)
+		->setUnknownToBorderCalls(false)
+		->run();
+	var_dump($myNewDomain);
     
-    /* Get a list of the domains associated with my tenant */
-    $myDomains = $myCloudonixClient->domains()
-    	->get()
-    	->run();
-    var_dump($myDomains);
-    
+	/* Get a list of the domains associated with my tenant */
+	$myDomains = $myCloudonixClient->domains()
+		->get()
+		->run();
+	var_dump($myDomains);
 ```
 
 Please note that your assigned API key from Cloudonix is a tenant API key. API keys created via the various 
