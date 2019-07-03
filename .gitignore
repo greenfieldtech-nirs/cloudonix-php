@@ -22,3 +22,5 @@ vendor
 mytests
 docs
 .settings
+.project
+.buildpath
