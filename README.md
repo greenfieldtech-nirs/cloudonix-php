@@ -24,7 +24,7 @@ composer require cloudonix/cloudonix-php
 
 ## Quickstart
 
-### Send an SMS
+### Create a new domain in your tenant account
 
 ```php
 // Connect to the Cloudonix platform and Create a new domain in your tenant account
