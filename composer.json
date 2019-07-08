@@ -1,7 +1,7 @@
 {
   "name": "cloudonix/cloudonix-php",
   "description": "PHP Class Library for interacting with Cloudonix APIs and Voice Developer APIs",
-  "version": "1.0.0",
+  "version": "dev-master",
   "type": "library",
   "keywords": [
 	"cloudonix",
