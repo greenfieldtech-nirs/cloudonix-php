@@ -1,11 +1,18 @@
 {
   "name": "cloudonix/cloudonix-php",
   "description": "PHP Class Library for interacting with Cloudonix APIs and Voice Developer APIs",
-  "version": "dev-master",
   "type": "library",
   "keywords": [
 	"cloudonix",
 	"cxml"
+  ],
+  "authors": [
+	{
+	  "name": "Nir Simionovich",
+	  "email": "nirs@cloudonix.io",
+	  "homepage": "https://cloudonix.io",
+	  "role": "Packager"
+	}
   ],
   "homepage": "https://github.com/cloudonix/cloudonix-php",
   "license": "MIT",
@@ -30,6 +37,7 @@
 	}
   ],
   "require": {
+	"php": ">=5.6",
 	"ratchet/pawl": "^0.3.4",
 	"monolog/monolog": "^1.24",
 	"ramsey/uuid": "^3.8",
