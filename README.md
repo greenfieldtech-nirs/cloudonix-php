@@ -19,7 +19,7 @@ You can install **cloudonix-php** via composer or by downloading the source.
 [`cloudonix/cloudonix-php`](http://packagist.org/packages/cloudonix/cloudonix-php) package:
 
 ```
-composer require cloudonix/cloudonix-php
+composer require cloudonix/cloudonix-php @dev
 ```
 
 ## Quickstart
