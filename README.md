@@ -58,6 +58,18 @@ try {
 		->get()
 		->run();
 	var_dump($myDomains);
+		
+} catch (Cloudonix\Exceptions\MissingDomainIdException $e) {
+	die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+} catch (Cloudonix\Exceptions\MissingTenantIdException $e) {
+	die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+} catch (Cloudonix\Exceptions\MissingTenantNameException $e) {
+	die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+} catch (Cloudonix\Exceptions\WorkflowViolationBadResponse $e) {
+	die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+} catch (Exception $e) {
+	die("Exception: " . $e->getMessage() . " File: " . $e->getFile() . " Line: " . $e->getLine());
+}
 ```
 
 Please note that your assigned API key from Cloudonix is a tenant API key. API keys created via the various 
@@ -79,5 +91,5 @@ The PHP library documentation can be found [here][documentation].
 If you require assistance or had identified a bug in the library, please open an `issue` via the issue tracker of the
 project.
 
-[apidocs]: http://webinc.cloudonix.io/cloudonix-php/index.html
-[documentation]: https://docs.cloudonix.io/
+[documentation]: http://webinc.cloudonix.io/cloudonix-php/index.html
+[apidocs]: https://docs.cloudonix.io/
