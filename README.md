@@ -65,6 +65,8 @@ the library will automatically generate an Exception. We recommend examining the
 // Connect to the Cloudonix platform and Create a new domain in your tenant account
 <?php
 
+require 'vendor/autoload.php';  /* Change this to the location of your vendor */
+
 use Cloudonix\Client;
 use Cloudonix\Exceptions\MissingDomainIdException;
 use Cloudonix\Exceptions\MissingTenantIdException;
