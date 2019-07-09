@@ -76,6 +76,7 @@ try {
 	$myCloudonixClient = new Client("cloudonix_provided_apikey");
 	
 	/* Get my own tenant information */
+	/* It is mandatory to issue `->getSelf()` before other operations - otherwise, this will result in a security violation */
 	$mySelf = $myCloudonixClient->getSelf();
 	var_dump($mySelf);
 	
