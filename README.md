@@ -19,16 +19,53 @@ You can install **cloudonix-php** via composer or by downloading the source.
 [`cloudonix/cloudonix-php`](http://packagist.org/packages/cloudonix/cloudonix-php) package:
 
 ```
-composer require cloudonix/cloudonix-php
+composer require cloudonix/cloudonix-php @dev
 ```
 
 ## Quickstart
+
+The library consists of several key `primitives` that are used across the entire library, these are:
+
+- Primary data model primitives (applicable to `tenant`, `domain`, `subscriber`, `application`, `dnid` and `trunk` )
+  - `create` - Create a data model object.
+  - `delete` - Delete a data model object.
+  - `update` - Update a data model object. 
+  - `get` - Get a data model object. 
+- Secondary data model primitives (these normally apply to API keys, created for a specific data model object)
+  - `createApikey` - Create an API key, associated with a specific data model object.
+  - `deleteApikey` - Delete an API key, associated with a specific data model object.
+  - `updateApikey` - Update an API key, associated with a specific data model object.
+  - `getApikeys` - Get a list of API keys, associated with a specific data model object.
+- Special data model primitives
+  - Special `domain` primitives
+    - `createAlias` - Create a domain alias for a specific domain data model object.
+    - `deleteAlias` - Delete a domain alias for a specific domain data model object.
+    - `listAliases` - List the aliases for a specific domain data model object.
+
+Primitives are invoked by declaring the primitive intention (eg. `->create()`), followed by a set of `setX` and/or `byX` 
+rules. For example:
+
+```php
+$myNewDomain = $myCloudonixClient->domains()  // Invoke the `domains` data model
+	->create()                                // Invoke the `create` primitive
+	->setName('my-domain.com')                // Set the new domain name to 'my-domain.com'
+	->setActive(true)                         // Set the new domain status to `active`
+	->setDomainAlias('my-domain-alias.com')   // Set the new domain with an alias of 'my-domain-alias.com'
+	->setCallTimeout(30)                      // Set the global domain ringing timeout to 30 seconds
+	->setUnknownToBorderCalls(false)          // Set routing of unknown DNID to the border gateway
+	->run();                                  // Execute the creation transaction
+```
+
+Each primitive ensures that invoking it will always be performed using a minimal set of rules. If the rules are not met,
+the library will automatically generate an Exception. We recommend examining the library documentation, available [here][phpcloudonix].
 
 ### Create a new domain in your tenant account
 
 ```php
 // Connect to the Cloudonix platform and Create a new domain in your tenant account
 <?php
+
+require 'vendor/autoload.php';  /* Change this to the location of your vendor */
 
 use Cloudonix\Client;
 use Cloudonix\Exceptions\MissingDomainIdException;
@@ -39,6 +76,7 @@ try {
 	$myCloudonixClient = new Client("cloudonix_provided_apikey");
 	
 	/* Get my own tenant information */
+	/* It is mandatory to issue `->getSelf()` before other operations - otherwise, this will result in a security violation */
 	$mySelf = $myCloudonixClient->getSelf();
 	var_dump($mySelf);
 	
@@ -72,7 +110,64 @@ try {
 }
 ```
 
-Please note that your assigned API key from Cloudonix is a tenant API key. API keys created via the various 
+### Get a list of my tenant domains
+
+```php
+...
+	$myCloudonixClient = new Client("cloudonix_provided_apikey");	
+	print_r($myCloudonixClient->domains()->get()->run());
+...
+```
+
+### Create a new domain and generate a new API key for it
+
+```php
+...
+	/* Create the domain */
+	$myDomains = $myCloudonixClient->domains()
+		->create()
+		->setName('my-test-domain.domain.com')
+		->setActive(false)
+		->setDomainAlias('my-test-domain-alias.domain.com')
+		->setCallTimeout(30)
+		->setUnknownToBorderCalls(false)
+		->run();
+	print_r($myDomains);
+	
+	/* Update the domain to `active` */
+	print_r($myCloudonixClient->domains()
+		->update()
+		->byDomainId($myDomains->id)
+		->setActive(true)
+		->run()
+	);
+	
+	/* Create a domain alias */
+	$myDomainAlias = ($myCloudonixClient->domains()
+		->createAlias()
+		->byDomainId($myDomains->id)
+		->setDomainAlias('my-test-domain-alias-2.domain.com')
+		->run());
+	print_r($myDomainAlias);
+
+	/* Delete the domain alias */
+	print_r($myCloudonixClient->domains()
+		->deleteAlias()
+		->byDomainId($myDomains->id)
+		->byAliasId($myDomainAlias->id)
+		->run());
+
+	/* Create a domain API key */
+	$myDomainApikey = $myCloudonixClient->domains()
+		->createApikey()
+		->byDomainId($myDomains->id)
+		->setName('my-domain-apikey-' . $myDomainTime)
+		->run();
+		
+	print_r($myDomainApikey);
+...
+```
+Please note that your assigned API key from Cloudonix is a tenant API key. API keys created via the various
 `->createApikey()` methods will create keys that are associated to their respective data model. 
 
 ## Documentation
@@ -93,3 +188,4 @@ project.
 
 [documentation]: http://webinc.cloudonix.io/cloudonix-php/index.html
 [apidocs]: https://docs.cloudonix.io/
+[phpcloudonix]: http://webinc.cloudonix.io/php-cloudonix/index.html
