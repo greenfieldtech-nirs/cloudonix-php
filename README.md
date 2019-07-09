@@ -23,7 +23,11 @@ composer require cloudonix/cloudonix-php @dev
 ```
 
 ## Quickstart
+### before anything else
+Before issuing any `primitive` (as describer below), the `->getSelf()` method MUST be called. This method will both validate
+your API key credentials and populate the required tenant information for continued operations.
 
+### cloudonix-php primitives
 The library consists of several key `primitives` that are used across the entire library, these are:
 
 - Primary data model primitives (applicable to `tenant`, `domain`, `subscriber`, `application`, `dnid` and `trunk` )
