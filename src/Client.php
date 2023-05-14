@@ -1,4 +1,21 @@
 <?php
+
+    namespace Cloudonix;
+
+    use Cloudonix\Datamodel\Domains;
+    use Cloudonix\Datamodel\Tenant;
+
+    use Cloudonix\DataModel\Entities\Domain as CloudonixDomain;
+
+    use Cloudonix\Helpers\HttpHelper as HttpHelper;
+    use Cloudonix\Helpers\LogHelper as LogHelper;
+    use Exception;
+    use Phpfastcache\CacheManager;
+    use Phpfastcache\Config\ConfigurationOption;
+    use Phpfastcache\Helper\Psr16Adapter;
+
+    require_once 'Helpers/ConfigHelper.php';
+
     /**
      * <code>
      *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
@@ -14,31 +31,16 @@
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @created 2023-05-09
      */
-
-    namespace Cloudonix;
-
-    use Cloudonix\DataModel\Commons\CloudonixDomain;
-    use Cloudonix\Datamodel\Domains;
-    use Cloudonix\Datamodel\Tenant;
-    use Cloudonix\Helpers\HttpHelper as HttpHelper;
-    use Cloudonix\Helpers\LogHelper as LogHelper;
-    use Exception;
-    use Phpfastcache\CacheManager;
-    use Phpfastcache\Config\ConfigurationOption;
-    use Phpfastcache\Helper\Psr16Adapter;
-
-    require_once 'Helpers/ConfigHelper.php';
-
     class Client
     {
         /** @var Psr16Adapter The Cache Manager Object */
         public Psr16Adapter $cacheHandler;
 
-        /** @var object Previously initiated phpCloudonix\phpCloudonix Object */
-        //public $handler;
-
         /** @var HttpHelper Guzzle HTTP Client Connector */
         public HttpHelper $httpConnector;
+
+        private string $httpEndpoint;
+        private string $cacheDirectory;
 
         /** @var LogHelper Logger */
         public LogHelper $logger;
@@ -64,7 +66,7 @@
                 $this->logger = new LogHelper($debug);
                 $this->logger->debug("cloudonix-php is starting");
 
-                $this->httpEndpoint = (($httpEndpoint != null) && (strlen($httpEndpoint))) ? $httpEndpoint : $this->httpEndpoint;
+                $this->httpEndpoint = (($httpEndpoint != null) && (strlen($httpEndpoint))) ? $httpEndpoint : HTTP_ENDPOINT;
                 $this->logger->debug("Remote HTTP Endpoint is now $this->httpEndpoint");
 
                 $this->cacheDirectory = (($cacheDirectory != null) && (strlen($cacheDirectory))) ? $cacheDirectory : sys_get_temp_dir();
@@ -86,7 +88,6 @@
                 $this->httpConnector = new HttpHelper($apikey, $httpEndpoint, $timeout, $httpDebug);
 
             } catch (Exception $e) {
-                $this->logger->critical("An exception has been raised", $e);
                 die($e->getMessage() . '  code: ' . $e->getCode());
             }
         }
@@ -115,9 +116,14 @@
             return $this->domainsObject;
         }
 
-        public function domain(string $domainIdent, string $tenantIdent = "self"): CloudonixDomain
+        /**
+         * @param string $domainIdent
+         *
+         * @return CloudonixDomain
+         */
+        public function domain(string $domainIdent): CloudonixDomain
         {
-            $this->domainObjectsCollection[] = new CloudonixDomain($domainIdent, $this, $tenantIdent);
+            $this->domainObjectsCollection[] = new CloudonixDomain($domainIdent, $this);
             return end($this->domainObjectsCollection);
         }
 
