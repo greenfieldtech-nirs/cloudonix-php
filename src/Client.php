@@ -1,317 +1,124 @@
 <?php
-/**
- *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
- * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
- * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
- * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
- * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
- *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
- *
- * Project: cloudonix-php | Client.php
- * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-06-26
- */
+    /**
+     * <code>
+     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
+     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
+     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
+     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
+     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
+     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
+     * </code>
+     *
+     * @project cloudonix-php
+     * @file    CloudonixClient.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @created 2023-05-09
+     */
 
+    namespace Cloudonix;
 
-namespace Cloudonix;
+    use Cloudonix\DataModel\Commons\CloudonixDomain;
+    use Cloudonix\Datamodel\Domains;
+    use Cloudonix\Datamodel\Tenant;
+    use Cloudonix\Helpers\HttpHelper as HttpHelper;
+    use Cloudonix\Helpers\LogHelper as LogHelper;
+    use Exception;
+    use Phpfastcache\CacheManager;
+    use Phpfastcache\Config\ConfigurationOption;
+    use Phpfastcache\Helper\Psr16Adapter;
 
-use Exception;
-use stdClass;
-use Opis\Cache\Drivers\File;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\ServerException as GuzzleServerException;
-use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-use Cloudonix\Datamodels\Tenants as Tenants;
-use Cloudonix\Datamodels\Trunks as Trunks;
-use Cloudonix\Datamodels\Subscribers as Subscribers;
-use Cloudonix\Datamodels\Domains as Domains;
-use Cloudonix\Datamodels\Dnids as Dnids;
-use Cloudonix\Datamodels\Applications as Applications;
-use Cloudonix\WorkflowViolation as WorkflowViolation;
-use Cloudonix\WorkflowViolationBadResponse as WorkflowViolationBadResponse;
+    require_once 'Helpers/ConfigHelper.php';
 
-/**
- * Cloudonix API.Core Client - Command and Control REST Client
- *
- * @package Cloudonix
- */
-class Client
-{
-	/** @var string Directory to store cache files, defaults to `/tmp` */
-	public $cacheDirectory = '/tmp';
+    class Client
+    {
+        /** @var Psr16Adapter The Cache Manager Object */
+        public Psr16Adapter $cacheHandler;
 
-	/** @var object The Cache Manager Object */
-	public $cacheHandler;
+        /** @var object Previously initiated phpCloudonix\phpCloudonix Object */
+        //public $handler;
 
-	/** @var string The Cloudonix API.Core Endpoint URL */
-	public $httpEndpoint = 'https://api.cloudonix.io';
+        /** @var HttpHelper Guzzle HTTP Client Connector */
+        public HttpHelper $httpConnector;
 
-	/** @var string The library identification string */
-	public $httpClientIdent = 'cloudonix-php library 0.1';
+        /** @var LogHelper Logger */
+        public LogHelper $logger;
 
-	/** @var object Previously initiated Cloudonix\Client Object */
-	public $handler;
+        /** @var bool Debug HTTP Requests */
+        public bool $httpDebug = false;
 
-	/** @var object Guzzle HTTP Client Connector */
-	public $httpConnector;
+        /** @var Tenant Cloudonix Tenant Object */
+        protected Tenant $tenantObject;
 
-	/** @var array HTTP Headers to be used with all Guzzle HTTP Client requests */
-	public $httpHeaders;
+        /** @var Domains Cloudonix Domains Collection Object */
+        protected Domains $domainsObject;
 
-	/** @var string Cloudonix assigned API key for client init */
-	public $apikey;
+        /** @var array Cloudonix Domain Objects Collection */
+        protected array $domainObjectsCollection;
 
-	/** @var string Cloudonix provisioned Tenant name */
-	public $tenantName;
+        public function __construct($apikey = null, $httpEndpoint = HTTP_ENDPOINT, $cacheDirectory = null, $timeout = HTTP_TIMEOUT, $debug = DISABLE, $httpDebug = false)
+        {
+            try {
 
-	/** @var integer Cloudonix provisioned Tenant ID */
-	public $tenantId;
+                $this->httpDebug = $httpDebug;
 
-	/** @var Tenants Cloudonix Tenants REST API Connector */
-	protected $tenantsInterface;
+                $this->logger = new LogHelper($debug);
+                $this->logger->debug("cloudonix-php is starting");
 
-	/** @var Domains Cloudonix Domains REST API Connector */
-	protected $domainsInterface;
+                $this->httpEndpoint = (($httpEndpoint != null) && (strlen($httpEndpoint))) ? $httpEndpoint : $this->httpEndpoint;
+                $this->logger->debug("Remote HTTP Endpoint is now $this->httpEndpoint");
 
-	/** @var Applications Cloudonix Applications REST API Connector */
-	protected $applicationsInterface;
+                $this->cacheDirectory = (($cacheDirectory != null) && (strlen($cacheDirectory))) ? $cacheDirectory : sys_get_temp_dir();
+                CacheManager::setDefaultConfig(new ConfigurationOption([
+                    'path' => $this->cacheDirectory
+                ]));
+                $this->cacheHandler = new Psr16Adapter(CACHE_DRIVER);
 
-	/** @var Subscribers Cloudonix Subscribers REST API Connector */
-	protected $subscribersInterface;
+                $mySanityCheckValue = uniqid("", TRUE);
+                $this->cacheHandler->set("mySanityValue", $mySanityCheckValue);
 
-	/** @var Trunks Cloudonix Trunks REST API Connector */
-	protected $trunksInterface;
+                $mySanityReadValue = $this->cacheHandler->get('mySanityValue');
+                if ($mySanityCheckValue != $mySanityReadValue)
+                    throw new Exception('Cache engine not properly working, bailing out', 500, null);
 
-	/** @var Dnids Cloudonix Dnids REST API Connector */
-	protected $dnidsInterface;
+                $this->logger->debug("Cache handler successfully initiated");
 
-	/**
-	 * Client constructor.
-	 *
-	 * @param string $apikey Cloudonix assigned API key.
-	 * @param string $cacheDirectory A designated Cache Memory directory - default '/tmp'
-	 * @param string $httpEndpoint An alternative Cloudonix API Endpoint - default 'https://api.cloudonix.io'
-	 * @param double $timeout An alternative HTTP timeout value for HTTP requests - default 2.0 seconds
-	 *
-	 * @throws Exception In case of library init error
-	 */
-	public function __construct($apikey = null, $httpEndpoint = null, $cacheDirectory = null, $timeout = 2.0)
-	{
-		try {
+                $this->cacheHandler->delete("mySanityValue");
+                $this->httpConnector = new HttpHelper($apikey, $httpEndpoint, $timeout, $httpDebug);
 
-			$this->httpEndpoint = (($httpEndpoint != null) && (strlen($httpEndpoint))) ? $httpEndpoint : $this->httpEndpoint;
-			$this->cacheDirectory = (($cacheDirectory != null) && (strlen($cacheDirectory))) ? $cacheDirectory : sys_get_temp_dir();
-			$this->cacheHandler = new File($this->cacheDirectory);
+            } catch (Exception $e) {
+                $this->logger->critical("An exception has been raised", $e);
+                die($e->getMessage() . '  code: ' . $e->getCode());
+            }
+        }
 
-			$mySanityCheckValue = uniqid("", TRUE);
-			$this->cacheHandler->write('mySanityValue', $mySanityCheckValue);
-			$mySanityReadValue = $this->cacheHandler->read('mySanityValue');
-			if ($mySanityCheckValue != $mySanityReadValue)
-				throw new Exception('Cache engine not properly working, bailing out', 500, null);
-			$this->cacheHandler->clear();
+        /**
+         * Client Destructor
+         */
+        public function __destruct()
+        {
+            $this->cacheHandler->clear();
+        }
 
-			$this->httpConnector = $this->buildHttpClient($apikey, $timeout);
+        public function tenant(string $tenantIdent = "self"): Tenant
+        {
+            if (!isset($this->tenantObject)) {
+                $this->tenantObject = new Tenant($this, $tenantIdent);
+            }
+            return $this->tenantObject;
+        }
 
-		} catch (Exception $e) {
-			die($e->getMessage() . '  code: ' . $e->getCode());
-		}
-	}
+        public function domains(string $tenantIdent = "self"): Domains
+        {
+            if (!isset($this->domainsObject)) {
+                $this->domainsObject = new Domains($this, $tenantIdent);
+            }
+            return $this->domainsObject;
+        }
 
-	/**
-	 * Client Destructor
-	 */
-	public function __destruct()
-	{
-		$this->cacheHandler->clear();
-	}
+        public function domain(string $domainIdent, string $tenantIdent = "self"): CloudonixDomain
+        {
+            $this->domainObjectsCollection[] = new CloudonixDomain($domainIdent, $this, $tenantIdent);
+            return end($this->domainObjectsCollection);
+        }
 
-	/**
-	 * Build the Client Guzzle HTTP Client
-	 *
-	 * @param string $apikey Cloudonix assigned API key.
-	 * @param double $timeout An alternative HTTP timeout value for HTTP requests
-	 * @return GuzzleClient
-	 */
-	private function buildHttpClient($apikey, $timeout = 2.0):GuzzleClient
-	{
-
-		$this->apikey = $apikey;
-		$httpConnector = new GuzzleClient([
-			'base_uri' => $this->httpEndpoint,
-			'timeout' => $timeout,
-			'http_errors' => false
-		]);
-
-		$this->httpHeaders = [
-			'Authorization' => 'Bearer ' . $apikey,
-			'User-Agent' => $this->httpClientIdent
-		];
-		return $httpConnector;
-	}
-
-	/**
-	 * @return Tenants
-	 */
-	public function tenants(): Tenants
-	{
-		if (!$this->tenantsInterface) {
-			$this->tenantsInterface = new Tenants($this);
-		}
-		return $this->tenantsInterface;
-	}
-
-	/**
-	 * @return Domains
-	 */
-	public function domains(): Domains
-	{
-		if (!$this->domainsInterface) {
-			$this->domainsInterface = new Domains($this);
-		}
-		return $this->domainsInterface;
-	}
-
-	/**
-	 * @return Applications
-	 */
-	public function applications(): Applications
-	{
-		if (!$this->applicationsInterface) {
-			$this->applicationsInterface = new Applications($this);
-		}
-		return $this->applicationsInterface;
-	}
-
-	/**
-	 * @return Dnids
-	 */
-	public function dnids(): Dnids
-	{
-		if (!$this->dnidsInterface) {
-			$this->dnidsInterface = new Dnids($this);
-		}
-		return $this->dnidsInterface;
-	}
-
-	/**
-	 * @return Subscribers
-	 */
-	public function subscribers(): Subscribers
-	{
-		if (!$this->subscribersInterface) {
-			$this->subscribersInterface = new Subscribers($this);
-		}
-		return $this->subscribersInterface;
-	}
-
-	/**
-	 * @return Trunks
-	 */
-	public function trunks(): Trunks
-	{
-		if (!$this->trunksInterface) {
-			$this->trunksInterface = new Trunks($this);
-		}
-		return $this->trunksInterface;
-	}
-
-	/**
-	 * Issue a REST HTTP request to Cloudonix API endpoint - based on provided information
-	 *
-	 * @param $method
-	 * @param $request
-	 * @param null $data
-	 * @return stdClass
-	 * @throws Exception
-	 * @throws GuzzleClientException
-	 * @throws GuzzleServerException
-	 */
-	public function httpRequest($method, $request, $data = null): stdClass
-	{
-		if ($data != null)
-			$this->httpHeaders['Content-Type'] = "application/json";
-
-		switch (strtoupper($method)) {
-			case "POST":
-				if ($data != null)
-					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-				else
-					$requestData = ['headers' => $this->httpHeaders];
-				$result = $this->httpConnector->request('POST', $request, $requestData);
-				break;
-			case "GET":
-				$requestData = ['headers' => $this->httpHeaders];
-				$result = $this->httpConnector->request('GET', $request, $requestData);
-				break;
-			case "DELETE":
-				$requestData = ['headers' => $this->httpHeaders];
-				$result = $this->httpConnector->request('DELETE', $request, $requestData);
-				break;
-			case "PUT":
-				if ($data != null)
-					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-				else
-					$requestData = ['headers' => $this->httpHeaders];
-				$result = $this->httpConnector->request('PUT', $request, $requestData);
-				break;
-			case "PATCH":
-				if ($data != null)
-					$requestData = ['headers' => $this->httpHeaders, 'json' => $data];
-				else
-					$requestData = ['headers' => $this->httpHeaders];
-				$result = $this->httpConnector->request('PATCH', $request, $requestData);
-				break;
-			default:
-				throw new Exception('HTTP Method request not allowed', 500, null);
-				break;
-		}
-
-		switch ($result->getStatusCode()) {
-			case 204:
-				$result = ['code' => 204, 'message' => 'No content'];
-				break;
-			case 200:
-				$result = json_decode((string)$result->getBody());
-				break;
-			case 404:
-				$result = ['code' => 404, 'message' => 'No resource found'];
-				break;
-			case 401:
-			case 407:
-			case 403:
-				$result = ['code' => (int)$result->getStatusCode(), 'message' => 'Security violation'];
-				break;
-			default:
-				$result = ['code' => (int)$result->getStatusCode(), 'message' => 'General Error'];
-				break;
-		}
-
-		return (object)$result;
-	}
-
-	/**
-	 * Get Self information for the provided API key
-	 *
-	 * @return array
-	 */
-	public function getSelf(): array
-	{
-		$myTenantData = $this->httpRequest('GET', 'keys/self');
-
-		/* Store Tenant Information to Cache */
-		$this->cacheHandler->write($this->apikey . '-cxTenantId', $myTenantData->tenantId);
-		$this->cacheHandler->write($this->apikey . '-cxTenantName', $myTenantData->name);
-		$this->cacheHandler->write($this->apikey . '-cxTenantApikey', $myTenantData->keyId);
-		$this->cacheHandler->write($this->apikey . '-cxTenantApiSecret', $myTenantData->secret);
-
-		$this->tenantName = $myTenantData->name;
-		$this->tenantId = $myTenantData->tenantId;
-
-		$result = [
-			'tenant-name' => $this->tenantName,
-			'tenant-id' => $this->tenantId,
-			'datamodel' => $myTenantData
-		];
-
-		return $result;
-	}
-}
+    }

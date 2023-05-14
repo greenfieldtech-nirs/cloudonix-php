@@ -7,7 +7,7 @@
  * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
  *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
  *
- * Project: cloudonix-php | ConnectorsTest.php
+ * @Project cloudonix-php | ConnectorsTest.php
  * Creator: Nir Simionovich <nirs@cloudonix.io> | 2019-06-26
  */
 
