@@ -8,19 +8,30 @@
      *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
      *
      * @project :  cloudonix-php
-     * @filename: Domain.php
+     * @filename: Domains.php
      * @author  :   nirs
-     * @created :  2023-05-14
+     * @created :  2023-05-15
      */
 
-    namespace Cloudonix\DataModel\Entities;
+    namespace Cloudonix\Collections;
 
-    use Cloudonix\DataModel\Entities\CloudonixEntity as CloudonixEntity;
+    use Cloudonix\CXClient as CXClient;
+    use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
 
-    class Trunk extends CloudonixEntity
+    class Domains extends CloudonixCollection
     {
-        public function __construct(mixed $stdObject)
+
+        public function __construct(CXClient $client)
         {
-            parent::__construct($stdObject);
+            parent::__construct($this->refreshCollectionData($client));
+        }
+
+        public function getPath(): string
+        {
+            // TODO: Implement getPath() method.
+        }
+
+        protected function refreshCollectionData(mixed $param): array {
+
         }
     }

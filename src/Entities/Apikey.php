@@ -1,13 +1,9 @@
 <?php
 
-    namespace Cloudonix\DataModel\Entities;
+    namespace Cloudonix\Entities;
 
     use Cloudonix\Client as CloudonixClient;
-    use Cloudonix\DataModel\Commons\CloudonixCollection as CloudonixCollection;
-    use Cloudonix\DataModel\Entities\CloudonixEntity as CloudonixEntity;
-    use Cloudonix\DataModel\Entities\Tenant as CloudonixTenant;
-    use Cloudonix\DataModel\Entities\Profile as CloudonixProfile;
-    use Cloudonix\DataModel\Entities\Application as CloudonixApplication;
+    use Cloudonix\DataModel\CloudonixEntity as CloudonixEntity;
 
     /**
      * <code>
@@ -19,13 +15,13 @@
      *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
      * </code>
      *
-     * Application Data Model Entity
+     * API Key Data Model Entity
      * This class represents the generalised form of a Cloudonix Application object.
      *
      * @package cloudonixPhp
      * @filename: Entities/Application.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=applications
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=apikeys
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created :  2023-05-14
      *
@@ -41,24 +37,19 @@
      * @property      string           $method                 Application Method (GET or POST)
      * @property      CloudonixProfile $profile                Application Profile Object
      */
-    class Application extends CloudonixEntity
+    class Apikey extends CloudonixEntity
     {
-
-        private string $modelBasePath = "applications";
-
-        public function __construct(mixed $stdObject)
-        {
-            parent::__construct($stdObject);
-        }
+        protected CloudonixClient $client;
 
         /**
-         * Return the data model associated canonical path
+         * Domain DataModel Object Constructor
          *
-         * @return string
+         * @param CloudonixClient $client    A CloudonixClient HTTP Connector Object
+         * @param string          $stdObject A CloudonixDomain Object
          */
-        public function getPath(): string
-        {
-            return "/tenants/" . $this->tenantId . "/" . $this->modelBasePath . "/" . $this->domain;
+        public function __construct(mixed $stdObject, CloudonixClient $client)        {
+            parent::__construct($stdObject);
+            $this->client = $client;
         }
 
     }

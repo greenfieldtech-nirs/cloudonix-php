@@ -13,14 +13,16 @@
      * @created :  2023-05-11
      */
 
-    namespace Cloudonix\DataModel\Commons;
+    namespace Cloudonix\Collections;
 
     use ArrayIterator;
     use Traversable;
-
-    class CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    abstract class CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
         private array $collection;
+
+        abstract public function getPath(): string;
+        abstract protected function refreshCollectionData(mixed $param): array;
 
         public function __construct(array $collection = [])
         {
@@ -34,23 +36,6 @@
 
         public function offsetGet(mixed $offset): mixed
         {
-            if (get_called_class() != "Cloudonix\DataModel\Domains") {
-                if (is_numeric($offset))
-                    return $this->collection[$offset];
-
-                list($searchKey, $searchValue) = explode(":", $offset);
-
-                foreach ($this->collection as $domainObject) {
-                    if ((strtoupper($searchKey) == "ID") && ($domainObject->id == $searchValue)) {
-                        return ($domainObject);
-                    } else if ((strtoupper($searchKey) == "UUID") && ($domainObject->uuid == $searchValue)) {
-                        return ($domainObject);
-                    } else if ((strtoupper($searchKey) == "DOMAIN") && ($domainObject->domain == $searchValue)) {
-                        return ($domainObject);
-                    }
-                }
-            }
-
             return $this->collection[$offset];
         }
 

@@ -1,4 +1,9 @@
 <?php
+    namespace Cloudonix\Collections;
+
+    use Cloudonix\CXClient as CXClient;
+    use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
+
     /**
      * <code>
      *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
@@ -10,51 +15,25 @@
      * </code>
      *
      * @project cloudonix-php
-     * @file    CloudonixObject.php
+     * @file    Collections/Tenants.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @created 2023-05-09
      */
 
-    namespace Cloudonix\DataModel\Commons;
-
-    use Cloudonix\Client as CloudonixClient;
-
-    /**
-     * CloudonixObject is an abstract class serving as the basis of all other
-     * Cloudonix data models.
-     *
-     * @package cloudonixPhp
-     * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models
-     * @license MIT License (https://choosealicense.com/licenses/mit/)
-     */
-    abstract class CloudonixClientObject
+    class Tenants extends CloudonixCollection
     {
-        /**
-         * @var CloudonixClient An instance of the CloudonixClient object
-         */
-        public CloudonixClient $client;
 
-        public function __construct(CloudonixClient $client)
+        public function __construct(CXClient $client)
         {
-            $this->client = $client;
+            parent::__construct($this->refreshCollectionData($client));
         }
 
-        abstract public function getPath(): string;
-
-        public function __toString(): string
+        public function getPath(): string
         {
-            return json_encode($this);
+            return BASEURL_TENANTS;
         }
 
-        public function __set(string $name, mixed $value)
-        {
-            $this->$name = $value;
-        }
+        protected function refreshCollectionData(mixed $param): array {
 
-        public function __get(string $name): mixed
-        {
-            return $this->$name;
         }
-
     }

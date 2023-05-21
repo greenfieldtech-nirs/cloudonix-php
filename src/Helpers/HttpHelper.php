@@ -29,15 +29,15 @@
          * @param string $apikey
          * @param string $endpoint
          * @param float  $timeout
-         * @param bool   $debug
+         * @param int   $debug
          */
-        public function __construct(string $apikey, string $endpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, bool $debug = HTTP_DEBUG)
+        public function __construct(string $apikey, string $endpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, int $debug = DISABLE)
         {
             $this->connector = new GuzzleClient([
                 'base_uri' => $endpoint,
                 'timeout' => $timeout,
                 'http_errors' => false,
-                'debug' => $debug
+                'debug' => !(($debug < 0))
             ]);
 
             $this->httpHeaders = [

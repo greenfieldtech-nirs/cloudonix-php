@@ -19,16 +19,22 @@
   "autoload": {
 	"psr-4": {
 	  "Cloudonix\\": [
-		"src/"
+		"../src/"
 	  ],
 	  "Cloudonix\\Helpers\\": [
-		"src/Helpers/"
+		"../src/Helpers/"
 	  ],
-	  "Cloudonix\\Datamodel\\": [
-		"src/Datamodels/"
+	  "Cloudonix\\Collections\\": [
+		"../src/Collections/"
+	  ],
+	  "Cloudonix\\Entities\\": [
+		"../src/Entities/"
+	  ],
+	  "Cloudonix\\Models\\": [
+		"../src/Datamodel/"
 	  ],
 	  "Cloudonix\\Exceptions\\": [
-		"src/Exceptions/"
+		"../src/Exceptions/"
 	  ]
 	}
   },

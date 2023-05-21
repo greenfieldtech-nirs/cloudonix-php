@@ -1,9 +1,5 @@
 <?php
-
-    namespace Cloudonix\DataModel\Entities;
-
-    use Cloudonix\DataModel\Entities\CloudonixEntity as CloudonixEntity;
-    use Cloudonix\DataModel\Entities\Profile as CloudonixProfile;
+    namespace Cloudonix\Entities;
 
     /**
      * <code>
@@ -15,46 +11,44 @@
      *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
      * </code>
      *
-     * Tenant Data Model Entity
-     * This class represents the generalised for of a Cloudonix Tenant object.
+     * Cloudonix Entity Class
+     * This class represents the generalised form of a Cloudonix data model entity.
      *
      * @package cloudonixPhp
-     * @file    Entities/Tenant.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=tenant
+     * @file    Entities/CloudonixEntity.php
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
-     *
-     * @property-read int              $id         Tenant Numeric ID
-     * @property-read string           $name       Tenant Name
-     * @property      bool             $active     Tenant Status
-     * @property-read string           $createdAt  Tenant Creation Date and time
-     * @property-read string           $modifiedAt Tenant Last Modification Date and time
-     * @property      CloudonixProfile $profile    Tenant Profile Object
      */
-    class Tenant extends CloudonixEntity
+    abstract class CloudonixEntity
     {
-        /**
-         * @var string The Cloudonix REST API Canonical path
-         */
-        private string $modelBasePath = "tenants";
+        protected string $canonicalPath;
 
-        public function __construct(mixed $stdObject)
+        public function __construct(mixed $client)
         {
-            parent::__construct($stdObject);
-            if (isset($stdObject->profile)) {
-                $this->profile = new CloudonixProfile($stdObject->profile);
+            foreach ($client as $key => $value) {
+                if (!is_object($value)) $this->$key = $value;
             }
         }
 
         /**
-         * Return the data model associated canonical path
+         * Return the entity REST API canonical path
          *
          * @return string
          */
-        public function getPath(): string
+        abstract public function getPath();
+
+        /**
+         * Set the entity REST API canonical path
+         *
+         * @return string
+         */
+        abstract protected function setPath(string $string);
+
+        public function __toString(): string
         {
-            return $this->modelBasePath . "/" . $this->name;
+            return json_encode($this);
         }
 
         public function __get(mixed $name)
@@ -62,4 +56,8 @@
             return $this->$name;
         }
 
+        public function __set(string $name, mixed $value)
+        {
+            $this->$name = $value;
+        }
     }
