@@ -35,6 +35,7 @@
     const URLPATH_DOMAINS = "/domains";
     const URLPATH_SUBSCRIBERS = "/subscribers";
     const URLPATH_APPLICATIONS = "/applications";
+    const URLPATH_CONTAINER_APPLICATIONS = "/hosted-applications";
     const URLPATH_TRUNKS = "/trunks";
     const URLPATH_APIKEYS = "/keys";
     const URLPATH_ALIASES = "/aliases";

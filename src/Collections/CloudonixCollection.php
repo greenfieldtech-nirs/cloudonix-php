@@ -17,16 +17,17 @@
 
     use ArrayIterator;
     use Traversable;
+
     abstract class CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
-        private array $collection;
+        protected array $collection = [];
 
         abstract public function getPath(): string;
+
         abstract protected function refreshCollectionData(mixed $param): array;
 
-        public function __construct(array $collection = [])
+        public function __construct()
         {
-            $this->collection = $collection;
         }
 
         public function offsetExists(mixed $offset): bool

@@ -20,7 +20,6 @@
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\VoiceApplication as EntityApplication;
-    use Cloudonix\Entities\Domain as EntityDomain;
     use Cloudonix\Entities\Profile as EntityProfile;
 
     /**
@@ -33,35 +32,33 @@
      *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
      * </code>
      *
-     * Domains Collection
+     * VoiceApplications Collection
      *
      * @package cloudonixPhp
      * @file    Collections/Domains.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=domains
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=applications
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      *
-     * @property-read int               $id                         Domain Numeric ID
-     * @property-read int               $tenantId                   Tenant Numeric ID
-     * @property      string            $domain                     Domain name, usually an FQDN
-     * @property      bool              $active                     Domain Status
-     * @property-read string            $createdAt                  Domain Creation Date and time
-     * @property-read string            $modifiedAt                 Domain Last Modification Date and time
-     * @property-read string            $deletedAt                  Domain Deletion Date and time
-     * @property      bool              $registrationFree           Domain RegFree Dialing Status
-     * @property      int               $defaultApplication         Domain Default Application ID
-     * @property-read string            $uuid                       Domain UUID
-     * @property      EntityProfile     $profile                    Domain Profile Object
-     * @property-read EntityApplication $application                Domain Default Application Object
+     * @property-read int           $id                         Voice Application Numeric ID
+     * @property-read int           $domainId                   Domain Numeric ID
+     * @property-read string        $name                       Voice Application Name
+     * @property-read string        $type                       Voice Application Type
+     * @property      string        $url                        Voice Application URL Endpoint
+     * @property      string        $method                     Voice Application Endpoint HTTP Method
+     * @property      bool          $active                     Voice Application Status
+     * @property-read string        $createdAt                  Voice Application Creation Date and time
+     * @property-read string        $modifiedAt                 Voice Application Last Modification Date and time
+     * @property-read string        $deletedAt                  Voice Application Deletion Date and time
+     * @property      EntityProfile $profile                    Voice Application Profile Object
      */
-    class Domains extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class VoiceApplications extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
         public mixed $client;
 
         public string $canonicalPath = "";
 
-        private array $arrayDomains;
         private mixed $parent;
 
         public function __construct(mixed $parent)
@@ -92,10 +89,10 @@
         protected function setPath(string $branchPath): void
         {
             if (!strlen($this->canonicalPath))
-                $this->canonicalPath = $branchPath . URLPATH_DOMAINS;
+                $this->canonicalPath = $branchPath . URLPATH_APPLICATIONS;
         }
 
-        public function refresh(): Domains
+        public function refresh(): VoiceApplications
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
@@ -113,7 +110,7 @@
             $this->collection = [];
             if (!is_null($param))
                 foreach ($param as $key => $value) {
-                    $this->collection[$value->domain] = new EntityDomain($value->domain, $this->parent, $value);
+                    $this->collection[$value->name] = new EntityApplication($value->name, $this->parent, $value);
                 }
             return $this->collection;
         }
@@ -123,6 +120,7 @@
             $this->refresh();
             return parent::offsetGet($offset);
         }
+
         public function getIterator(): Traversable
         {
             $this->refresh();

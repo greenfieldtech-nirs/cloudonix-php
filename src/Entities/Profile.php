@@ -2,7 +2,9 @@
 
     namespace Cloudonix\Entities;
 
-    use Cloudonix\Client as CloudonixClient;
+    use ArrayIterator;
+    use Traversable;
+
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
 
     /**
@@ -26,22 +28,25 @@
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      */
-    class Profile extends CloudonixEntity
+    class Profile extends CloudonixEntity implements \IteratorAggregate, \ArrayAccess
     {
         protected mixed $client;
         protected string $canonicalPath = "";
 
+        protected array $profile;
+
         /**
          * Profile DataModel Object Constructor
          *
-         * @param CloudonixClient $client A CloudonixClient HTTP Connector Object
+         * @param object $profileStdObject Cloudonix Profile as Standard Object
+         * @param mixed  $parentBranch     A reference to the previous data model node
          */
-        public function __construct(mixed $profileStdObject, mixed $profileBranch)
+        public function __construct(mixed $profileStdObject, mixed $parentBranch)
         {
             parent::__construct($profileStdObject);
-            $this->client = $profileBranch->client;
-            $this->setPath($profileBranch->canonicalPath);
-            $this->buildProfile($profileStdObject);
+            $this->client = $parentBranch->client;
+            $this->setPath($parentBranch->canonicalPath);
+            $this->buildEntityData($profileStdObject);
         }
 
         /**
@@ -52,20 +57,6 @@
         public function getPath()
         {
             return $this->canonicalPath;
-        }
-
-        /**
-         * Build the local profile properties
-         *
-         * @param mixed $profileStdObject
-         *
-         * @return void
-         */
-        private function buildProfile(mixed $profileStdObject): void
-        {
-            foreach ($profileStdObject as $key => $value) {
-                $this->$key = $value;
-            }
         }
 
         /**
@@ -88,37 +79,73 @@
          */
         public function refresh(): Profile
         {
-            $this->buildProfile($this->client->httpConnector->request("GET", $this->getPath())->profile);
+            $this->profile = [];
+            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath())->profile);
             return $this;
         }
 
         /**
-         * Set or update a profile key value pair
+         * Build the local profile properties
          *
-         * @param string      $key
-         * @param string|null $value
+         * @param mixed $profileStdObject
          *
-         * @return $this
+         * @return void
          */
-        public function setProperty(string $key, string $value = null): Profile
+        protected function buildEntityData(mixed $profileStdObject): void
         {
-            $this->client->httpConnector->request("PUT", $this->getPath(), ['profile' => [$key => $value]]);
-            if (is_null($value))
-                unset($this->$key);
+            if (!is_null($profileStdObject))
+                foreach ($profileStdObject as $key => $value) {
+                    $this->profile[$key] = $value;
+                }
+        }
 
-            return $this->refresh();
+        public function offsetExists(mixed $offset): bool
+        {
+            return isset($this->profile[$offset]);
+        }
+
+        public function offsetGet(mixed $offset): mixed
+        {
+            $this->refresh();
+            return $this->profile[$offset];
+        }
+
+        public function offsetSet(mixed $offset, mixed $value): void
+        {
+            if (!is_null($offset)) {
+                $this->buildEntityData($this->client->httpConnector->request("PATCH", $this->getPath(), [
+                    "profile" => [ $offset => $value ]
+                ])->profile);
+            }
+        }
+
+        public function offsetUnset(mixed $offset): void
+        {
+            $this->buildEntityData($this->client->httpConnector->request("PATCH", $this->getPath(), [
+                "profile" => [ $offset => null ]
+            ])->profile);
+        }
+
+        public function set(array $data): void
+        {
+            $this->buildEntityData($this->client->httpConnector->request("PATCH", $this->getPath(), [
+                "profile" => $data
+            ])->profile);
         }
 
         /**
-         * Unset a profile key
-         *
-         * @param string $key
-         *
-         * @return $this
+         * @inheritDoc
          */
-        public function unsetProperty(string $key): Profile
+        public function getIterator(): Traversable
         {
-            return $this->setProperty($key);
+            $this->refresh();
+            return new ArrayIterator($this->profile);
+        }
+
+        public function __toString(): string
+        {
+            $this->refresh();
+            return json_encode($this->profile);
         }
 
     }

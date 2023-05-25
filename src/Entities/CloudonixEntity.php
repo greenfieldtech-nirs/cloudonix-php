@@ -1,4 +1,5 @@
 <?php
+
     namespace Cloudonix\Entities;
 
     /**
@@ -27,24 +28,17 @@
 
         public function __construct(mixed $client)
         {
-            foreach ($client as $key => $value) {
-                if (!is_object($value)) $this->$key = $value;
-            }
+            if (!is_null($client))
+                foreach ($client as $key => $value) {
+                    if (!is_object($value)) $this->$key = $value;
+                }
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
         abstract public function getPath();
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @return string
-         */
-        abstract protected function setPath(string $string);
+        abstract protected function buildEntityData(mixed $input);
+
+        abstract protected function refresh();
 
         public function __toString(): string
         {

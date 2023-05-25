@@ -3,8 +3,17 @@
     namespace Cloudonix\Entities;
 
     use Cloudonix\CXClient as CXClient;
+
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
+    use Cloudonix\Entities\Domain as EntityDomain;
+    use Cloudonix\Entities\ContainerApplication as EntityContainerApplication;
+
+    use Cloudonix\Collections\Domains as CollectionDomains;
+    use Cloudonix\Collections\ContainerApplications as CollectionContainerApplications;
+
+    use Exception;
+    use Ramsey\Collection\Collection;
 
     /**
      * <code>
@@ -39,6 +48,9 @@
         protected string $canonicalPath = "";
         protected string $entityId;
 
+        public CollectionDomains $collectionDomains;
+        public CollectionContainerApplications $collectionContainerApplications;
+
         /**
          * Tenant DataModel Object Constructor
          *
@@ -49,7 +61,7 @@
             $this->entityId = $entityId;
             $this->client = $client;
             $this->setPath($entityId);
-            $this->refreshData();
+            $this->refresh();
             parent::__construct($this);
         }
 
@@ -81,7 +93,7 @@
          */
         public function get(): Tenant
         {
-            $this->createTenantObjectResponse($this->refreshData());
+            $this->buildEntityData($this->refresh());
             return $this;
         }
 
@@ -91,12 +103,65 @@
          * @param bool $active
          *
          * @return $this
-         * @throws \Exception
+         * @throws Exception
          */
         public function setActive(bool $active = true): Tenant
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), ['active' => $active]);
             return $this->get();
+        }
+
+        /**
+         * Obtain a Cloudonix Domain object based upon a provided domain name or domain ID
+         *
+         * @param string $domain Domain name or ID
+         *
+         * @return Domain
+         */
+        public function domain(string $domain): EntityDomain
+        {
+            return new EntityDomain($domain, $this);
+        }
+
+        /**
+         * Obtain a Cloudonix Domains Collection object
+         *
+         * @return CollectionDomains
+         */
+        public function domains(): CollectionDomains
+        {
+            if (!isset($this->collectionDomains))
+                $this->collectionDomains = new CollectionDomains($this);
+
+            return $this->collectionDomains;
+        }
+
+        /**
+         * Create a new Domain in the current Tenant and return the Domain's object
+         *
+         * @param string $domain
+         *
+         * @return Domain
+         * @throws Exception
+         */
+        public function newDomain(string $domain): EntityDomain
+        {
+            $canonicalPath = $this->getPath() . URLPATH_DOMAINS;
+            $newDomain = $this->client->httpConnector->request('POST', $canonicalPath, ['domain' => $domain]);
+            return new EntityDomain($domain, $this, $newDomain);
+        }
+
+        public function containerApplications(): CollectionContainerApplications
+        {
+            if (!isset($this->collectionContainerApplications))
+                $this->collectionContainerApplications = new CollectionContainerApplications($this);
+
+            return $this->collectionContainerApplications;
+        }
+
+        public function containerApplication(string $containerApplicationName): EntityContainerApplication
+        {
+            return new EntityContainerApplication($containerApplicationName, $this);
         }
 
         /**
@@ -106,14 +171,14 @@
          *
          * @return void
          */
-        private function createTenantObjectResponse(mixed $input)
+        protected function buildEntityData(mixed $input): void
         {
             foreach ($input as $key => $value) {
                 if (!is_object($value)) {
                     $this->$key = $value;
                 } else {
                     if ($key == "profile") {
-                        $this->profile = new Profile($value, $this);
+                        $this->profile = new EntityProfile($value, $this);
                     } else {
                         $this->$key = $value;
                     }
@@ -126,7 +191,7 @@
          *
          * @return string
          */
-        private function refreshData(): mixed
+        protected function refresh(): mixed
         {
             return $this->client->httpConnector->request("GET", $this->getPath());
         }

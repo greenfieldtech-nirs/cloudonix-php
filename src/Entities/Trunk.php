@@ -72,4 +72,18 @@
             $this->client = $client;
         }
 
+        public function getPath()
+        {
+            // TODO: Implement getPath() method.
+        }
+
+        protected function buildEntityData(mixed $input)
+        {
+            // TODO: Implement buildEntityData() method.
+        }
+
+        protected function refresh()
+        {
+            // TODO: Implement refresh() method.
+        }
     }
