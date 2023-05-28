@@ -32,7 +32,6 @@
     {
         protected mixed $client;
         protected string $canonicalPath = "";
-
         protected array $profile;
 
         /**
@@ -43,10 +42,10 @@
          */
         public function __construct(mixed $profileStdObject, mixed $parentBranch)
         {
-            parent::__construct($profileStdObject);
             $this->client = $parentBranch->client;
             $this->setPath($parentBranch->canonicalPath);
             $this->buildEntityData($profileStdObject);
+            parent::__construct($profileStdObject);
         }
 
         /**

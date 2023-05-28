@@ -41,10 +41,6 @@
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=domains
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
-     *
-     * @property-read int    $id                          Container Application Numeric ID
-     * @property      string $name                        Container Application Name
-     * @property      string $url                         Container Application URL
      */
     class ContainerApplications extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {

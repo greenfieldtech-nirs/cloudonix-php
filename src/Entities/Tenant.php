@@ -8,12 +8,13 @@
     use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\Domain as EntityDomain;
     use Cloudonix\Entities\ContainerApplication as EntityContainerApplication;
+    use Cloudonix\Entities\Apikey as EntityApikey;
 
     use Cloudonix\Collections\Domains as CollectionDomains;
     use Cloudonix\Collections\ContainerApplications as CollectionContainerApplications;
+    use Cloudonix\Collections\Apikeys as CollectionApikeys;
 
     use Exception;
-    use Ramsey\Collection\Collection;
 
     /**
      * <code>
@@ -50,6 +51,7 @@
 
         public CollectionDomains $collectionDomains;
         public CollectionContainerApplications $collectionContainerApplications;
+        public CollectionApikeys $collectionApikeys;
 
         /**
          * Tenant DataModel Object Constructor
@@ -61,7 +63,6 @@
             $this->entityId = $entityId;
             $this->client = $client;
             $this->setPath($entityId);
-            $this->refresh();
             parent::__construct($this);
         }
 
@@ -116,7 +117,7 @@
          *
          * @param string $domain Domain name or ID
          *
-         * @return Domain
+         * @return EntityDomain
          */
         public function domain(string $domain): EntityDomain
         {
@@ -133,7 +134,7 @@
             if (!isset($this->collectionDomains))
                 $this->collectionDomains = new CollectionDomains($this);
 
-            return $this->collectionDomains;
+            return $this->collectionDomains->refresh();
         }
 
         /**
@@ -141,13 +142,12 @@
          *
          * @param string $domain
          *
-         * @return Domain
-         * @throws Exception
+         * @return EntityDomain
          */
         public function newDomain(string $domain): EntityDomain
         {
             $canonicalPath = $this->getPath() . URLPATH_DOMAINS;
-            $newDomain = $this->client->httpConnector->request('POST', $canonicalPath, ['domain' => $domain]);
+            $newDomain = $this->client->httpConnector->request('POST', $canonicalPath, [ 'domain' => $domain ]);
             return new EntityDomain($domain, $this, $newDomain);
         }
 
@@ -156,12 +156,30 @@
             if (!isset($this->collectionContainerApplications))
                 $this->collectionContainerApplications = new CollectionContainerApplications($this);
 
-            return $this->collectionContainerApplications;
+            return $this->collectionContainerApplications->refresh();
         }
 
         public function containerApplication(string $containerApplicationName): EntityContainerApplication
         {
             return new EntityContainerApplication($containerApplicationName, $this);
+        }
+
+        public function apikeys(): CollectionApikeys
+        {
+            if (!isset($this->collectionApikeys))
+                $this->collectionApikeys = new CollectionApikeys($this);
+
+            return $this->collectionApikeys->refresh();
+        }
+
+        public function apikey(string $keyId): EntityApikey
+        {
+            return new EntityApikey($keyId, $this);
+        }
+
+        public function newApikey(string $keyName): EntityApikey
+        {
+            return $this->collectionApikeys->newKey($keyName);
         }
 
         /**

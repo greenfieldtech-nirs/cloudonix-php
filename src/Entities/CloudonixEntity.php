@@ -40,6 +40,15 @@
 
         abstract protected function refresh();
 
+        public function delete(): bool
+        {
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            if ($result->code == 204)
+                return true;
+
+            return false;
+        }
+
         public function __toString(): string
         {
             return json_encode($this);

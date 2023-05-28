@@ -82,7 +82,7 @@
         /**
          * Set the entity REST API canonical path
          *
-         * @param string $string
+         * @param string $branchPath
          *
          * @return void
          */

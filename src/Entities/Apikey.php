@@ -2,7 +2,7 @@
 
     namespace Cloudonix\Entities;
 
-    use Cloudonix\DataModel\CloudonixEntity as CloudonixEntity;
+    use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
 
     /**
      * <code>
@@ -24,35 +24,65 @@
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created :  2023-05-14
      *
-     * @property-read int              $id                     Application Numeric ID
-     * @property-read int              $domainId               Domain Numeric ID
-     * @property-read string           $name                   Application Name
-     * @property      bool             $active                 Application Status
-     * @property-read string           $createdAt              Application Creation Date and time
-     * @property-read string           $modifiedAt             Application Last Modification Date and time
-     * @property-read string           $deletedAt              Application Deletion Date and time
-     * @property-read string           $type                   Application type
-     * @property      string           $url                    Application URL
-     * @property      string           $method                 Application Method (GET or POST)
-     * @property      CloudonixProfile $profile                Application Profile Object
+     * @property-read int    $id                     Apikey Numeric ID
+     * @property-read string $name                   Apikey Name
+     * @property-read int    $tenantId               Tenant Numeric ID
+     * @property-read int    $domainId               Domain Numeric ID
+     * @property-read int    $applicationId          Application Numeric ID
+     * @property-read int    $subscriberId           Subscriber Numeric ID
+     * @property-read string $userId                 Cockpit User ID
+     * @property      bool   $active                 API Key Status
+     * @property-read string $keyId                  API Key String
+     * @property-read string $secret                 API Key Secret
+     * @property-read string $type                   API Key Type (Informational Only)
+     * @property-read string $accessRights           API Key Access Rights
+     * @property-read string $createdAt              API Key Creation Date and time
+     * @property-read string $modifiedAt             API Key Last Modification Date and time
+     * @property-read string $deletedAt              API Key Deletion Date and time
      */
     class Apikey extends CloudonixEntity
     {
-        protected mixed $client;
+        private mixed $client;
         protected string $canonicalPath = "";
+        private string $parentBranch;
 
         /**
          * Domain DataModel Object Constructor
          *
-         * @param string $apikey            Cloudonix Apikey ID
-         * @param mixed  $parentBranch A reference to the previous data model node
+         * @param string      $keyId                  A Cloudonix Apikey (Designated as XI....)
+         * @param mixed       $parentBranch           A reference to the previous data model node
+         * @param object|null $apikeyObject           A Cloudonix Apikey Object as stdClass
+         *                                            If $apikeyObject is provided, it will be used to build the Domain
+         *                                            Entity object
          */
-        public function __construct(string $apikey, mixed $parentBranch)
+        public function __construct(string $keyId, mixed $parentBranch, mixed $apikeyObject = null)
         {
-            parent::__construct($this);
             $this->client = $parentBranch->client;
             $this->parentBranch = $parentBranch;
-            $this->setPath($apikey, $parentBranch->canonicalPath);
+            $this->setPath($keyId, $parentBranch->canonicalPath);
+
+            if (!is_null($apikeyObject)) {
+                $this->buildEntityData($apikeyObject);
+                $this->setPath($apikeyObject->id, $parentBranch->canonicalPath);
+            } else {
+                $this->setPath($keyId, $parentBranch->canonicalPath);
+                $this->refresh();
+            }
+            parent::__construct($this);
+        }
+
+        /**
+         * Delete the API Key
+         *
+         * @return bool     True on success, false on failure
+         */
+        public function delete(): bool
+        {
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            if ($result->code == 204)
+                return true;
+
+            return false;
         }
 
         /**
@@ -69,6 +99,7 @@
          * Set the entity REST API canonical path
          *
          * @param string $string
+         * @param string $branchPath
          *
          * @return void
          */
@@ -78,25 +109,36 @@
                 $this->canonicalPath = $branchPath . URLPATH_APIKEYS . "/" . $string;
         }
 
-        protected function refresh(): Dnid
+        /**
+         * Refresh the object data from remote API
+         *
+         * @return $this
+         */
+        protected function refresh(): Apikey
         {
-            $this->buildApikey($this->client->httpConnector->request("GET", $this->getPath()));
+            $apikeyData = $this->client->httpConnector->request("GET", $this->getPath());
+            $this->buildEntityData($apikeyData);
             return $this;
         }
 
         /**
-         * Build the local Dnid properties
+         * Build the local Apikey properties
          *
-         * @param mixed $dnidStdObject
-         *
+         * @param mixed $input
          * @return void
          */
-        private function buildApikey(mixed $apikeyStdObject): void
+        protected function buildEntityData(mixed $input): void
         {
-            if (!is_null($apikeyStdObject))
-                foreach ($apikeyStdObject as $key => $value) {
-                    if ($key == "application") {
-                        continue;
+            if (!is_null($input))
+                foreach ($input as $key => $value) {
+                    if ($key == "subscriber") {
+                        $this->accessRights = "subscriber";
+                    } else if ($key == "application") {
+                        $this->accessRights = "application";
+                    } else if ($key == "domain") {
+                        $this->accessRights = "domain";
+                    } else if ($key == "tenant") {
+                        $this->accessRights = "tenant";
                     } else {
                         $this->$key = $value;
                     }

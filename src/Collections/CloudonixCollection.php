@@ -21,6 +21,7 @@
     abstract class CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
         protected array $collection = [];
+        protected int $collectionCount = 0;
 
         abstract public function getPath(): string;
 
@@ -30,6 +31,11 @@
         {
         }
 
+        public function count(): int
+        {
+            return $this->collectionCount;
+        }
+
         public function offsetExists(mixed $offset): bool
         {
             return isset($this->collection[$offset]);
@@ -37,7 +43,11 @@
 
         public function offsetGet(mixed $offset): mixed
         {
-            return $this->collection[$offset];
+            if (is_null($offset)) {
+                return $this->collection;
+            } else {
+                return $this->collection[$offset];
+            }
         }
 
         public function offsetSet(mixed $offset, mixed $value): void

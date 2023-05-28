@@ -30,7 +30,7 @@
 
         public function getPath(): string
         {
-            return BASEURL_TENANTS;
+            return URLPATH_TENANTS;
         }
 
         protected function refreshCollectionData(mixed $param): array {

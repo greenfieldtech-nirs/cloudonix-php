@@ -5,8 +5,8 @@
     use Cloudonix\Helpers\HttpHelper as HttpHelper;
     use Cloudonix\Helpers\LogHelper as LogHelper;
 
-    use Cloudonix\Entities\Tenant as Tenant;
-    use Cloudonix\Collections\Tenants as Tenants;
+    use Cloudonix\Entities\Tenant as EntityTenant;
+    use Cloudonix\Collections\Tenants as CollectionTenants;
 
     use Exception;
 
@@ -34,12 +34,12 @@
         /**
          * Construct the Cloudonix REST API Client
          *
-         * @param string $apikey       A Cloudonix assigned API Key
-         * @param string $httpEndpoint The Cloudonix REST API Endpoint
-         * @param float  $timeout      HTTP Client timeout
-         * @param int    $debug        Debug Log level (see: Helpers/ConfigHelper.php)
+         * @param string|null $apikey       A Cloudonix assigned API Key
+         * @param string      $httpEndpoint The Cloudonix REST API Endpoint
+         * @param float       $timeout      HTTP Client timeout
+         * @param int         $debug        Debug Log level (see: Helpers/ConfigHelper.php)
          */
-        public function __construct($apikey = null, $httpEndpoint = HTTP_ENDPOINT, $timeout = HTTP_TIMEOUT, $debug = DISABLE)
+        public function __construct(string $apikey = null, string $httpEndpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, int $debug = DISABLE)
         {
             try {
                 $this->logger = new LogHelper($debug);
@@ -55,18 +55,18 @@
             return $this->httpConnector;
         }
 
-        public function tenants(): Tenants
+        public function tenants(): CollectionTenants
         {
             if (!isset($this->tenants)) {
                 $this->logger->debug("Starting Tenants for the first time...");
-                return new Tenants($this);
+                $this->tenants = new CollectionTenants($this);
             }
             return $this->tenants;
         }
 
-        public function tenant(string $tenantId = "self"): Tenant
+        public function tenant(string $tenantId = "self"): EntityTenant
         {
-            $tenantObject = new Tenant($this, $tenantId);
+            $tenantObject = new EntityTenant($this, $tenantId);
             return $tenantObject->get();
         }
 
