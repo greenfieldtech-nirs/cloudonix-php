@@ -71,30 +71,24 @@
             parent::__construct();
         }
 
-        /**
-         * Create a new API Key in the current Access Right (based upon the parent class)
-         *
-         * @param string $name
-         *
-         * @return EntityApikey
-         */
-        public function create(string $name): EntityApikey
-        {
-            $newKey = $this->client->httpConnector->request("POST", $this->getPath(), ['name' => $name]);
-            $this->collection[$newKey->keyId] = new EntityApikey($newKey->keyId, $this->parent, $newKey);
-            $this->collectionCount++;
-            return $this->collection[$newKey->keyId];
-        }
-
         public function list(): Apikeys
         {
             return $this;
         }
 
+        /**
+         * Create a new API Key in the current Access Right (based upon the parent class)
+         *
+         * @param string $keyname
+         *
+         * @return EntityApikey
+         */
         public function newKey(string $keyname): EntityApikey
         {
-            $newApikeyObject = $this->client->httpConnector->request("POST", $this->getPath(), [ "name" => $keyname ]);
-            return new EntityApikey($newApikeyObject->keyId, $this->parent, $newApikeyObject);
+            $newApikeyObject = $this->client->httpConnector->request("POST", $this->getPath(), ["name" => $keyname]);
+            $this->collection[$newApikeyObject->keyId] = new EntityApikey($newApikeyObject->keyId, $this->parent, $newApikeyObject);
+            $this->collectionCount++;
+            return $this->collection[$newApikeyObject->keyId];
         }
 
         /**

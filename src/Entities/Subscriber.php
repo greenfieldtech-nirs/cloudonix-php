@@ -15,7 +15,8 @@
 
     namespace Cloudonix\Entities;
 
-    use Cloudonix\Client as CloudonixClient;
+    use Cloudonix\Helpers\PasswordHelper as PasswordHelper;
+
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
 
@@ -40,43 +41,88 @@
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      *
-     * @property-read int           $id                     Subscriber Numeric ID
-     * @property-read int           $domainId               Domain Numeric ID
-     * @property-read string        $msisdn                 Subscriber Phone/Login string, normally an E.164 Number
-     * @property      bool          $active                 Subscriber Status
-     * @property-read string        $createdAt              Subscriber Creation Date and time
-     * @property-read string        $modifiedAt             Subscriber Last Modification Date and time
-     * @property-read string        $deletedAt              Subscriber Deletion Date and time
+     * @property-read int    $id                            Subscriber Numeric ID
+     * @property-read string $msisdn                        Subscriber MSISDN
+     * @property-read int    $domainId                      Domain Numeric ID
+     * @property      bool   $active                        Subscriber Status
+     * @property      string $sipPassword                   Subscriber SIP Password
+     * @property-read string $createdAt                     Subscriber Creation Date and time
+     * @property-read string $modifiedAt                    Subscriber Last Modification Date and time
+     * @property-read string $deletedAt                     Subscriber Deletion Date and time
      * @property      EntityProfile $profile                Subscriber Profile Object
      */
     class Subscriber extends CloudonixEntity
     {
-        protected CloudonixClient $client;
+        protected mixed $client;
+        protected string $canonicalPath = "";
 
         /**
          * Subscriber DataModel Object Constructor
          *
-         * @param CloudonixClient $client    A CloudonixClient HTTP Connector Object
-         * @param string          $stdObject A CloudonixDomain Object
+         * @param string      $subscriber             A Cloudonix Subscriber Name (in cockpit.cloudonix.io also known
+         *                                            as MSISDN)
+         * @param mixed       $parentBranch           A reference to the previous data model node
+         * @param object|null $subscriberObject       A Cloudonix Subscriber Object as stdClass
+         *                                            If $subscriberObject is provided, it will be used to build the
+         *                                            Domain Entity object
          */
-        public function __construct(mixed $stdObject, CloudonixClient $client)
+        public function __construct(string $subscriber, mixed $parentBranch, object $subscriberObject = null)
         {
-            parent::__construct($stdObject);
-            $this->client = $client;
+            $this->client = $parentBranch->client;
+            $this->setPath($subscriber, $parentBranch->canonicalPath);
+            $this->buildEntityData($subscriberObject);
+            parent::__construct($subscriberObject);
         }
 
-        public function getPath()
+        public function delete(): bool
         {
-            // TODO: Implement getPath() method.
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            if ($result->code == 204)
+                return true;
+            return false;
+        }
+
+        public function resetSipPassword(string $password = null): Subscriber
+        {
+            if ($password == "GEN") {
+                $passwd = new PasswordHelper();
+                $password = $passwd->generateSecuredPassword();
+            }
+            $result = $this->client->httpConnector->request("PATCH", $this->getPath(), [ 'sip-password' => $password]);
+            $this->buildEntityData($result);
+            return $this;
+        }
+
+        public function getPath(): string
+        {
+            return $this->canonicalPath;
+        }
+
+        protected function setPath(string $string, string $branchPath): void
+        {
+            if (!strlen($this->canonicalPath))
+                $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS . "/" . $string;
         }
 
         protected function buildEntityData(mixed $input)
         {
-            // TODO: Implement buildEntityData() method.
+            foreach ($input as $key => $value) {
+                if ($key == "profile") {
+                    $this->profile = new EntityProfile($value, $this);
+                } else {
+                    $this->$key = $value;
+                }
+            }
         }
 
-        protected function refresh()
+        protected function refresh(): Subscriber
         {
-            // TODO: Implement refresh() method.
+            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
+            return $this;
+        }
+
+        public function __toString(): string
+        {
+            return json_encode($this->refresh());
         }
     }

@@ -15,7 +15,7 @@
      *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
      * </code>
      *
-     * Application Data Model Entity
+     * Voice Application Data Model Entity
      * This class represents the generalised form of a Cloudonix Application object.
      *
      * @package cloudonixPhp
@@ -48,8 +48,8 @@
          * @param string      $containerApplicationBlockName   Cloudonix Voice Application Name or ID
          * @param mixed       $parentBranch                    A reference to the previous data model node
          * @param object|null $containerApplicationBlockObject A Cloudonix Application object
-         *                                            If $applicationObject is provided, it will be used to build the
-         *                                            Application Entity object
+         *                                                     If $applicationObject is provided, it will be used to
+         *                                                     build the Application Entity object
          */
         public function __construct(string $containerApplicationBlockName, mixed $parentBranch, object $containerApplicationBlockObject = null)
         {
@@ -61,6 +61,29 @@
             } else {
                 $this->buildEntityData($containerApplicationBlockObject);
             }
+        }
+
+        public function setApplicationUrl(string $url, string $method = "POST"): VoiceApplication
+        {
+            $this->client->httpConnector->request("PATCH", $this->getPath(), [
+                'url' => $url,
+                'method' => $method
+            ]);
+            return $this->refresh();
+        }
+
+        public function setActive(bool $status): Domain
+        {
+            $this->client->httpConnector->request("PATCH", $this->getPath(), ['active' => $status]);
+            return $this->refresh();
+        }
+
+        public function delete(): bool
+        {
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            if ($result->code == 204)
+                return true;
+            return false;
         }
 
         /**

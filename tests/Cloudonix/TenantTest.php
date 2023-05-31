@@ -38,7 +38,6 @@
         private static $testApikeysCollection;
         private static $testApplicationsCollection;
 
-
         public function __construct(string $name)
         {
             $this->consoleLogger = new Clara("TenantTest");
@@ -70,7 +69,7 @@
         public function test__construct()
         {
             $this->consoleLogger->info("");
-            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__ );
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $this->assertTrue(isset($this->cxClientTester->httpConnector));
         }
 
@@ -81,7 +80,7 @@
         public function testGetPath()
         {
             $this->consoleLogger->info("");
-            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__ );
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
 
             self::$testTenantObject = $this->cxClientTester->tenant();
             $this->consoleLogger->debug("[" . get_class() . "] testTenantObject is " . $this->testTenantObject);
@@ -124,13 +123,16 @@
          * @depends testGetPath
          * @return void
          */
-        public function testTenantSetActive()
+        public function testTenantSetActiveFalse()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Setting Tenant status to setActive(false)");
             $thisNewTenantObject = self::$testTenantObject->setActive(false);
             $this->assertIsBool($thisNewTenantObject->active);
             $this->assertTrue($thisNewTenantObject->active == false);
+        }
 
+        public function testTenantSetActiveTrue()
+        {
             $this->consoleLogger->debug("[" . get_class() . "] Setting Tenant status to setActive(true)");
             $thisNewTenantObject = self::$testTenantObject->setActive(true);
             $this->assertIsBool($thisNewTenantObject->active);
@@ -142,7 +144,8 @@
          * @depends testGetPath
          * @return void
          */
-        public function testTenantApikeysCollection() {
+        public function testTenantApikeysCollection()
+        {
 
             $this->consoleLogger->debug("[" . get_class() . "] Get Tenant API Keys Collection");
             self::$testApikeysCollection = self::$testTenantObject->apikeys();
@@ -150,48 +153,44 @@
             $this->assertIsObject(self::$testApikeysCollection);
             $this->assertIsIterable(self::$testApikeysCollection);
             $this->assertIsInt(self::$testApikeysCollection->count());
+        }
 
+        public function testTenantApikeyCreate()
+        {
             $this->consoleLogger->debug("[" . get_class() . "] Create a new Tenant API Key");
             self::$testTenantApikeyObject = self::$testTenantObject
                 ->newApikey(self::$testConfiguration->newTenantApikey);
-            $this->consoleLogger->debug("[" . get_class() . "] Received API Key Object " . self::$testTenantApikeyObject );
-
+            $this->consoleLogger->debug("[" . get_class() . "] Received API Key Object " . self::$testTenantApikeyObject);
             $this->assertIsObject(self::$testTenantApikeyObject);
             $this->assertIsString(self::$testTenantApikeyObject->keyId);
+        }
 
+        public function testTenantApikeyCreated()
+        {
             $myApikeyObject = self::$testTenantObject->apikey(self::$testTenantApikeyObject->keyId);
-            $this->consoleLogger->debug("[" . get_class() . "] Obtained API Key Object for " . self::$testTenantApikeyObject->keyId . " as " . $myApikeyObject );
+            $this->consoleLogger->debug("[" . get_class() . "] Obtained API Key Object for " . self::$testTenantApikeyObject->keyId . " as " . $myApikeyObject);
 
             $this->assertIsObject($myApikeyObject);
             $this->assertIsString($myApikeyObject->keyId);
+        }
 
+        public function testTenantApikeyDelete() {
             $deleteResult = self::$testTenantObject->apikey(self::$testTenantApikeyObject->keyId)->delete();
-            $this->consoleLogger->debug("[" . get_class() . "] Delete result code is: " . (boolean)$deleteResult );
+            $this->consoleLogger->debug("[" . get_class() . "] Delete result code is: " . (boolean)$deleteResult);
             $this->assertTrue($deleteResult);
         }
 
         public function testContainerApplications()
         {
             $this->consoleLogger->info("");
-            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__ );
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
 
         }
 
         public function testContainerApplication()
         {
             $this->consoleLogger->info("");
-            $this->consoleLogger->info("[" . get_class() . "] Executing " . __FUNCTION__ );
+            $this->consoleLogger->info("[" . get_class() . "] Executing " . __FUNCTION__);
 
-        }
-
-        public function testDeleteDomain()
-        {
-            $this->consoleLogger->info("");
-            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__ );
-
-            $deleteDomainResult = self::$testDomainObject->delete();
-            $this->consoleLogger->debug("[" . get_class() . "] Delete Domain is " . (boolean)$deleteDomainResult );
-
-            $this->assertTrue($deleteDomainResult);
         }
     }

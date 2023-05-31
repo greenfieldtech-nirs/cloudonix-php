@@ -79,7 +79,7 @@
         public function refresh(): Profile
         {
             $this->profile = [];
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath())->profile);
+            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
@@ -93,7 +93,7 @@
         protected function buildEntityData(mixed $profileStdObject): void
         {
             if (!is_null($profileStdObject))
-                foreach ($profileStdObject as $key => $value) {
+                foreach ($profileStdObject->profile as $key => $value) {
                     $this->profile[$key] = $value;
                 }
         }

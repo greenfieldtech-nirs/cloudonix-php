@@ -4,12 +4,15 @@
 
     use Cloudonix\Collections\VoiceApplications as CollectionVoiceApplications;
     use Cloudonix\Collections\Apikeys as CollectionApikeys;
+    use Cloudonix\Collections\Subscribers as CollectionSubscribers;
 
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Dnid as EntityDnid;
     use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\VoiceApplication as EntityApplication;
     use Cloudonix\Entities\Apikey as EntityApikey;
+    use Cloudonix\Entities\Subscriber as EntitySubscriber;
+
 
     /**
      * <code>
@@ -50,6 +53,7 @@
         protected string $canonicalPath = "";
         public CollectionVoiceApplications $collectionVoiceApplications;
         public CollectionApikeys $collectionApikeys;
+        public CollectionSubscribers $collectionSubscribers;
 
         /**
          * Domain DataModel Object Constructor
@@ -107,9 +111,9 @@
         /**
          * Create a new voice application in the domain from a remote URL resource
          *
-         * @param string $name      Voice application name
-         * @param string $url       Voice application URL
-         * @param string $method    Voice application HTTP Method (GET/POST)
+         * @param string $name   Voice application name
+         * @param string $url    Voice application URL
+         * @param string $method Voice application HTTP Method (GET/POST)
          *
          * @return VoiceApplication
          */
@@ -139,11 +143,27 @@
 
         public function newApikey(string $name): EntityApikey
         {
-            $canonicalPath = $this->getPath() . URLPATH_APIKEYS;
-            $newDomainApikey = $this->client->httpConnector->request('POST', $canonicalPath, [
-                'name' => $name
-            ]);
-            return new EntityApikey($name, $this, $newDomainApikey);
+            $apikeysCollection = (!isset($this->collectionApikeys)) ? $this->apikeys() : $this->collectionApikeys;
+            return $apikeysCollection->newKey($name);
+        }
+
+        public function subscribers(): CollectionSubscribers
+        {
+            if (!isset($this->collectionSubscribers))
+                $this->collectionSubscribers = new CollectionSubscribers($this);
+
+            return $this->collectionSubscribers;
+        }
+
+        public function subscriber(string $subscriber): EntitySubscriber
+        {
+            return new EntitySubscriber($subscriber, $this);
+        }
+
+        public function newSubscriber(string $subscriber, string $sipPassword = null): EntitySubscriber
+        {
+            $subscribersCollection = (!isset($this->collectionSubscribers)) ? $this->subscribers() : $this->collectionSubscribers;
+            return $subscribersCollection->newSubscriber($subscriber, $sipPassword);
         }
 
 
@@ -258,6 +278,14 @@
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), ['defaultApplication' => $application]);
             return $this->refresh();
+        }
+
+        public function delete(): bool
+        {
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            if ($result->code == 204)
+                return true;
+            return false;
         }
 
         public function getPath(): string

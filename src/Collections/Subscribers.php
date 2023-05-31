@@ -15,12 +15,14 @@
 
     namespace Cloudonix\Collections;
 
-    use ArrayIterator;
     use Traversable;
+    use ArrayIterator;
+
+    use Cloudonix\Helpers\PasswordHelper as PasswordHelper;
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
-    use Cloudonix\Entities\VoiceApplication as EntityApplication;
-    use Cloudonix\Entities\Profile as EntityProfile;
+    use Cloudonix\Entities\Subscriber as EntitySubscriber;
+    use Cloudonix\Entities\Apikey as EntityApikey;
 
     /**
      * <code>
@@ -37,27 +39,25 @@
      * @package cloudonixPhp
      * @file    Collections/Domains.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=applications
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=subscribers
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      *
-     * @property-read int           $id                         Voice Application Numeric ID
-     * @property-read int           $domainId                   Domain Numeric ID
-     * @property-read string        $name                       Voice Application Name
-     * @property-read string        $type                       Voice Application Type
-     * @property      string        $url                        Voice Application URL Endpoint
-     * @property      string        $method                     Voice Application Endpoint HTTP Method
-     * @property      bool          $active                     Voice Application Status
-     * @property-read string        $createdAt                  Voice Application Creation Date and time
-     * @property-read string        $modifiedAt                 Voice Application Last Modification Date and time
-     * @property-read string        $deletedAt                  Voice Application Deletion Date and time
-     * @property      EntityProfile $profile                    Voice Application Profile Object
+     * @property-read int           $id                            Subscriber Numeric ID
+     * @property-read string        $msisdn                        Subscriber MSISDN
+     * @property-read int           $domainId                      Domain Numeric ID
+     * @property      bool          $active                        Subscriber Status
+     * @property      string        $sipPassword                   Subscriber SIP Password
+     * @property-read string        $createdAt                     Subscriber Creation Date and time
+     * @property-read string        $modifiedAt                    Subscriber Last Modification Date and time
+     * @property-read string        $deletedAt                     Subscriber Deletion Date and time
+     * @property      EntityProfile $profile                       Subscriber Profile Object
      */
-    class VoiceApplications extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class Subscribers extends CloudonixCollection
     {
-        public mixed $client;
-        public string $canonicalPath = "";
-        private mixed $parent;
+        protected mixed $client;
+        protected string $canonicalPath = "";
+        protected mixed $parent;
 
         public function __construct(mixed $parent)
         {
@@ -65,6 +65,37 @@
             $this->parent = $parent;
             $this->setPath($parent->canonicalPath);
             parent::__construct();
+        }
+
+        public function list(): Subscribers
+        {
+            return $this;
+        }
+
+        /**
+         * Create a new API Key in the current Access Right (based upon the parent class)
+         *
+         * @param string      $msisdn
+         * @param string|null $sipPassword      If specified, will be used as the Subscriber SIP Password.
+         *                                      If ($sipPassword == "GEN") will generate a secured password.
+         *
+         * @return EntitySubscriber
+         */
+        public function newSubscriber(string $msisdn, string $sipPassword = null): EntitySubscriber
+        {
+            if (!is_null($sipPassword)) {
+                if ($sipPassword == "GEN") {
+                    $passwd = new PasswordHelper();
+                    $sipPassword = $passwd->generateSecuredPassword();
+                }
+            }
+
+            $newSubscriber = $this->client->httpConnector->request("POST", $this->getPath(), [
+                'msisdn' => $msisdn,
+                'sip-password' => $sipPassword
+            ]);
+            $this->refresh();
+            return $this->collection[$newSubscriber->msisdn];
         }
 
         /**
@@ -87,15 +118,15 @@
         protected function setPath(string $branchPath): void
         {
             if (!strlen($this->canonicalPath))
-                $this->canonicalPath = $branchPath . URLPATH_APPLICATIONS;
+                $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS;
         }
 
         /**
-         * Refresh the collection
+         * Refresh the collection data from remote API
          *
          * @return $this
          */
-        public function refresh(): VoiceApplications
+        public function refresh(): Subscribers
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
@@ -106,21 +137,17 @@
          *
          * @param mixed $param
          *
-         * @return void
+         * @return array
          */
         protected function refreshCollectionData(mixed $param): array
         {
             $this->collection = [];
             if (!is_null($param))
                 foreach ($param as $key => $value) {
-                    $this->collection[$value->name] = new EntityApplication($value->name, $this->parent, $value);
+                    $this->collection[$value->msisdn] = new EntitySubscriber($value->msisdn, $this->parent, $value);
                 }
+            $this->collectionCount = count($this->collection);
             return $this->collection;
-        }
-
-        public function offsetSet(mixed $offset, mixed $value): void
-        {
-            return;
         }
 
         public function offsetUnset(mixed $offset): void
@@ -128,21 +155,18 @@
             return;
         }
 
-        public function offsetGet(mixed $offset): mixed
+        public function offsetSet(mixed $offset, mixed $value): void
         {
-            $this->refresh();
-            return parent::offsetGet($offset);
+            return;
         }
 
         public function getIterator(): Traversable
         {
-            $this->refresh();
             return parent::getIterator();
         }
 
         public function __toString(): string
         {
-            $this->refresh();
             return parent::__toString();
         }
     }

@@ -14,7 +14,9 @@
      */
 
     namespace Cloudonix;
+
     require_once "src/Helpers/ConfigHelper.php";
+
     use Dotenv\Dotenv;
 
     /**
@@ -73,6 +75,7 @@
             $this->newSubscriberApikey = "SubscriberKey_Test_" . $tsString;
             $this->newDomain = "DomainName_Test_" . $tsString;
             $this->newDomainVoiceApplication = "VoiceApplication_Test_" . $tsString;
+            $this->newDomainSubscriber = "Subscriber_Test_" . $tsString;
             $this->newContainerApplication = "ContainerApplication_Test_" . $tsString;
             $this->newDomainInboundTrunk = "InboundTrunk_Test_" . $tsString;
             $this->newDomainOutboundTrunk = "OutboundTrunk_Test_" . $tsString;
