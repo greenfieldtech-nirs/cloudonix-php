@@ -256,7 +256,6 @@
             $delete = self::$testDomainObject->subscriber(self::$testConfiguration->newDomainSubscriber . "_B")->delete();
             $this->assertTrue($delete);
         }
-
         public function testDomainInboundTrunkFunctions()
         {
 
@@ -267,10 +266,6 @@
 
         }
 
-        public function testDomainDnidFunctions()
-        {
-
-        }
 
         /**
          * @depends test__construct
@@ -335,12 +330,68 @@
             $this->assertEquals($newUrl, $updatedVoiceApplication->url);
         }
 
+        public function testDomainDnidCollection()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Get DNID Collection for domain: " . self::$testDomainObject->domain);
+            $dnids = self::$testDomainObject->dnids();
+            $this->consoleLogger->debug("[" . get_class() . "] Received collection: " . $dnids);
+            $this->assertIsObject($dnids);
+            $this->assertIsIterable($dnids);
+        }
+
+        public function testDomainVoiceApplicationNewDnidPattern()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Create a new DNID for application " . self::$testDomainObject->domain);
+            $dnid = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->newDnidPattern(date("HisY"). "*");
+            $this->consoleLogger->debug("[" . get_class() . "] Response is: " . $dnid);
+            $this->assertIsObject($dnid);
+        }
+
+        public function testDomainVoiceApplicationNewDnidRegex()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Create a new DNID for application " . self::$testDomainObject->domain);
+            $dnid = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->newDnidPattern("^" . date("HisY") . "$");
+            $this->consoleLogger->debug("[" . get_class() . "] Response is: " . $dnid);
+            $this->assertIsObject($dnid);
+            $this->assertObjectHasProperty("id", $dnid);
+        }
+
+        public function testDomainVoiceApplicationNewDnidAsterisk()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Create a new DNID for application " . self::$testDomainObject->domain);
+            $dnid = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->newDnidAsterisk("_" . date("HisY") . ".");
+            $this->consoleLogger->debug("[" . get_class() . "] Response is: " . $dnid);
+            $this->assertIsObject($dnid);
+            $this->assertObjectHasProperty("id", $dnid);
+        }
+
+        public function testDomainVoiceApplicationNewDnidPrefix()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Create a new DNID for application " . self::$testDomainObject->domain);
+            $dnid = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->newDnidPrefix(date("HisY"));
+            $this->consoleLogger->debug("[" . get_class() . "] Response is: " . $dnid);
+            $this->assertIsObject($dnid);
+            $this->assertObjectHasProperty("id", $dnid);
+        }
+
+        public function testDomainVoiceApplicationDnidDeleteAll()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Get all DNIDs for application in domain " . self::$testDomainObject->domain);
+            $dnids = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->dnids();
+            $this->consoleLogger->debug("[" . get_class() . "] Response is: " . $dnids);
+            foreach ($dnids as $id => $object) {
+                $this->consoleLogger->debug("[" . get_class() . "] Deleting DNID: " . $object->source . " at ID: " . $id);
+                $this->assertTrue(self::$testDomainObject->dnid($id)->delete());
+            }
+        }
+
         public function testNewDomainVoiceApplicationDelete() {
             $this->consoleLogger->debug("[" . get_class() . "] Delete Voice Application " . self::$testApplicationObject->name);
             $deleteVoiceApplicationResult = self::$testApplicationObject->delete();
             $this->consoleLogger->debug("[" . get_class() . "] Delete Voice Application is " . (boolean)$deleteVoiceApplicationResult);
             $this->assertTrue($deleteVoiceApplicationResult);
         }
+
 
         public function testDeleteDomain()
         {

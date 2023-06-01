@@ -5,6 +5,8 @@
     use Cloudonix\Collections\VoiceApplications as CollectionVoiceApplications;
     use Cloudonix\Collections\Apikeys as CollectionApikeys;
     use Cloudonix\Collections\Subscribers as CollectionSubscribers;
+    use Cloudonix\Collections\Dnids as CollectionDnids;
+    use Cloudonix\Collections\Trunks as CollectionTrunks;
 
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Dnid as EntityDnid;
@@ -12,6 +14,7 @@
     use Cloudonix\Entities\VoiceApplication as EntityApplication;
     use Cloudonix\Entities\Apikey as EntityApikey;
     use Cloudonix\Entities\Subscriber as EntitySubscriber;
+    use Cloudonix\Entities\Trunk as EntityTrunk;
 
 
     /**
@@ -54,6 +57,9 @@
         public CollectionVoiceApplications $collectionVoiceApplications;
         public CollectionApikeys $collectionApikeys;
         public CollectionSubscribers $collectionSubscribers;
+        public CollectionDnids $collectionDnids;
+        public CollectionTrunks $collectionTrunks;
+
 
         /**
          * Domain DataModel Object Constructor
@@ -89,6 +95,19 @@
         }
 
         /**
+         * Return a collection of domain associated DNID objects
+         *
+         * @return CollectionDnids
+         */
+        public function dnids(): CollectionDnids
+        {
+            if (!isset($this->collectionDnids))
+                $this->collectionDnids = new CollectionDnids($this);
+
+            return $this->collectionDnids->refresh();
+        }
+
+        /**
          * Return a new Voice Application Entity object
          *
          * @param string $voiceapplication
@@ -100,6 +119,11 @@
             return new EntityApplication($voiceapplication, $this);
         }
 
+        /**
+         * Return a collection of domain associated Voice Application objects
+         *
+         * @return CollectionVoiceApplications
+         */
         public function voiceApplications(): CollectionVoiceApplications
         {
             if (!isset($this->collectionVoiceApplications))
@@ -128,6 +152,12 @@
             return new EntityApplication($name, $this, $newApplicationObject);
         }
 
+
+        /**
+         * Return a collection of domain associated API Key objects
+         *
+         * @return CollectionApikeys
+         */
         public function apikeys(): CollectionApikeys
         {
             if (!isset($this->collectionApikeys))
@@ -136,17 +166,36 @@
             return $this->collectionApikeys->refresh();
         }
 
+        /**
+         * Return a new Voice Application Entity object
+         *
+         * @param string $keyId
+         *
+         * @return EntityApikey
+         */
         public function apikey(string $keyId): EntityApikey
         {
             return new EntityApikey($keyId, $this);
         }
 
+        /**
+         * Create a new API key in the domain
+         *
+         * @param string $name API Key Name
+         *
+         * @return EntityApikey
+         */
         public function newApikey(string $name): EntityApikey
         {
             $apikeysCollection = (!isset($this->collectionApikeys)) ? $this->apikeys() : $this->collectionApikeys;
             return $apikeysCollection->newKey($name);
         }
 
+        /**
+         * Return a collection of domain associated Subscriber objects
+         *
+         * @return CollectionApikeys
+         */
         public function subscribers(): CollectionSubscribers
         {
             if (!isset($this->collectionSubscribers))
@@ -155,11 +204,26 @@
             return $this->collectionSubscribers;
         }
 
+        /**
+         * Return a new Subscriber Entity object
+         *
+         * @param string $subscriber
+         *
+         * @return EntitySubscriber
+         */
         public function subscriber(string $subscriber): EntitySubscriber
         {
             return new EntitySubscriber($subscriber, $this);
         }
 
+        /**
+         * Create a new Subscriber in the domain
+         *
+         * @param string $subscriber  Subscriber MSISDN or other unique identified
+         * @param string $sipPassword Subscriber SIP password
+         *
+         * @return EntitySubscriber
+         */
         public function newSubscriber(string $subscriber, string $sipPassword = null): EntitySubscriber
         {
             $subscribersCollection = (!isset($this->collectionSubscribers)) ? $this->subscribers() : $this->collectionSubscribers;

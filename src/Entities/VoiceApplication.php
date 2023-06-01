@@ -2,8 +2,13 @@
 
     namespace Cloudonix\Entities;
 
+    use Cloudonix\Collections\Dnids as CollectionDnids;
+
+    use Cloudonix\Collections\Subscribers as CollectionSubscribers;
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
+    use Cloudonix\Entities\Dnid as EntityDnid;
+    use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
     /**
      * <code>
@@ -41,6 +46,7 @@
     {
         protected mixed $client;
         protected string $canonicalPath = "";
+        public CollectionDnids $collectionDnids;
 
         /**
          * Application DataModel Object Constructor
@@ -63,11 +69,85 @@
             }
         }
 
+        public function dnid(string $dnid): EntityDnid
+        {
+            return new Dnid($dnid, $this);
+        }
+
+        public function dnids(): CollectionDnids
+        {
+            if (!isset($this->collectionDnids))
+                $this->collectionDnids = new CollectionDnids($this);
+
+            return $this->collectionDnids;
+        }
+
+        public function newDnidPrefix(string $dnid): EntityDnid
+        {
+            $dnidResult = $this->client->httpConnector->request("POST", $this->getPath() . "/dnids", [
+                'source' => $dnid,
+                'expression' => false,
+                'prefix' => true,
+                'asteriskCompatible' => false
+            ]);
+            return new EntityDnid($dnidResult->id, $this, $dnidResult);
+        }
+
+        public function newDnidRegex(string $dnid): EntityDnid
+        {
+            $dnidResult = $this->client->httpConnector->request("POST", $this->getPath() . "/dnids", [
+                'source' => $dnid,
+                'expression' => true,
+                'prefix' => false,
+                'asteriskCompatible' => false
+            ]);
+            return new EntityDnid($dnidResult->id, $this, $dnidResult);
+        }
+
+        public function newDnidAsterisk(string $dnid): EntityDnid
+        {
+            $dnidResult = $this->client->httpConnector->request("POST", $this->getPath() . "/dnids", [
+                'source' => $dnid,
+                'expression' => false,
+                'prefix' => false,
+                'asteriskCompatible' => true
+            ]);
+            return new EntityDnid($dnidResult->id, $this, $dnidResult);
+        }
+
+        public function newDnidPattern(string $dnid): EntityDnid
+        {
+            $dnidResult = $this->client->httpConnector->request("POST", $this->getPath() . "/dnids", [
+                'source' => $dnid,
+                'expression' => false,
+                'prefix' => false,
+                'asteriskCompatible' => false
+            ]);
+            return new EntityDnid($dnidResult->id, $this, $dnidResult);
+        }
+
+        /**
+         * Set the Voice Application remote URL and method
+         *
+         * @param string $url    Remote Voice Application URL
+         * @param string $method Remote Voice Application URL method [GET/POST]
+         *
+         * @return $this            A refreshed Voice Application object
+         */
         public function setApplicationUrl(string $url, string $method = "POST"): VoiceApplication
         {
+            if ((strtoupper($method) != "POST") && (strtoupper($method) != "GET"))
+                return $this;
+
+            $utilityHelper = new UtilityHelper();
+            $validatedUrl = $utilityHelper->cleanUrl($url);
+
+            if (!$validatedUrl)
+                return $this;
+
             $this->client->httpConnector->request("PATCH", $this->getPath(), [
-                'url' => $url,
-                'method' => $method
+                'url' => $validatedUrl,
+                'method' => strtoupper($method)
             ]);
             return $this->refresh();
         }
@@ -100,6 +180,7 @@
          * Set the entity REST API canonical path
          *
          * @param string $string
+         * @param string $branchPath
          *
          * @return void
          */

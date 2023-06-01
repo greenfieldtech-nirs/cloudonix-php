@@ -15,7 +15,7 @@
 
     namespace Cloudonix\Entities;
 
-    use Cloudonix\Helpers\PasswordHelper as PasswordHelper;
+    use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
@@ -85,7 +85,7 @@
         public function resetSipPassword(string $password = null): Subscriber
         {
             if ($password == "GEN") {
-                $passwd = new PasswordHelper();
+                $passwd = new UtilityHelper();
                 $password = $passwd->generateSecuredPassword();
             }
             $result = $this->client->httpConnector->request("PATCH", $this->getPath(), [ 'sip-password' => $password]);

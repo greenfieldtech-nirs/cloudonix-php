@@ -25,7 +25,6 @@
     abstract class CloudonixEntity
     {
         protected string $canonicalPath;
-
         public function __construct(mixed $client)
         {
             if (!is_null($client))

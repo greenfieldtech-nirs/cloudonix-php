@@ -1,21 +1,8 @@
 <?php
-    /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: Domain.php
-     * @author  :   nirs
-     * @created :  2023-05-14
-     */
 
     namespace Cloudonix\Entities;
 
-    use Cloudonix\Client as CloudonixClient;
+    use Cloudonix\CXClient as CloudonixClient;
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
 
@@ -40,21 +27,21 @@
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      *
-     * @property-read int           $id                        Trunk Numeric ID
-     * @property-read int           $domainId                  Domain Numeric ID
-     * @property-read string        $name                      Trunk Name
-     * @property      bool          $active                    Subscriber Status
-     * @property      string        $ip                        Trunk IP/FQDN Address
-     * @property      int           $port                      Trunk Port
-     * @property      string        $transport                 Trunk Transport (UDP/TCP/TLS)
-     * @property      string        $prefix                    Trunk Dialing/Routing Prefix
-     * @property      string        $direction                 Trunk Direction
-     *                (public-outbound/public-inbound/outbound/inbound)
-     * @property      int           $metric                    Trunk Routing Preference Metric
-     * @property-read string        $createdAt                 Subscriber Creation Date and time
-     * @property-read string        $modifiedAt                Subscriber Last Modification Date and time
-     * @property-read string        $deletedAt                 Subscriber Deletion Date and time
-     * @property      EntityProfile $profile                   Subscriber Profile Object
+     * @property-read   int           $id                   Trunk Numeric ID
+     * @property-read   int           $domainId             Domain Numeric ID
+     * @property-read   int           $tenantId             Tenant Numeric ID
+     * @property-read   int           $metric               Trunk Metric (used for outbound dialing trunk hunting)
+     * @property-read   string        $direction            Trunk Direction
+     *                  (public-inbound/public-outbound/outbound/inbound)
+     * @property        string        $prefix               Trunk Technical Prefix for dialled numbers
+     * @property-read   string        $name                 Trunk Name
+     * @property        EntityProfile $profile              Trunk Profile
+     * @property        string        $headerName           Trunk SIP-Header Matching
+     * @property        string        $headerValue          Trunk SIP-Header Matching Value Expression
+     * @property        string        $transport            Trunk Transport (UDP/TCP/TLS)
+     * @property        string        $ip                   Trunk IP Address or FQDN
+     * @property        int           $port                 Trunk IP Port (default: 5060)
+     * @property        bool          $active               Trunk Status
      */
     class Trunk extends CloudonixEntity
     {
@@ -63,27 +50,88 @@
         /**
          * Trunk DataModel Object Constructor
          *
-         * @param CloudonixClient $client    A CloudonixClient HTTP Connector Object
-         * @param string          $stdObject A CloudonixDomain Object
+         * @param string      $trunk                  Cloudonix Trunk Identifier
+         * @param mixed       $parentBranch           A reference to the previous data model node
+         * @param object|null $trunkObject           A Cloudonix Trunk Object as stdClass
+         *                                            If $trunkObject is provided, it will be used to build the Domain
+         *                                            Entity object
          */
-        public function __construct(mixed $stdObject, CloudonixClient $client)
+        public function __construct(string $trunk, mixed $parentBranch, object $trunkObject = null)
         {
-            parent::__construct($stdObject);
-            $this->client = $client;
+            $this->client = $parentBranch->client;
+            parent::__construct($this->client);
+            if (!is_null($trunkObject)) {
+                $this->buildEntityData($trunkObject);
+                $this->setPath($trunkObject->domain, $parentBranch->canonicalPath);
+            } else {
+                $this->setPath($trunk, $parentBranch->canonicalPath);
+            }
         }
 
-        public function getPath()
+        public function setEndpoint(string $ip, int $port = 5060, $prefix = ""): Trunk
         {
-            // TODO: Implement getPath() method.
+            return $this;
         }
 
-        protected function buildEntityData(mixed $input)
+        public function setInboundFilter(string $ip, int $port = 5060, $prefix = ""): Trunk
         {
-            // TODO: Implement buildEntityData() method.
+            return $this;
         }
 
-        protected function refresh()
+        public function setOutboundFixedBorder(string $border): Trunk
         {
-            // TODO: Implement refresh() method.
+
+        }
+
+        public function setOutboundDomainName(string $domain): Trunk
+        {
+
+        }
+
+        public function setOutboundRURI(string $ruri): Trunk
+        {
+
+        }
+        public function delete(): bool
+        {
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            if ($result->code == 204)
+                return true;
+            return false;
+        }
+
+        public function getPath(): string
+        {
+            return $this->canonicalPath;
+        }
+
+        protected function setPath(string $string, string $branchPath): void
+        {
+            if (!strlen($this->canonicalPath))
+                $this->canonicalPath = $branchPath . URLPATH_TRUNKS . "/" . $string;
+        }
+
+        public function refresh(): Domain
+        {
+            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
+            return $this;
+        }
+
+        public function __toString(): string
+        {
+            return json_encode($this->refresh());
+        }
+
+        protected function buildEntityData(mixed $input): void
+        {
+            foreach ($input as $key => $value) {
+                if ($key == "profile") {
+                    $this->profile = new EntityProfile($value, $this);
+                } else if ($key == "domain") {
+                    continue;
+                } else {
+                    $this->$key = $value;
+                }
+            }
         }
     }

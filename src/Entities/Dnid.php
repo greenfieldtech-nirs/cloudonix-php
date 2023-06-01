@@ -1,20 +1,5 @@
 <?php
-    /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: Domain.php
-     * @author  :   nirs
-     * @created :  2023-05-14
-     */
-
     namespace Cloudonix\Entities;
-
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
 
     /**
@@ -56,15 +41,22 @@
         /**
          * DNID DataModel Object Constructor
          *
-         * @param string $dnid         Cloudonix DNID ID
-         * @param mixed  $parentBranch A reference to the previous data model node
+         * @param string      $dnid                   Cloudonix DNID ID
+         * @param mixed       $parentBranch           A reference to the previous data model node
+         * @param object|null $dnidObject             A Cloudonix DNID Object as stdClass
+         *                                            If $dnidObject is provided, it will be used to build the Domain
+         *                                            Entity object
          */
-        public function __construct(string $dnid, mixed $parentBranch)
+        public function __construct(string $dnid, mixed $parentBranch, object $dnidObject = null)
         {
-            parent::__construct($this);
             $this->client = $parentBranch->client;
-            $this->setPath($dnid, $parentBranch->canonicalPath);
-            $this->refresh();
+            parent::__construct($this->client);
+            if (!is_null($dnidObject)) {
+                $this->buildEntityData($dnidObject);
+                $this->setPath($dnidObject->id, $parentBranch->canonicalPath);
+            } else {
+                $this->setPath($dnid, $parentBranch->canonicalPath);
+            }
         }
 
         /**
@@ -137,11 +129,14 @@
         /**
          * Delete a DNID
          *
-         * @return mixed
+         * @return bool
          */
-        public function delete(): mixed
+        public function delete(): bool
         {
-            return $this->client->httpConnector->request("DELETE", $this->getPath());
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            if ($result->code == 204)
+                return true;
+            return false;
         }
 
         /**

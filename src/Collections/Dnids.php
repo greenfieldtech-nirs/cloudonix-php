@@ -15,14 +15,11 @@
 
     namespace Cloudonix\Collections;
 
-    use Traversable;
     use ArrayIterator;
+    use Traversable;
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
-    use Cloudonix\Entities\Subscriber as EntitySubscriber;
-    use Cloudonix\Entities\Apikey as EntityApikey;
-
-    use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
+    use Cloudonix\Entities\Dnid as EntityDnid;
 
     /**
      * <code>
@@ -37,27 +34,34 @@
      * VoiceApplications Collection
      *
      * @package cloudonixPhp
-     * @file    Collections/Domains.php
+     * @file    Collections/Dnids.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=subscribers
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=dnids
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      *
-     * @property-read int           $id                            Subscriber Numeric ID
-     * @property-read string        $msisdn                        Subscriber MSISDN
-     * @property-read int           $domainId                      Domain Numeric ID
-     * @property      bool          $active                        Subscriber Status
-     * @property      string        $sipPassword                   Subscriber SIP Password
-     * @property-read string        $createdAt                     Subscriber Creation Date and time
-     * @property-read string        $modifiedAt                    Subscriber Last Modification Date and time
-     * @property-read string        $deletedAt                     Subscriber Deletion Date and time
-     * @property      EntityProfile $profile                       Subscriber Profile Object
+     * @property-read int    $id                                  DNID Numeric ID
+     * @property-read int    $domainId                            Domain Numeric ID
+     * @property-read int    $applicationId                       Voice Application Numeric ID
+     * @property-read string $applicationName                     Voice Application Name
+     * @property-read int    $messagingApplicationId              Voice Application Numeric ID
+     * @property-read string $messagingApplicationName            Voice Application Name
+     * @property-read string $dnid                                DNID Expression
+     * @property-read string $source                              DNID Source String
+     * @property-read bool   $expression                          DNID Source is RegEx formatted
+     * @property-read bool   $prefix                              DNID Source is Prefix formatted
+     * @property-read bool   $asteriskCompatible                  DNID Source is Asterisk extensions.conf formatted
+     * @property-read bool   $global                              DNID is defined as global platform DNID
+     * @property      bool   $active                              DNID Status
+     * @property-read string $createdAt                           DNID Creation Date and time
+     * @property-read string $modifiedAt                          DNID Last Modification Date and time
+     * @property-read string $deletedAt                           DNID Deletion Date and time
      */
-    class Subscribers extends CloudonixCollection
+    class Dnids extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
-        protected mixed $client;
-        protected string $canonicalPath = "";
-        protected mixed $parent;
+        public mixed $client;
+        public string $canonicalPath = "";
+        private mixed $parent;
 
         public function __construct(mixed $parent)
         {
@@ -65,35 +69,6 @@
             $this->parent = $parent;
             $this->setPath($parent->canonicalPath);
             parent::__construct();
-        }
-
-        public function list(): Subscribers
-        {
-            return $this;
-        }
-
-        /**
-         * Create a new API Key in the current Access Right (based upon the parent class)
-         *
-         * @param string      $msisdn
-         * @param string|null $sipPassword      If specified, will be used as the Subscriber SIP Password.
-         *                                      If ($sipPassword == "GEN") will generate a secured password.
-         *
-         * @return EntitySubscriber
-         */
-        public function newSubscriber(string $msisdn, string $sipPassword = null): EntitySubscriber
-        {
-            if ($sipPassword == "GEN") {
-                $passwd = new UtilityHelper();
-                $sipPassword = $passwd->generateSecuredPassword();
-            }
-
-            $newSubscriber = $this->client->httpConnector->request("POST", $this->getPath(), [
-                'msisdn' => $msisdn,
-                'sip-password' => $sipPassword
-            ]);
-            $this->refresh();
-            return $this->collection[$newSubscriber->msisdn];
         }
 
         /**
@@ -116,15 +91,15 @@
         protected function setPath(string $branchPath): void
         {
             if (!strlen($this->canonicalPath))
-                $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS;
+                $this->canonicalPath = $branchPath . URLPATH_DNIDS;
         }
 
         /**
-         * Refresh the collection data from remote API
+         * Refresh the collection
          *
          * @return $this
          */
-        public function refresh(): Subscribers
+        public function refresh(): Dnids
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
@@ -135,22 +110,16 @@
          *
          * @param mixed $param
          *
-         * @return array
+         * @return void
          */
         protected function refreshCollectionData(mixed $param): array
         {
             $this->collection = [];
             if (!is_null($param))
                 foreach ($param as $key => $value) {
-                    $this->collection[$value->msisdn] = new EntitySubscriber($value->msisdn, $this->parent, $value);
+                    $this->collection[$value->id] = new EntityDnid($value->id, $this->parent, $value);
                 }
-            $this->collectionCount = count($this->collection);
             return $this->collection;
-        }
-
-        public function offsetUnset(mixed $offset): void
-        {
-            return;
         }
 
         public function offsetSet(mixed $offset, mixed $value): void
@@ -158,13 +127,26 @@
             return;
         }
 
+        public function offsetUnset(mixed $offset): void
+        {
+            return;
+        }
+
+        public function offsetGet(mixed $offset): mixed
+        {
+            $this->refresh();
+            return parent::offsetGet($offset);
+        }
+
         public function getIterator(): Traversable
         {
+            $this->refresh();
             return parent::getIterator();
         }
 
         public function __toString(): string
         {
+            $this->refresh();
             return parent::__toString();
         }
     }

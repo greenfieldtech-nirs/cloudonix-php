@@ -1,17 +1,4 @@
 <?php
-    /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: TenantTest.php
-     * @author  :   nirs
-     * @created :  2023-05-27
-     */
 
     namespace Cloudonix;
 
@@ -83,7 +70,7 @@
             $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
 
             self::$testTenantObject = $this->cxClientTester->tenant();
-            $this->consoleLogger->debug("[" . get_class() . "] testTenantObject is " . $this->testTenantObject);
+            $this->consoleLogger->debug("[" . get_class() . "] testTenantObject is " . self::$testTenantObject);
 
             $canonicalPath = self::$testTenantObject->getPath();
             $this->consoleLogger->debug("[" . get_class() . "] canonicalPath is " . $canonicalPath);
@@ -174,7 +161,8 @@
             $this->assertIsString($myApikeyObject->keyId);
         }
 
-        public function testTenantApikeyDelete() {
+        public function testTenantApikeyDelete()
+        {
             $deleteResult = self::$testTenantObject->apikey(self::$testTenantApikeyObject->keyId)->delete();
             $this->consoleLogger->debug("[" . get_class() . "] Delete result code is: " . (boolean)$deleteResult);
             $this->assertTrue($deleteResult);

@@ -8,7 +8,7 @@
      *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
      *
      * @project :  cloudonix-php
-     * @filename:  PasswordHelper.php
+     * @filename:  UtilityHelper.php
      * @author  :  nirs
      * @created :  2023-05-29
      */
@@ -17,7 +17,7 @@
 
     use Hackzilla\PasswordGenerator\Generator\HybridPasswordGenerator;
 
-    class PasswordHelper
+    class UtilityHelper
     {
         public function __construct()
         {
@@ -51,5 +51,20 @@
                 ->setSegmentLength($setSegmentLength)
                 ->setSegmentSeparator($setSegmentSeparator);
             return $generator->generatePassword();
+        }
+
+        /**
+         * Validate and Clean a given string to a valid URL - or false or invalid URL
+         *
+         * @param string $url
+         *
+         * @return mixed
+         */
+        public function cleanUrl(string $url): mixed
+        {
+            if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                return false;
+            }
+            return filter_var($url, FILTER_SANITIZE_URL);
         }
     }
