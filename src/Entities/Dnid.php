@@ -1,26 +1,20 @@
 <?php
-    namespace Cloudonix\Entities;
-    use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
-
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
-     * DNID Data Model Entity
-     * This class represents the generalised form of a Cloudonix DNID object.
-     *
      * @package cloudonixPhp
      * @file    Entities/Dnid.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=dnid
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
+     */
+
+    namespace Cloudonix\Entities;
+    use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
+
+    /**
+     * DNID Data Model Entity
+     *
+     * This class represents the generalised form of a Cloudonix DNID object.
      *
      * @property-read int    $id                                     DNID Numeric ID
      * @property-read int    $domainId                               DNID Domain Numeric ID

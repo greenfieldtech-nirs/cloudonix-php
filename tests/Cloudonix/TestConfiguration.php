@@ -1,16 +1,10 @@
 <?php
     /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: TestConfiguration.php
-     * @author  :   nirs
-     * @created :  2023-05-28
+     * @package cloudonixPhp
+     * @file    tests/TestConfiguration.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
      */
 
     namespace Cloudonix;
@@ -63,7 +57,7 @@
             $this->apiKey = $_ENV['APIKEY'];
             $this->endpoint = $_ENV['ENDPOINT'];
             $this->endpointTimeout = 60;
-            $this->endpointDebug = DEBUG;
+            $this->endpointDebug = LOGGER_DEBUG;
         }
 
         private function loadTestingData()

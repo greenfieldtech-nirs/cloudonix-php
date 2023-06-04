@@ -1,16 +1,10 @@
 <?php
     /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: HttpHelper.php
-     * @author  :   nirs
-     * @created :  2023-05-11
+     * @package cloudonixPhp
+     * @file    Helpers/HttpHelper.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
      */
 
     namespace Cloudonix\Helpers;
@@ -20,6 +14,12 @@
     use GuzzleHttp\Client as GuzzleClient;
     use GuzzleHttp\Exception\ClientException as GuzzleClientException;
     use GuzzleHttp\Exception\ServerException as GuzzleServerException;
+
+    /**
+     * HTTP Helper Class
+     *
+     * This class is a wrapper for GuzzleHttp which is used extensively in this SDK.
+     */
     class HttpHelper
     {
         protected GuzzleClient $connector;
@@ -31,7 +31,7 @@
          * @param float  $timeout
          * @param int   $debug
          */
-        public function __construct(string $apikey, string $endpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, int $debug = DISABLE)
+        public function __construct(string $apikey, string $endpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, int $debug = LOGGER_DISABLE)
         {
             $this->connector = new GuzzleClient([
                 'base_uri' => $endpoint,

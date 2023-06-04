@@ -1,16 +1,11 @@
 <?php
     /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: Domains.php
-     * @author  :   nirs
-     * @created :  2023-05-15
+     * @package cloudonixPhp
+     * @file    Collections/Domains.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=applications
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
      */
 
     namespace Cloudonix\Collections;
@@ -23,23 +18,7 @@
     use Cloudonix\Entities\Profile as EntityProfile;
 
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
      * VoiceApplications Collection
-     *
-     * @package cloudonixPhp
-     * @file    Collections/Domains.php
-     * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=applications
-     * @license MIT License (https://choosealicense.com/licenses/mit/)
-     * @created 2023-05-14
      *
      * @property-read int           $id                         Voice Application Numeric ID
      * @property-read int           $domainId                   Domain Numeric ID

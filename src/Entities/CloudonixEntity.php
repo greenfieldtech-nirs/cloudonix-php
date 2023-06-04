@@ -1,20 +1,5 @@
 <?php
-
-    namespace Cloudonix\Entities;
-
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
-     * Cloudonix Entity Class
-     * This class represents the generalised form of a Cloudonix data model entity.
-     *
      * @package cloudonixPhp
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @file    Entities/CloudonixEntity.php
@@ -22,9 +7,17 @@
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      */
+
+    namespace Cloudonix\Entities;
+
+    /**
+     * Cloudonix Entity Abstract Class
+     *
+     * This class represents the generalised form of a Cloudonix data model entity.
+     */
     abstract class CloudonixEntity
     {
-        protected string $canonicalPath;
+        protected string $canonicalPath = "";
         public function __construct(mixed $client)
         {
             if (!is_null($client))

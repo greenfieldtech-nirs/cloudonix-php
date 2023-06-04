@@ -1,9 +1,15 @@
 <?php
-
+    /**
+     * @package cloudonixPhp
+     * @file    tests/TenantTest.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
+     */
     namespace Cloudonix;
 
     use Cloudonix\TestConfiguration as TestConfiguration;
-    use Cloudonix\CXClient as CXClient;
+    use Cloudonix\CloudonixClient;
 
     use PHPUnit\Framework\TestCase;
     use Shalvah\Clara\Clara;
@@ -12,7 +18,7 @@
     {
         private static $testTenantApikeyObject;
         private static $testDomainApikeyObject;
-        private CXClient $cxClientTester;
+        private CloudonixClient $cxClientTester;
         private Clara $consoleLogger;
         private static $testConfiguration;
         private static $testTenantObject;
@@ -29,7 +35,7 @@
         {
             $this->consoleLogger = new Clara("TenantTest");
             self::$testConfiguration = new TestConfiguration();
-            $this->cxClientTester = new CXClient(
+            $this->cxClientTester = new CloudonixClient(
                 self::$testConfiguration->apiKey,
                 self::$testConfiguration->endpoint,
                 self::$testConfiguration->endpointTimeout,

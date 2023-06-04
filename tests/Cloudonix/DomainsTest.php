@@ -1,22 +1,16 @@
 <?php
     /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: TenantTest.php
-     * @author  :   nirs
-     * @created :  2023-05-27
+     * @package cloudonixPhp
+     * @file    tests/DomainTest.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
      */
 
     namespace Cloudonix;
 
     use Cloudonix\TestConfiguration as TestConfiguration;
-    use Cloudonix\CXClient as CXClient;
+    use Cloudonix\CloudonixClient;
 
     use PHPUnit\Framework\TestCase;
     use Shalvah\Clara\Clara;
@@ -25,7 +19,7 @@
     {
         private static $testTenantApikeyObject;
         private static $testDomainApikeyObject;
-        private CXClient $cxClientTester;
+        private CloudonixClient $cxClientTester;
         private Clara $consoleLogger;
         private static $testConfiguration;
         private static $testTenantObject;
@@ -43,7 +37,7 @@
         {
             $this->consoleLogger = new Clara("TenantTest");
             self::$testConfiguration = new TestConfiguration();
-            $this->cxClientTester = new CXClient(
+            $this->cxClientTester = new CloudonixClient(
                 self::$testConfiguration->apiKey,
                 self::$testConfiguration->endpoint,
                 self::$testConfiguration->endpointTimeout,
@@ -124,6 +118,28 @@
             $lastDomainCreated = self::$testTenantObject->domain(self::$testConfiguration->newDomain);
             $this->consoleLogger->debug("[" . get_class() . "] Last Created Domain object is " . $lastDomainCreated);
             $this->assertIsObject($lastDomainCreated);
+        }
+
+        public function testSetDomainAlias()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Set domain alias domain created... ");
+            $lastDomainCreated = self::$testTenantObject->domain(self::$testConfiguration->newDomain);
+            $setAliasResult = $lastDomainCreated->setAlias("Alias_" . self::$testConfiguration->newDomain);
+            $this->consoleLogger->debug("[" . get_class() . "] New domain information is now: " . $setAliasResult);
+            $this->assertIsObject($setAliasResult);
+            $this->assertIsInt($setAliasResult->aliases[0]->id);
+            $this->assertIsString($setAliasResult->aliases[0]->alias);
+            $this->assertEquals("Alias_" . self::$testConfiguration->newDomain, $setAliasResult->aliases[0]->alias);
+        }
+
+        public function testUnsetDomainAlias()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Unset domain alias domain created... ");
+            $lastDomainCreated = self::$testTenantObject->domain(self::$testConfiguration->newDomain);
+            $unsetAliasResult = $lastDomainCreated->unsetAlias("Alias_" . self::$testConfiguration->newDomain);
+            $this->consoleLogger->debug("[" . get_class() . "] New domain information is now: " . $unsetAliasResult);
+            $this->assertIsObject($unsetAliasResult);
+            $this->assertObjectNotHasProperty("aliases", $unsetAliasResult);
         }
 
         /**
@@ -246,26 +262,67 @@
             $this->assertEquals('key_value', $updatedSubscriberObject->profile['setup_test_key']);
         }
 
-        public function testDomainSubscribersDelete()
+        public function testDomainInboundTrunkCreate()
         {
-            $this->consoleLogger->debug("[" . get_class() . "] Delete subscribers created in domain: " . self::$testDomainObject->domain);
-            $delete = self::$testDomainObject->subscriber(self::$testConfiguration->newDomainSubscriber)->delete();
-            $this->assertTrue($delete);
-            $delete = self::$testDomainObject->subscriber(self::$testConfiguration->newDomainSubscriber . "_A")->delete();
-            $this->assertTrue($delete);
-            $delete = self::$testDomainObject->subscriber(self::$testConfiguration->newDomainSubscriber . "_B")->delete();
-            $this->assertTrue($delete);
-        }
-        public function testDomainInboundTrunkFunctions()
-        {
+            $this->consoleLogger->debug("[" . get_class() . "] Create Inbound Trunk in domain: " . self::$testDomainObject->domain);
+            self::$testInboundTrunkObject = self::$testDomainObject->newInboundTrunk("inbound_" . date("Hi"), "10.0.0.1");
+            $this->consoleLogger->debug("[" . get_class() . "] Result trunk is:  " . self::$testInboundTrunkObject);
 
+            $this->assertIsObject(self::$testInboundTrunkObject);
+            $this->assertIsInt(self::$testInboundTrunkObject->id);
+            $this->assertEquals(self::$testInboundTrunkObject->ip, "10.0.0.1");
+            $this->assertEquals(self::$testInboundTrunkObject->port, 5060);
+            $this->assertEquals(self::$testInboundTrunkObject->direction, "public-inbound");
+        }
+
+        public function testDomainInboundTrunkUpdate()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Update Inbound Trunk in domain: " . self::$testDomainObject->domain);
+            $myUpdatedInboundTrunk = self::$testInboundTrunkObject->setEndpoint("10.10.10.10", 5060);
+            $this->consoleLogger->debug("[" . get_class() . "] Result trunk is:  " . $myUpdatedInboundTrunk);
+            $this->assertIsInt($myUpdatedInboundTrunk->id);
+            $this->assertEquals($myUpdatedInboundTrunk->ip, "10.10.10.10");
+            $this->assertEquals($myUpdatedInboundTrunk->port, 5060);
+            $this->assertEquals($myUpdatedInboundTrunk->direction, "public-inbound");
+        }
+
+        public function testDomainInboundTrunkDelete()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Delete Inbound Trunk in domain: " . self::$testDomainObject->domain);
+            $deleteInboundTrunk = self::$testInboundTrunkObject->delete();
+            $this->assertTrue($deleteInboundTrunk);
         }
 
         public function testDomainOutboundTrunkFunctions()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Create Outbound Trunk in domain: " . self::$testDomainObject->domain);
+            self::$testOutboundTrunkObject = self::$testDomainObject->newOutboundTrunk("outobound_" . date("Hi"), "192.168.1.1");
+            $this->consoleLogger->debug("[" . get_class() . "] Result trunk is:  " . self::$testOutboundTrunkObject);
 
+            $this->assertIsObject(self::$testOutboundTrunkObject);
+            $this->assertIsInt(self::$testOutboundTrunkObject->id);
+            $this->assertEquals(self::$testOutboundTrunkObject->ip, "192.168.1.1");
+            $this->assertEquals(self::$testOutboundTrunkObject->port, 5060);
+            $this->assertEquals(self::$testOutboundTrunkObject->direction, "public-outbound");
         }
 
+        public function testDomainOutboundTrunkUpdate()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Update Outbound Trunk in domain: " . self::$testDomainObject->domain);
+            $myUpdatedOutboundTrunk = self::$testOutboundTrunkObject->setEndpoint("10.20.20.20", 5060);
+            $this->consoleLogger->debug("[" . get_class() . "] Result trunk is:  " . $myUpdatedOutboundTrunk);
+            $this->assertIsInt($myUpdatedOutboundTrunk->id);
+            $this->assertEquals($myUpdatedOutboundTrunk->ip, "10.20.20.20");
+            $this->assertEquals($myUpdatedOutboundTrunk->port, 5060);
+            $this->assertEquals($myUpdatedOutboundTrunk->direction, "public-outbound");
+        }
+
+        public function testDomainOutboundTrunkDelete()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Delete Inbound Trunk in domain: " . self::$testDomainObject->domain);
+            $deleteOutboundTrunk = self::$testOutboundTrunkObject->delete();
+            $this->assertTrue($deleteOutboundTrunk);
+        }
 
         /**
          * @depends test__construct
@@ -280,6 +337,48 @@
             $this->assertIsObject($domainApplicationsCollection);
             $this->assertIsIterable($domainApplicationsCollection);
             $this->assertIsInt($domainApplicationsCollection->count());
+        }
+
+        public function testDomainOutboundCallSession()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Starting outbound call in domain " . self::$testConfiguration->newDomain);
+            $domainSessions = self::$testDomainObject->sessions();
+            $newSession = $domainSessions->startOutboundCall('972546982826');
+            $this->consoleLogger->debug("[" . get_class() . "] New session response is " . $newSession);
+            $this->assertIsObject($newSession);
+        }
+
+        public function testDomainSubscriberNewSession()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Starting outbound call in domain " . self::$testConfiguration->newDomain);
+            $domainSessions = self::$testDomainObject->sessions();
+            $newSession = $domainSessions->startSubscriberSession(self::$testConfiguration->newDomainSubscriber, '972546982826', "https://api64.ipify.org/");
+            $this->consoleLogger->debug("[" . get_class() . "] New session response is " . $newSession);
+            $this->assertIsObject($newSession);
+        }
+
+        public function testDomainSessions()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Retrieving Sessions for domain" . self::$testConfiguration->newDomain);
+            $domainSessions = self::$testDomainObject->sessions();
+            $this->consoleLogger->debug("[" . get_class() . "] Obtained  " . $domainSessions . " session objects ");
+            $this->assertIsObject($domainSessions);
+        }
+
+        public function testDomainOutgoingSessions()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Retrieving Outgoing Sessions for domain" . self::$testConfiguration->newDomain);
+            $domainSessions = self::$testDomainObject->sessions()->outgoing();
+            $this->consoleLogger->debug("[" . get_class() . "] Obtained  " . $domainSessions . " session objects ");
+            $this->assertIsObject($domainSessions);
+        }
+
+        public function testDomainApplicationSessions()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Retrieving Outgoing Sessions for domain" . self::$testConfiguration->newDomain);
+            $domainSessions = self::$testDomainObject->sessions()->application();
+            $this->consoleLogger->debug("[" . get_class() . "] Obtained  " . $domainSessions . " session objects ");
+            $this->assertIsObject($domainSessions);
         }
 
         /**
@@ -330,6 +429,32 @@
             $this->assertEquals($newUrl, $updatedVoiceApplication->url);
         }
 
+        public function testDomainVoiceApplicationSetSubscriberDataSet()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Set subscriber data in domain: " . self::$testDomainObject->domain);
+            $mySubscriberMSISDN = self::$testConfiguration->newDomainSubscriber;
+            $this->consoleLogger->debug("[" . get_class() . "] Setting subscriber " . $mySubscriberMSISDN . " with data: newkey=new_value");
+            $subscriberData = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->subscriberData($mySubscriberMSISDN)['newkey'] = "new_value";
+            $this->consoleLogger->debug("[" . get_class() . "] Subscriber Data object is now " . $subscriberData);
+            $this->assertTrue(false);
+        }
+
+        public function testDomainVoiceApplicationSetSubscriberDataGet()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Set subscriber data in domain: " . self::$testDomainObject->domain);
+            $mySubscriberMSISDN = self::$testConfiguration->newDomainSubscriber;
+
+            $this->assertTrue(false);
+        }
+
+        public function testDomainVoiceApplicationSetSubscriberDataDelete()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Set subscriber data in domain: " . self::$testDomainObject->domain);
+            $mySubscriberMSISDN = self::$testConfiguration->newDomainSubscriber;
+
+            $this->assertTrue(false);
+        }
+
         public function testDomainDnidCollection()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Get DNID Collection for domain: " . self::$testDomainObject->domain);
@@ -342,7 +467,7 @@
         public function testDomainVoiceApplicationNewDnidPattern()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Create a new DNID for application " . self::$testDomainObject->domain);
-            $dnid = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->newDnidPattern(date("HisY"). "*");
+            $dnid = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->newDnidPattern(date("HisY") . "*");
             $this->consoleLogger->debug("[" . get_class() . "] Response is: " . $dnid);
             $this->assertIsObject($dnid);
         }
@@ -385,13 +510,24 @@
             }
         }
 
-        public function testNewDomainVoiceApplicationDelete() {
+        public function testNewDomainVoiceApplicationDelete()
+        {
             $this->consoleLogger->debug("[" . get_class() . "] Delete Voice Application " . self::$testApplicationObject->name);
             $deleteVoiceApplicationResult = self::$testApplicationObject->delete();
             $this->consoleLogger->debug("[" . get_class() . "] Delete Voice Application is " . (boolean)$deleteVoiceApplicationResult);
             $this->assertTrue($deleteVoiceApplicationResult);
         }
 
+        public function testDomainSubscribersDelete()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Delete subscribers created in domain: " . self::$testDomainObject->domain);
+            $delete = self::$testDomainObject->subscriber(self::$testConfiguration->newDomainSubscriber)->delete(true);
+            $this->assertTrue($delete);
+            $delete = self::$testDomainObject->subscriber(self::$testConfiguration->newDomainSubscriber . "_A")->delete(true);
+            $this->assertTrue($delete);
+            $delete = self::$testDomainObject->subscriber(self::$testConfiguration->newDomainSubscriber . "_B")->delete(true);
+            $this->assertTrue($delete);
+        }
 
         public function testDeleteDomain()
         {

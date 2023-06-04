@@ -1,5 +1,5 @@
 /mytests/
-/.phpdoc/
+/.phpdoc/cache
 /.phpunit.result.cache
 /cloudonix-php.log
 /tests/.env

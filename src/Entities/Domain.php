@@ -1,5 +1,12 @@
 <?php
-
+    /**
+     * @package  cloudonixPhp
+     * @filename Entities/Domain.php
+     * @author   Nir Simionovich <nirs@cloudonix.io>
+     * @see      https://dev.docs.cloudonix.io/#/platform/api-core/models?id=domains
+     * @license  MIT License (https://choosealicense.com/licenses/mit/)
+     * @created  2023-05-14
+     */
     namespace Cloudonix\Entities;
 
     use Cloudonix\Collections\VoiceApplications as CollectionVoiceApplications;
@@ -7,6 +14,7 @@
     use Cloudonix\Collections\Subscribers as CollectionSubscribers;
     use Cloudonix\Collections\Dnids as CollectionDnids;
     use Cloudonix\Collections\Trunks as CollectionTrunks;
+    use Cloudonix\Collections\Sessions as CollectionSessions;
 
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Dnid as EntityDnid;
@@ -15,27 +23,13 @@
     use Cloudonix\Entities\Apikey as EntityApikey;
     use Cloudonix\Entities\Subscriber as EntitySubscriber;
     use Cloudonix\Entities\Trunk as EntityTrunk;
+    use Cloudonix\Entities\Session as EntitySession;
 
 
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
      * Domain Data Model Entity
-     * This class represents the generalised form of a Cloudonix Domain object.
      *
-     * @package  cloudonixPhp
-     * @filename Entities/Domain.php
-     * @author   Nir Simionovich <nirs@cloudonix.io>
-     * @see      https://dev.docs.cloudonix.io/#/platform/api-core/models?id=domains
-     * @license  MIT License (https://choosealicense.com/licenses/mit/)
-     * @created  2023-05-14
+     * This class represents the generalised form of a Cloudonix Domain object.
      *
      * @property-read int               $id                                  Domain Numeric ID
      * @property-read int               $tenantId                            Tenant Numeric ID
@@ -59,7 +53,7 @@
         public CollectionSubscribers $collectionSubscribers;
         public CollectionDnids $collectionDnids;
         public CollectionTrunks $collectionTrunks;
-
+        public CollectionSessions $collectionSessions;
 
         /**
          * Domain DataModel Object Constructor
@@ -83,11 +77,95 @@
         }
 
         /**
+         * Return a new Trunk Entity object
+         *
+         * @param string $trunk Trunk Name or ID
+         *
+         * @return EntityTrunk
+         */
+        public function trunk(string $trunk): EntityTrunk
+        {
+            return new EntityTrunk($trunk, $this);
+        }
+
+        /**
+         * Return the domains' Trunks Collection
+         *
+         * @return CollectionTrunks
+         */
+        public function trunks(): CollectionTrunks
+        {
+            if (!isset($this->collectionTrunks))
+                $this->collectionTrunks = new CollectionTrunks($this);
+
+            return $this->collectionTrunks->refresh();
+        }
+
+        /**
+         * Create a new inbound Trunk in the domain
+         *
+         * @param string $name      Name of the inbound Trunk
+         * @param string $ip        IP or FQDN of the inbound Trunk
+         * @param int    $port      PORT Number of the inbound Trunk (Default: 5060)
+         * @param string $transport Transport of the inbound Trunk (UDP/TCP/TLS)
+         * @param string $prefix    Technical prefix to match against inbound INVITE from this Trunk
+         *
+         * @return EntityTrunk
+         */
+        public function newInboundTrunk(string $name,
+                                        string $ip,
+                                        int    $port = 5060,
+                                        string $transport = "udp",
+                                        string $prefix = ""): EntityTrunk
+        {
+            $result = $this->client->httpConnector->request("POST", $this->getPath() . URLPATH_TRUNKS, [
+                'name' => $name,
+                'ip' => $ip,
+                'port' => $port,
+                'prefix' => $prefix,
+                'transport' => $transport,
+                'direction' => 'public-inbound'
+            ]);
+            return new EntityTrunk($name, $this, $result);
+        }
+
+        /**
+         * Create a new outbound Trunk in the domain
+         *
+         * @param string $name      Name of the outbound Trunk
+         * @param string $ip        IP number or FQDN of the outbound Trunk
+         * @param int    $port      Port number of the outbound Trunk (Default: 5060)
+         * @param string $transport Transport of the outbound Trunk (UDP/TCP/TLS)
+         * @param string $prefix    Technical prefix to prepend to outbound calls from this trunk
+         * @param int    $metric    Assigned metric for this trunk, the lower the number - the higher the priority
+         *
+         * @return EntityTrunk
+         */
+        public function newOutboundTrunk(string $name,
+                                         string $ip,
+                                         int $port = 5060,
+                                         string $transport = "udp",
+                                         string $prefix = "",
+                                         int $metric = 10): EntityTrunk
+        {
+            $result = $this->client->httpConnector->request("POST", $this->getPath() . URLPATH_TRUNKS, [
+                'name' => $name,
+                'ip' => $ip,
+                'port' => $port,
+                'prefix' => $prefix,
+                'transport' => $transport,
+                'metric' => $metric,
+                'direction' => 'public-outbound'
+            ]);
+            return new EntityTrunk($name, $this, $result);
+        }
+
+        /**
          * Return a new DNID Entity object
          *
          * @param string $dnid DNID Number or ID
          *
-         * @return Dnid
+         * @return EntityDnid
          */
         public function dnid(string $dnid): EntityDnid
         {
@@ -112,7 +190,7 @@
          *
          * @param string $voiceapplication
          *
-         * @return VoiceApplication
+         * @return EntityApplication
          */
         public function voiceApplication(string $voiceapplication): EntityApplication
         {
@@ -139,7 +217,7 @@
          * @param string $url    Voice application URL
          * @param string $method Voice application HTTP Method (GET/POST)
          *
-         * @return VoiceApplication
+         * @return EntityApplication
          */
         public function newVoiceApplicationFromUrl(string $name, string $url, string $method): EntityApplication
         {
@@ -194,7 +272,7 @@
         /**
          * Return a collection of domain associated Subscriber objects
          *
-         * @return CollectionApikeys
+         * @return CollectionSubscribers
          */
         public function subscribers(): CollectionSubscribers
         {
@@ -230,6 +308,30 @@
             return $subscribersCollection->newSubscriber($subscriber, $sipPassword);
         }
 
+        /**
+         * Create a new Sessions object in the domain, based upon a predefined token
+         *
+         * @param string $token
+         *
+         * @return Session
+         */
+        public function session(string $token): EntitySession
+        {
+            return new EntitySession($token, $this);
+        }
+
+        /**
+         * Return a collection of domain associated session objects
+         *
+         * @return CollectionSessions
+         */
+        public function sessions(): CollectionSessions
+        {
+            if (!isset($this->collectionSessions))
+                $this->collectionSessions = new CollectionSessions($this);
+
+            return $this->collectionSessions;
+        }
 
         /**
          * Set RegFree Dialing information for the Domain
@@ -341,6 +443,18 @@
         public function setDefaultApplication(int $application): Domain
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), ['defaultApplication' => $application]);
+            return $this->refresh();
+        }
+
+        public function setAlias(string $alias): Domain
+        {
+            $this->client->httpConnector->request("POST", $this->getPath() . "/aliases", [ 'alias' => $alias ]);
+            return $this->refresh();
+        }
+
+        public function unsetAlias(string $alias): Domain
+        {
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/aliases/" . $alias);
             return $this->refresh();
         }
 

@@ -1,5 +1,11 @@
 <?php
-
+    /**
+     * @package cloudonixPhp
+     * @file    CloudonixClient.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
+     */
     namespace Cloudonix;
 
     use Cloudonix\Helpers\HttpHelper as HttpHelper;
@@ -13,21 +19,10 @@
     require_once 'Helpers/ConfigHelper.php';
 
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
-     * @project cloudonix-php
-     * @file    CxClient.php
-     * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @created 2023-05-09
+     * CloudonixClient Object
      */
-    class CXClient
+
+    class CloudonixClient
     {
         public HttpHelper $httpConnector;
 
@@ -39,11 +34,11 @@
          * @param float       $timeout      HTTP Client timeout
          * @param int         $debug        Debug Log level (see: Helpers/ConfigHelper.php)
          */
-        public function __construct(string $apikey = null, string $httpEndpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, int $debug = DISABLE)
+        public function __construct(string $apikey = null, string $httpEndpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, int $debug = LOGGER_DISABLE)
         {
             try {
                 $this->logger = new LogHelper($debug);
-                $this->logger->debug("CXClient is starting");
+                $this->logger->debug("CloudonixClient is starting");
                 $this->httpConnector = new HttpHelper($apikey, $httpEndpoint, $timeout, $debug);
             } catch (Exception $e) {
                 die($e->getMessage() . '  code: ' . $e->getCode());

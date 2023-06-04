@@ -1,5 +1,12 @@
 <?php
-
+    /**
+     * @package cloudonixPhp
+     * @file    Entities/Profile.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
+     */
     namespace Cloudonix\Entities;
 
     use ArrayIterator;
@@ -8,25 +15,10 @@
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
 
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
      * Profile Data Model Entity
+     *
      * This class represents the generalised form of a Cloudonix Profile object.
      * Profiles are used in Cloudonix with various data models - and is free formed.
-     *
-     * @package cloudonixPhp
-     * @file    Entities/Profile.php
-     * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models
-     * @license MIT License (https://choosealicense.com/licenses/mit/)
-     * @created 2023-05-14
      */
     class Profile extends CloudonixEntity implements \IteratorAggregate, \ArrayAccess
     {
@@ -43,9 +35,9 @@
         public function __construct(mixed $profileStdObject, mixed $parentBranch)
         {
             $this->client = $parentBranch->client;
+            parent::__construct($profileStdObject);
             $this->setPath($parentBranch->canonicalPath);
             $this->buildEntityData($profileStdObject);
-            parent::__construct($profileStdObject);
         }
 
         /**

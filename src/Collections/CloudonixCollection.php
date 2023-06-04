@@ -1,27 +1,24 @@
 <?php
     /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: CloudonixCollection.php
-     * @author  :   nirs
-     * @created :  2023-05-11
+     * @package cloudonixPhp
+     * @file    Collections/CloudonixCollection.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
      */
-
     namespace Cloudonix\Collections;
 
     use ArrayIterator;
     use Traversable;
 
+    /**
+     * Cloudonix Collection Abstract Class
+     */
     abstract class CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
         protected array $collection = [];
         protected int $collectionCount = 0;
+        protected string $canonicalPath = "";
 
         abstract public function getPath(): string;
 

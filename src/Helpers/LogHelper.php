@@ -1,16 +1,10 @@
 <?php
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
-     * @Project cloudonix-php | LogHelper.php
-     * @author  Nir Simionovich <nirs@cloudonix.io> | 2023-05-04
+     * @package cloudonixPhp
+     * @file    Helpers/LogHelper.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
      */
 
     namespace Cloudonix\Helpers;
@@ -18,12 +12,18 @@
     use Monolog\Logger;
     use Monolog\Handler\StreamHandler;
     use Monolog\Formatter\LineFormatter;
+
+    /**
+     * LogHelper Class
+     *
+     * The LogHelper class provides a wrapper interface to Monolog Logger, allowing simpler and clear logging.
+     */
     class LogHelper
     {
         public $logger;
         public $level;
 
-        public function __construct($logChannelLevel = DISABLE, string $logChannelName = 'cloudonix-php', string $logChannelStream = 'cloudonix-php.log')
+        public function __construct($logChannelLevel = LOGGER_DISABLE, string $logChannelName = 'cloudonix-php', string $logChannelStream = 'cloudonix-php.log')
         {
             $this->logger = new Logger($logChannelName);
             $streamHandler = new StreamHandler($logChannelStream);
@@ -57,7 +57,7 @@
          */
         public function info(string $param, $array = [])
         {
-            if (!$this->severityFilter(INFO)) return;
+            if (!$this->severityFilter(LOGGER_INFO)) return;
             $array = (is_object($array)) ? (array)$array : $array;
             $this->logger->info($param, $array);
             return;
@@ -65,7 +65,7 @@
 
         public function debug(string $param, $array = [])
         {
-            if (!$this->severityFilter(DEBUG)) return;
+            if (!$this->severityFilter(LOGGER_DEBUG)) return;
             $array = (is_object($array)) ? (array)$array : $array;
             $this->logger->debug($param, $array);
             return;
@@ -73,7 +73,7 @@
 
         public function error(string $param, $array = [])
         {
-            if (!$this->severityFilter(ERROR)) return;
+            if (!$this->severityFilter(LOGGER_ERROR)) return;
             $array = (is_object($array)) ? (array)$array : $array;
             $this->logger->error($param, $array);
             return;
@@ -81,7 +81,7 @@
 
         public function critical(string $param, $array = [])
         {
-            if (!$this->severityFilter(CRITICAL)) return;
+            if (!$this->severityFilter(LOGGER_CRITICAL)) return;
             $array = (is_object($array)) ? (array)$array : $array;
             $this->logger->critical($param, $array);
             return;
@@ -89,7 +89,7 @@
 
         public function alert(string $param, $array = [])
         {
-            if (!$this->severityFilter(ALERT)) return;
+            if (!$this->severityFilter(LOGGER_ALERT)) return;
             $array = (is_object($array)) ? (array)$array : $array;
             $this->logger->alert($param, $array);
             return;
@@ -97,7 +97,7 @@
 
         public function notice(string $param, $array = [])
         {
-            if (!$this->severityFilter(NOTICE)) return;
+            if (!$this->severityFilter(LOGGER_NOTICE)) return;
             $array = (is_object($array)) ? (array)$array : $array;
             $this->logger->notice($param, $array);
             return;
@@ -105,7 +105,7 @@
 
         public function warning(string $param, $array = [])
         {
-            if (!$this->severityFilter(WARNING)) return;
+            if (!$this->severityFilter(LOGGER_WARNING)) return;
             $array = (is_object($array)) ? (array)$array : $array;
             $this->logger->warning($param, $array);
             return;
@@ -113,7 +113,7 @@
 
         public function emergency(string $param, $array = [])
         {
-            if (!$this->severityFilter(EMERGENCY)) return;
+            if (!$this->severityFilter(LOGGER_EMERGENCY)) return;
             $array = (is_object($array)) ? (array)$array : $array;
             $this->logger->emergency($param, $array);
             return;

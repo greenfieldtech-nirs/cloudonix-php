@@ -1,34 +1,28 @@
 <?php
+    /**
+     * @package cloudonixPhp
+     * @filename: Entities/VoiceApplication.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=applications
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created :  2023-05-14
+     */
 
     namespace Cloudonix\Entities;
 
     use Cloudonix\Collections\Dnids as CollectionDnids;
 
-    use Cloudonix\Collections\Subscribers as CollectionSubscribers;
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\Dnid as EntityDnid;
+    use Cloudonix\Entities\VoiceApplicationSubscriberData as EntityVoiceApplicationSubscriberData;
+
     use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
      * Voice Application Data Model Entity
-     * This class represents the generalised form of a Cloudonix Application object.
      *
-     * @package cloudonixPhp
-     * @filename: Entities/Application.php
-     * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=applications
-     * @license MIT License (https://choosealicense.com/licenses/mit/)
-     * @created :  2023-05-14
+     * This class represents the generalised form of a Cloudonix Voice Application object.
      *
      * @property-read int           $id                     Application Numeric ID
      * @property-read int           $domainId               Domain Numeric ID
@@ -45,7 +39,6 @@
     class VoiceApplication extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $canonicalPath = "";
         public CollectionDnids $collectionDnids;
 
         /**
@@ -156,6 +149,11 @@
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), ['active' => $status]);
             return $this->refresh();
+        }
+
+        public function subscriberData(string $subscriber): EntityVoiceApplicationSubscriberData
+        {
+            return new EntityVoiceApplicationSubscriberData($this, $subscriber);
         }
 
         public function delete(): bool

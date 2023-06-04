@@ -1,5 +1,12 @@
 <?php
-
+    /**
+     * @package cloudonixPhp
+     * @filename: Entities/ContainerApplication.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=hosted-applications
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created :  2023-05-14
+     */
     namespace Cloudonix\Entities;
 
     use Cloudonix\Collections\ContainerApplicationBlocks as CollectionContainerApplicationBlocks;
@@ -8,24 +15,9 @@
     use Cloudonix\Entities\ContainerApplicationBlock as EntityContainerApplicationBlock;
 
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
      * Container Application Data Model Entity
-     * This class represents the generalised form of a Cloudonix Application object.
      *
-     * @package cloudonixPhp
-     * @filename: Entities/Application.php
-     * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=hosted-applications
-     * @license MIT License (https://choosealicense.com/licenses/mit/)
-     * @created :  2023-05-14
+     * This class represents the generalised form of a Cloudonix Application object.
      *
      * @property-read int                                  $id                     Container Application Numeric ID
      * @property-read string                               $name                   Container Application Name

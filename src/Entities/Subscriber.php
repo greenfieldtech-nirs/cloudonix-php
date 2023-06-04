@@ -1,16 +1,11 @@
 <?php
     /**
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     *
-     * @project :  cloudonix-php
-     * @filename: Domain.php
-     * @author  :   nirs
-     * @created :  2023-05-14
+     * @package cloudonixPhp
+     * @file    Entities/Subscriber.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=subscriber
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created 2023-05-14
      */
 
     namespace Cloudonix\Entities;
@@ -21,35 +16,19 @@
     use Cloudonix\Entities\Profile as EntityProfile;
 
     /**
-     * <code>
-     *  ██████╗██╗      ██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗
-     * ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██╔██╗ ██║██║ ╚███╔╝
-     * ██║     ██║     ██║   ██║██║   ██║██║  ██║██║   ██║██║╚██╗██║██║ ██╔██╗
-     * ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝╚██████╔╝██║ ╚████║██║██╔╝ ██╗
-     *  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
-     * </code>
-     *
      * Subscriber Data Model Entity
+     *
      * This class represents the generalised form of a Cloudonix Subscriber object.
-     * Profiles are used in Cloudonix with various data models - and is free formed.
      *
-     * @package cloudonixPhp
-     * @file    Entities/Subscriber.php
-     * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=subscriber
-     * @license MIT License (https://choosealicense.com/licenses/mit/)
-     * @created 2023-05-14
-     *
-     * @property-read int    $id                            Subscriber Numeric ID
-     * @property-read string $msisdn                        Subscriber MSISDN
-     * @property-read int    $domainId                      Domain Numeric ID
-     * @property      bool   $active                        Subscriber Status
-     * @property      string $sipPassword                   Subscriber SIP Password
-     * @property-read string $createdAt                     Subscriber Creation Date and time
-     * @property-read string $modifiedAt                    Subscriber Last Modification Date and time
-     * @property-read string $deletedAt                     Subscriber Deletion Date and time
-     * @property      EntityProfile $profile                Subscriber Profile Object
+     * @property-read int           $id                            Subscriber Numeric ID
+     * @property-read string        $msisdn                        Subscriber MSISDN
+     * @property-read int           $domainId                      Domain Numeric ID
+     * @property      bool          $active                        Subscriber Status
+     * @property      string        $sipPassword                   Subscriber SIP Password
+     * @property-read string        $createdAt                     Subscriber Creation Date and time
+     * @property-read string        $modifiedAt                    Subscriber Last Modification Date and time
+     * @property-read string        $deletedAt                     Subscriber Deletion Date and time
+     * @property      EntityProfile $profile                       Subscriber Profile Object
      */
     class Subscriber extends CloudonixEntity
     {
@@ -74,9 +53,9 @@
             parent::__construct($subscriberObject);
         }
 
-        public function delete(): bool
+        public function delete(bool $force = false): bool
         {
-            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            $result = $this->client->httpConnector->request("DELETE", ($this->getPath() . ($force)) ? "?can-deactivate=true" : "");
             if ($result->code == 204)
                 return true;
             return false;
@@ -88,7 +67,7 @@
                 $passwd = new UtilityHelper();
                 $password = $passwd->generateSecuredPassword();
             }
-            $result = $this->client->httpConnector->request("PATCH", $this->getPath(), [ 'sip-password' => $password]);
+            $result = $this->client->httpConnector->request("PATCH", $this->getPath(), ['sip-password' => $password]);
             $this->buildEntityData($result);
             return $this;
         }

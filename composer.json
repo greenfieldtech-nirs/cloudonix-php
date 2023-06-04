@@ -32,12 +32,6 @@
 	  ],
 	  "Cloudonix\\Entities\\": [
 		"./src/Entities/"
-	  ],
-	  "Cloudonix\\Models\\": [
-		"./src/Datamodel/"
-	  ],
-	  "Cloudonix\\Exceptions\\": [
-		"./src/Exceptions/"
 	  ]
 	}
   },

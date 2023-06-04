@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+
+{%
+    set topMenu = {
+    "menu": [
+        { "name": "About", "url": "https://cloudonix.io"},
+        { "name": "Documentation", "url": "index.html"},
+    ],
+    "social": [
+        { "iconClass": "fab fa-github", "url": "https://github.com/cloudonix"},
+        { "iconClass": "fab fa-slack", "url": "https://join.slack.com/t/cloudonixcommunity/shared_invite/enQtNzcwMDM1NTgwMTk5LTc3N2RiMTViNTE4NGMzY2RiMTA2MGY2YmIwMDc0ZDYwZDhkOTBhZTFmMTdjMGY3YmI1Y2Q4NTkwNGZmOTU3MTM"},
+        { "iconClass": "fas fa-dev", "url": "https://dev.docs.cloudonix.io/"}
+    ]
+}
+%}
