@@ -161,6 +161,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cloudonix-Collections-CloudonixCollection.html#property_collectionCount"
         },                {
+            "fqsen": "\\Cloudonix\\Collections\\CloudonixCollection\u003A\u003A\u0024canonicalPath",
+            "name": "canonicalPath",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-CloudonixCollection.html#property_canonicalPath"
+        },                {
             "fqsen": "\\Cloudonix\\Collections\\ContainerApplicationBlocks",
             "name": "ContainerApplicationBlocks",
             "summary": "Container\u0020Application\u0020Blocks\u0020Collection",
@@ -410,6 +415,96 @@ Search.appendIndex(
             "name": "parent",
             "summary": "",
             "url": "classes/Cloudonix-Collections-Domains.html#property_parent"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions",
+            "name": "Sessions",
+            "summary": "Sessions\u0020Collection",
+            "url": "classes/Cloudonix-Collections-Sessions.html"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method___construct"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003AstartOutboundCall\u0028\u0029",
+            "name": "startOutboundCall",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_startOutboundCall"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003AstartSubscriberSession\u0028\u0029",
+            "name": "startSubscriberSession",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_startSubscriberSession"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003Aincoming\u0028\u0029",
+            "name": "incoming",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_incoming"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003Aoutgoing\u0028\u0029",
+            "name": "outgoing",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_outgoing"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003Aapplication\u0028\u0029",
+            "name": "application",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_application"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003AgetPath\u0028\u0029",
+            "name": "getPath",
+            "summary": "Return\u0020the\u0020entity\u0020REST\u0020API\u0020canonical\u0020path",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_getPath"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003AsetPath\u0028\u0029",
+            "name": "setPath",
+            "summary": "Set\u0020the\u0020entity\u0020REST\u0020API\u0020canonical\u0020path",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_setPath"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003Arefresh\u0028\u0029",
+            "name": "refresh",
+            "summary": "Refresh\u0020the\u0020collection",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_refresh"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003ArefreshCollectionData\u0028\u0029",
+            "name": "refreshCollectionData",
+            "summary": "Build\u0020the\u0020local\u0020collection\u0020data\u0020storage",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_refreshCollectionData"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003AoffsetSet\u0028\u0029",
+            "name": "offsetSet",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_offsetSet"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003AoffsetUnset\u0028\u0029",
+            "name": "offsetUnset",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_offsetUnset"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003AoffsetGet\u0028\u0029",
+            "name": "offsetGet",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_offsetGet"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003AgetIterator\u0028\u0029",
+            "name": "getIterator",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method_getIterator"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003A__toString\u0028\u0029",
+            "name": "__toString",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#method___toString"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003A\u0024client",
+            "name": "client",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#property_client"
+        },                {
+            "fqsen": "\\Cloudonix\\Collections\\Sessions\u003A\u003A\u0024parent",
+            "name": "parent",
+            "summary": "",
+            "url": "classes/Cloudonix-Collections-Sessions.html#property_parent"
         },                {
             "fqsen": "\\Cloudonix\\Collections\\Subscribers",
             "name": "Subscribers",
@@ -736,11 +831,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cloudonix-Entities-Apikey.html#property_client"
         },                {
-            "fqsen": "\\Cloudonix\\Entities\\Apikey\u003A\u003A\u0024canonicalPath",
-            "name": "canonicalPath",
-            "summary": "",
-            "url": "classes/Cloudonix-Entities-Apikey.html#property_canonicalPath"
-        },                {
             "fqsen": "\\Cloudonix\\Entities\\Apikey\u003A\u003A\u0024parentBranch",
             "name": "parentBranch",
             "summary": "",
@@ -1031,6 +1121,16 @@ Search.appendIndex(
             "summary": "Create\u0020a\u0020new\u0020Subscriber\u0020in\u0020the\u0020domain",
             "url": "classes/Cloudonix-Entities-Domain.html#method_newSubscriber"
         },                {
+            "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003Asession\u0028\u0029",
+            "name": "session",
+            "summary": "Create\u0020a\u0020new\u0020Sessions\u0020object\u0020in\u0020the\u0020domain,\u0020based\u0020upon\u0020a\u0020predefined\u0020token",
+            "url": "classes/Cloudonix-Entities-Domain.html#method_session"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003Asessions\u0028\u0029",
+            "name": "sessions",
+            "summary": "Return\u0020a\u0020collection\u0020of\u0020domain\u0020associated\u0020session\u0020objects",
+            "url": "classes/Cloudonix-Entities-Domain.html#method_sessions"
+        },                {
             "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003AsetRegFree\u0028\u0029",
             "name": "setRegFree",
             "summary": "Set\u0020RegFree\u0020Dialing\u0020information\u0020for\u0020the\u0020Domain",
@@ -1111,6 +1211,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cloudonix-Entities-Domain.html#method_setDefaultApplication"
         },                {
+            "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003AsetAlias\u0028\u0029",
+            "name": "setAlias",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-Domain.html#method_setAlias"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003AunsetAlias\u0028\u0029",
+            "name": "unsetAlias",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-Domain.html#method_unsetAlias"
+        },                {
             "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
             "summary": "",
@@ -1146,11 +1256,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cloudonix-Entities-Domain.html#property_client"
         },                {
-            "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003A\u0024canonicalPath",
-            "name": "canonicalPath",
-            "summary": "",
-            "url": "classes/Cloudonix-Entities-Domain.html#property_canonicalPath"
-        },                {
             "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003A\u0024collectionVoiceApplications",
             "name": "collectionVoiceApplications",
             "summary": "",
@@ -1175,6 +1280,11 @@ Search.appendIndex(
             "name": "collectionTrunks",
             "summary": "",
             "url": "classes/Cloudonix-Entities-Domain.html#property_collectionTrunks"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Domain\u003A\u003A\u0024collectionSessions",
+            "name": "collectionSessions",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-Domain.html#property_collectionSessions"
         },                {
             "fqsen": "\\Cloudonix\\Entities\\Profile",
             "name": "Profile",
@@ -1246,15 +1356,75 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cloudonix-Entities-Profile.html#property_client"
         },                {
-            "fqsen": "\\Cloudonix\\Entities\\Profile\u003A\u003A\u0024canonicalPath",
-            "name": "canonicalPath",
-            "summary": "",
-            "url": "classes/Cloudonix-Entities-Profile.html#property_canonicalPath"
-        },                {
             "fqsen": "\\Cloudonix\\Entities\\Profile\u003A\u003A\u0024profile",
             "name": "profile",
             "summary": "",
             "url": "classes/Cloudonix-Entities-Profile.html#property_profile"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session",
+            "name": "Session",
+            "summary": "Session\u0020Data\u0020Model\u0020Entity",
+            "url": "classes/Cloudonix-Entities-Session.html"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Session\u0020DataModel\u0020Object\u0020Constructor",
+            "url": "classes/Cloudonix-Entities-Session.html#method___construct"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003AupdateTimeLimit\u0028\u0029",
+            "name": "updateTimeLimit",
+            "summary": "Update\u0020the\u0020current\u0020timeLimit\u0020of\u0020an\u0020active\u0020session",
+            "url": "classes/Cloudonix-Entities-Session.html#method_updateTimeLimit"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003AnotifyRinging\u0028\u0029",
+            "name": "notifyRinging",
+            "summary": "Notify\u0020that\u0020a\u0020remote\u0020subscriber\u0020device\u0020\u0028either\u0020a\u0020mobile\u0020application\u0020or\u0020web\u0020application\u0029\u0020is\u0020currently\u0020ringing",
+            "url": "classes/Cloudonix-Entities-Session.html#method_notifyRinging"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003AswitchVoiceApplicationToCXML\u0028\u0029",
+            "name": "switchVoiceApplicationToCXML",
+            "summary": "Transfer\u0020session\u0020control\u0020to\u0020a\u0020new\u0020voice\u0020application,\u0020provided\u0020as\u0020CXML.",
+            "url": "classes/Cloudonix-Entities-Session.html#method_switchVoiceApplicationToCXML"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003AswitchVoiceApplicationToUrl\u0028\u0029",
+            "name": "switchVoiceApplicationToUrl",
+            "summary": "Transfer\u0020session\u0020control\u0020to\u0020a\u0020new\u0020voice\u0020application,\u0020provided\u0020a\u0020remote\u0020URL.",
+            "url": "classes/Cloudonix-Entities-Session.html#method_switchVoiceApplicationToUrl"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003AforkRoutedCall\u0028\u0029",
+            "name": "forkRoutedCall",
+            "summary": "Fork\u0020an\u0020active\u0020session\/call,\u0020transferring\u0020each\u0020participant\u0020to\u0020a\u0020new\u0020voice\u0020application.",
+            "url": "classes/Cloudonix-Entities-Session.html#method_forkRoutedCall"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003Adelete\u0028\u0029",
+            "name": "delete",
+            "summary": "Delete\u0020an\u0020active\u0020session\u0020\u002D\u0020will\u0020terminate\u0020the\u0020active\u0020call",
+            "url": "classes/Cloudonix-Entities-Session.html#method_delete"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003AgetPath\u0028\u0029",
+            "name": "getPath",
+            "summary": "Return\u0020the\u0020entity\u0020REST\u0020API\u0020canonical\u0020path",
+            "url": "classes/Cloudonix-Entities-Session.html#method_getPath"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003AsetPath\u0028\u0029",
+            "name": "setPath",
+            "summary": "Set\u0020the\u0020entity\u0020REST\u0020API\u0020canonical\u0020path",
+            "url": "classes/Cloudonix-Entities-Session.html#method_setPath"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003Arefresh\u0028\u0029",
+            "name": "refresh",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-Session.html#method_refresh"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003AbuildEntityData\u0028\u0029",
+            "name": "buildEntityData",
+            "summary": "Build\u0020the\u0020local\u0020Dnid\u0020properties",
+            "url": "classes/Cloudonix-Entities-Session.html#method_buildEntityData"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\Session\u003A\u003A\u0024client",
+            "name": "client",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-Session.html#property_client"
         },                {
             "fqsen": "\\Cloudonix\\Entities\\Subscriber",
             "name": "Subscriber",
@@ -1268,12 +1438,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cloudonix\\Entities\\Subscriber\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
-            "summary": "",
+            "summary": "Delete\u0020the\u0020subscriber",
             "url": "classes/Cloudonix-Entities-Subscriber.html#method_delete"
         },                {
             "fqsen": "\\Cloudonix\\Entities\\Subscriber\u003A\u003AresetSipPassword\u0028\u0029",
             "name": "resetSipPassword",
-            "summary": "",
+            "summary": "Reset\u0020the\u0020subscriber\u0020SIP\u0020Password.",
             "url": "classes/Cloudonix-Entities-Subscriber.html#method_resetSipPassword"
         },                {
             "fqsen": "\\Cloudonix\\Entities\\Subscriber\u003A\u003AgetPath\u0028\u0029",
@@ -1305,11 +1475,6 @@ Search.appendIndex(
             "name": "client",
             "summary": "",
             "url": "classes/Cloudonix-Entities-Subscriber.html#property_client"
-        },                {
-            "fqsen": "\\Cloudonix\\Entities\\Subscriber\u003A\u003A\u0024canonicalPath",
-            "name": "canonicalPath",
-            "summary": "",
-            "url": "classes/Cloudonix-Entities-Subscriber.html#property_canonicalPath"
         },                {
             "fqsen": "\\Cloudonix\\Entities\\Tenant",
             "name": "Tenant",
@@ -1395,11 +1560,6 @@ Search.appendIndex(
             "name": "client",
             "summary": "",
             "url": "classes/Cloudonix-Entities-Tenant.html#property_client"
-        },                {
-            "fqsen": "\\Cloudonix\\Entities\\Tenant\u003A\u003A\u0024canonicalPath",
-            "name": "canonicalPath",
-            "summary": "",
-            "url": "classes/Cloudonix-Entities-Tenant.html#property_canonicalPath"
         },                {
             "fqsen": "\\Cloudonix\\Entities\\Tenant\u003A\u003A\u0024entityId",
             "name": "entityId",
@@ -1546,6 +1706,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cloudonix-Entities-VoiceApplication.html#method_setActive"
         },                {
+            "fqsen": "\\Cloudonix\\Entities\\VoiceApplication\u003A\u003AsubscriberData\u0028\u0029",
+            "name": "subscriberData",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplication.html#method_subscriberData"
+        },                {
             "fqsen": "\\Cloudonix\\Entities\\VoiceApplication\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
             "summary": "",
@@ -1576,15 +1741,90 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cloudonix-Entities-VoiceApplication.html#property_client"
         },                {
-            "fqsen": "\\Cloudonix\\Entities\\VoiceApplication\u003A\u003A\u0024canonicalPath",
-            "name": "canonicalPath",
-            "summary": "",
-            "url": "classes/Cloudonix-Entities-VoiceApplication.html#property_canonicalPath"
-        },                {
             "fqsen": "\\Cloudonix\\Entities\\VoiceApplication\u003A\u003A\u0024collectionDnids",
             "name": "collectionDnids",
             "summary": "",
             "url": "classes/Cloudonix-Entities-VoiceApplication.html#property_collectionDnids"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey",
+            "name": "VoiceApplicationSubscriberData",
+            "summary": "VoiceApplication\u0020Subscriber\u0020Data\u0020Model\u0020Entity",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "VoiceApplication\u0020Subscriber\u0020Data\u0020DataModel\u0020Object\u0020Constructor",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method___construct"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003AgetPath\u0028\u0029",
+            "name": "getPath",
+            "summary": "Return\u0020the\u0020entity\u0020REST\u0020API\u0020canonical\u0020path",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_getPath"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003AsetPath\u0028\u0029",
+            "name": "setPath",
+            "summary": "Set\u0020the\u0020entity\u0020REST\u0020API\u0020canonical\u0020path",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_setPath"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003Arefresh\u0028\u0029",
+            "name": "refresh",
+            "summary": "Refresh\u0020the\u0020local\u0020storage\u0020with\u0020the\u0020remote\u0020data",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_refresh"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003Adelete\u0028\u0029",
+            "name": "delete",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_delete"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003AbuildEntityData\u0028\u0029",
+            "name": "buildEntityData",
+            "summary": "Build\u0020the\u0020voice\u0020application\u0020subscribers\u0020data",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_buildEntityData"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003AoffsetExists\u0028\u0029",
+            "name": "offsetExists",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_offsetExists"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003AoffsetGet\u0028\u0029",
+            "name": "offsetGet",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_offsetGet"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003AoffsetSet\u0028\u0029",
+            "name": "offsetSet",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_offsetSet"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003AoffsetUnset\u0028\u0029",
+            "name": "offsetUnset",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_offsetUnset"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003Aset\u0028\u0029",
+            "name": "set",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_set"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003AgetIterator\u0028\u0029",
+            "name": "getIterator",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method_getIterator"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003A__toString\u0028\u0029",
+            "name": "__toString",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#method___toString"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003A\u0024client",
+            "name": "client",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#property_client"
+        },                {
+            "fqsen": "\\Cloudonix\\Entities\\SubscriberDataKey\u003A\u003A\u0024subscriberData",
+            "name": "subscriberData",
+            "summary": "",
+            "url": "classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html#property_subscriberData"
         },                {
             "fqsen": "\\HTTP_TIMEOUT",
             "name": "HTTP_TIMEOUT",
@@ -1701,10 +1941,30 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html#constant_URLPATH_DNIDS"
         },                {
+            "fqsen": "\\URLPATH_CALLS",
+            "name": "URLPATH_CALLS",
+            "summary": "",
+            "url": "namespaces/default.html#constant_URLPATH_CALLS"
+        },                {
             "fqsen": "\\URLPATH_SESSIONS",
             "name": "URLPATH_SESSIONS",
             "summary": "",
             "url": "namespaces/default.html#constant_URLPATH_SESSIONS"
+        },                {
+            "fqsen": "\\FILTER_INCOMING",
+            "name": "FILTER_INCOMING",
+            "summary": "",
+            "url": "namespaces/default.html#constant_FILTER_INCOMING"
+        },                {
+            "fqsen": "\\FILTER_OUTGOING",
+            "name": "FILTER_OUTGOING",
+            "summary": "",
+            "url": "namespaces/default.html#constant_FILTER_OUTGOING"
+        },                {
+            "fqsen": "\\FILTER_APPLICATION",
+            "name": "FILTER_APPLICATION",
+            "summary": "",
+            "url": "namespaces/default.html#constant_FILTER_APPLICATION"
         },                {
             "fqsen": "\\URLPATH_CONFERENCES",
             "name": "URLPATH_CONFERENCES",

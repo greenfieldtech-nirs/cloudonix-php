@@ -10,6 +10,7 @@
     namespace Cloudonix\Helpers;
 
     use Exception;
+    use GuzzleHttp\Exception\GuzzleException;
     use stdClass;
     use GuzzleHttp\Client as GuzzleClient;
     use GuzzleHttp\Exception\ClientException as GuzzleClientException;
@@ -49,24 +50,25 @@
         /**
          * Issue a REST HTTP request to Cloudonix API endpoint - based on provided information
          *
-         * @param      $method
-         * @param      $request
-         * @param null $data
+         * @param string $method
+         * @param string $request
+         * @param null   $data
          *
          * @return stdClass
-         * @throws Exception
-         * @throws GuzzleClientException
-         * @throws GuzzleServerException
+         * @throws GuzzleException
          */
-        public function request($method, $request, $data = null): object
+        public function request(string $method, string $request, mixed $data = null): object
         {
-            if ($data != null)
+            $requestBodyType = 'body';
+            if (($data != null) && (is_array($data))) {
                 $this->httpHeaders['Content-Type'] = "application/json";
+                $requestBodyType = 'json';
+            }
 
             switch (strtoupper($method)) {
                 case "POST":
                     if ($data != null)
-                        $requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+                        $requestData = ['headers' => $this->httpHeaders, $requestBodyType => $data];
                     else
                         $requestData = ['headers' => $this->httpHeaders];
                     $result = $this->connector->request('POST', $request, $requestData);
@@ -81,14 +83,14 @@
                     break;
                 case "PUT":
                     if ($data != null)
-                        $requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+                        $requestData = ['headers' => $this->httpHeaders, $requestBodyType => $data];
                     else
                         $requestData = ['headers' => $this->httpHeaders];
                     $result = $this->connector->request('PUT', $request, $requestData);
                     break;
                 case "PATCH":
                     if ($data != null)
-                        $requestData = ['headers' => $this->httpHeaders, 'json' => $data];
+                        $requestData = ['headers' => $this->httpHeaders, $requestBodyType => $data];
                     else
                         $requestData = ['headers' => $this->httpHeaders];
                     $result = $this->connector->request('PATCH', $request, $requestData);

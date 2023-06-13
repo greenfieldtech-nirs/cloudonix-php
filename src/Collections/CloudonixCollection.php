@@ -30,16 +30,19 @@
 
         public function count(): int
         {
+            if (!count($this->collection)) $this->refresh();
             return $this->collectionCount;
         }
 
         public function offsetExists(mixed $offset): bool
         {
+            if (!count($this->collection)) $this->refresh();
             return isset($this->collection[$offset]);
         }
 
         public function offsetGet(mixed $offset): mixed
         {
+            if (!count($this->collection)) $this->refresh();
             if (is_null($offset)) {
                 return $this->collection;
             } else {
@@ -66,11 +69,13 @@
          */
         public function getIterator(): Traversable
         {
+            if (!count($this->collection)) $this->refresh();
             return new ArrayIterator($this->collection);
         }
 
         public function __toString(): string
         {
+            if (!count($this->collection)) $this->refresh();
             return json_encode($this->collection);
         }
     }

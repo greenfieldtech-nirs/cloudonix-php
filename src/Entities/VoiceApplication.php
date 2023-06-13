@@ -11,11 +11,12 @@
     namespace Cloudonix\Entities;
 
     use Cloudonix\Collections\Dnids as CollectionDnids;
+    use Cloudonix\Collections\SubscriberDataKeys as CollectionSubscriberData;
 
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\Dnid as EntityDnid;
-    use Cloudonix\Entities\VoiceApplicationSubscriberData as EntityVoiceApplicationSubscriberData;
+    use Cloudonix\Entities\SubscriberDataKey as EntitySubscriberData;
 
     use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
@@ -40,25 +41,26 @@
     {
         protected mixed $client;
         public CollectionDnids $collectionDnids;
+        public CollectionSubscriberData $collectionSubscriberDataKeys;
 
         /**
          * Application DataModel Object Constructor
          *
-         * @param string      $containerApplicationBlockName   Cloudonix Voice Application Name or ID
+         * @param string      $voiceApplicationName            Cloudonix Voice Application Name or ID
          * @param mixed       $parentBranch                    A reference to the previous data model node
-         * @param object|null $containerApplicationBlockObject A Cloudonix Application object
-         *                                                     If $applicationObject is provided, it will be used to
+         * @param object|null $voiceApplicationObject          A Cloudonix Application object
+         *                                                     If $voiceApplicationObject is provided, it will be used to
          *                                                     build the Application Entity object
          */
-        public function __construct(string $containerApplicationBlockName, mixed $parentBranch, object $containerApplicationBlockObject = null)
+        public function __construct(string $voiceApplicationName, mixed $parentBranch, object $voiceApplicationObject = null)
         {
             parent::__construct($this);
             $this->client = $parentBranch->client;
-            $this->setPath($containerApplicationBlockName, $parentBranch->canonicalPath);
-            if (is_null($containerApplicationBlockObject)) {
+            $this->setPath($voiceApplicationName, $parentBranch->canonicalPath);
+            if (is_null($voiceApplicationObject)) {
                 $this->refresh();
             } else {
-                $this->buildEntityData($containerApplicationBlockObject);
+                $this->buildEntityData($voiceApplicationObject);
             }
         }
 
@@ -73,6 +75,19 @@
                 $this->collectionDnids = new CollectionDnids($this);
 
             return $this->collectionDnids;
+        }
+
+        public function subscribersData(): CollectionSubscriberData
+        {
+            if (!isset($this->collectionSubscriberDataKeys))
+                $this->collectionSubscriberDataKeys = new CollectionSubscriberData($this);
+
+            return $this->collectionSubscriberDataKeys;
+        }
+
+        public function subscriberData(string $msisdn): EntitySubscriberData
+        {
+            return new EntitySubscriberData();
         }
 
         public function newDnidPrefix(string $dnid): EntityDnid
@@ -151,11 +166,6 @@
             return $this->refresh();
         }
 
-        public function subscriberData(string $subscriber): EntityVoiceApplicationSubscriberData
-        {
-            return new EntityVoiceApplicationSubscriberData($this, $subscriber);
-        }
-
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());
@@ -201,7 +211,7 @@
          *
          * @return void
          */
-        protected function buildEntityData(mixed $applicationStdObject): void
+        private function buildEntityData(mixed $applicationStdObject): void
         {
             if (!is_null($applicationStdObject))
                 foreach ($applicationStdObject as $key => $value) {

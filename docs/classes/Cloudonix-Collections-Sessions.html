@@ -147,7 +147,7 @@
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Apikeys
+    Sessions
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/Cloudonix-Collections-CloudonixCollection.html"><abbr title="\Cloudonix\Collections\CloudonixCollection">CloudonixCollection</abbr></a>
@@ -160,6 +160,9 @@
                             </ul>
         </div>
     
+            <span class="phpdocumentor-element__implements">
+            implements
+                            <abbr title="\IteratorAggregate">IteratorAggregate</abbr>,                             <abbr title="\ArrayAccess">ArrayAccess</abbr>                    </span>
     
     </h2>
 
@@ -169,13 +172,13 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">API Keys Collection</p>
+            <p class="phpdocumentor-summary">Sessions Collection</p>
 
 
 
@@ -184,12 +187,19 @@
 
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Cloudonix-Collections-Apikeys.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
 
+    <h4 id="toc-interfaces">
+        Interfaces
+        <a href="classes/Cloudonix-Collections-Sessions.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+                    <dt class="phpdocumentor-table-of-contents__entry -interface"><abbr title="\IteratorAggregate">IteratorAggregate</abbr></dt>            <dt class="phpdocumentor-table-of-contents__entry -interface"><abbr title="\ArrayAccess">ArrayAccess</abbr></dt>    </dl>
 
 
 
@@ -198,110 +208,122 @@
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Cloudonix-Collections-Apikeys.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_accessRights">$accessRights</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_active">$active</a>
-    <span>
-                        &nbsp;: bool            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_applicationId">$applicationId</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_callAnswerTime">$callAnswerTime</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_createdAt">$createdAt</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_callback">$callback</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_deletedAt">$deletedAt</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_domainId">$domainId</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_callEndTime">$callEndTime</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_id">$id</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_callerId">$callerId</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_callStartTime">$callStartTime</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_keyId">$keyId</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_modifiedAt">$modifiedAt</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_name">$name</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_secret">$secret</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_subscriberId">$subscriberId</a>
-    <span>
-                        &nbsp;: int            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_tenantId">$tenantId</a>
-    <span>
-                        &nbsp;: int            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_type">$type</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_userId">$userId</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_canonicalPath">$canonicalPath</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_client">$client</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_client">$client</a>
     <span>
                         &nbsp;: mixed            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_destination">$destination</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_direction">$direction</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_domain">$domain</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_domainId">$domainId</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_error">$error</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_id">$id</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_profile">$profile</a>
+    <span>
+                        &nbsp;: <a href="classes/Cloudonix-Entities-Profile.html"><abbr title="\Cloudonix\Entities\Profile">Profile</abbr></a>            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_routes">$routes</a>
+    <span>
+                        &nbsp;: object            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_status">$status</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_subscriberId">$subscriberId</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_timeLimit">$timeLimit</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_token">$token</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/Cloudonix-Collections-CloudonixCollection.html#property_canonicalPath">$canonicalPath</a>
+    <span>
+                        &nbsp;: string            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
@@ -316,8 +338,8 @@
                         &nbsp;: int            </span>
 </dt>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#property_parent">$parent</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/Cloudonix-Collections-Sessions.html#property_parent">$parent</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
@@ -326,20 +348,26 @@
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Cloudonix-Collections-Apikeys.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method___construct">__construct()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method___toString">__toString()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method___toString">__toString()</a>
     <span>
                                 &nbsp;: string    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_application">application()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a>    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
@@ -349,30 +377,23 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method_getIterator">getIterator()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_getIterator">getIterator()</a>
     <span>
                                 &nbsp;: <abbr title="\Traversable">Traversable</abbr>    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method_getPath">getPath()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_getPath">getPath()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Return the entity REST API canonical path</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method_list">list()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_incoming">incoming()</a>
     <span>
-                                &nbsp;: <a href="classes/Cloudonix-Collections-Apikeys.html"><abbr title="\Cloudonix\Collections\Apikeys">Apikeys</abbr></a>    </span>
+                                &nbsp;: <a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a>    </span>
 </dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method_newKey">newKey()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-Apikey.html"><abbr title="\Cloudonix\Entities\Apikey">Apikey</abbr></a>    </span>
-</dt>
-<dd>Create a new API Key in the current Access Right (based upon the parent class)</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_offsetExists">offsetExists()</a>
@@ -381,40 +402,57 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_offsetGet">offsetGet()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_offsetGet">offsetGet()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_offsetSet">offsetSet()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_offsetSet">offsetSet()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method_offsetUnset">offsetUnset()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_offsetUnset">offsetUnset()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Delete the remote API key when a collection member is unset</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method_refresh">refresh()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_outgoing">outgoing()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a>    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_refresh">refresh()</a>
     <span>
                                 &nbsp;: $this    </span>
 </dt>
-<dd>Refresh the collection data from remote API</dd>
+<dd>Refresh the collection</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_startOutboundCall">startOutboundCall()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a>    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_startSubscriberSession">startSubscriberSession()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a>    </span>
+</dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method_refreshCollectionData">refreshCollectionData()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_refreshCollectionData">refreshCollectionData()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Build the local collection data storage</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/Cloudonix-Collections-Apikeys.html#method_setPath">setPath()</a>
+    <a href="classes/Cloudonix-Collections-Sessions.html#method_setPath">setPath()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
@@ -431,7 +469,7 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Cloudonix-Collections-Apikeys.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cloudonix-Collections-Sessions.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -441,15 +479,51 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_accessRights">
-        $accessRights
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_accessRights" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_callAnswerTime">
+        $callAnswerTime
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_callAnswerTime" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$callAnswerTime</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session answer time, in UNIX EPOCH
+milliseconds</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_callback">
+        $callback
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_callback" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -459,10 +533,118 @@
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$accessRights</span>
+    <span class="phpdocumentor-signature__name">$callback</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>API Key Access Rights</p>
+        <section class="phpdocumentor-description"><p>Session update URL as defined in the
+domain</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_callEndTime">
+        $callEndTime
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_callEndTime" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$callEndTime</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session end time, in UNIX EPOCH
+milliseconds</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_callerId">
+        $callerId
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_callerId" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$callerId</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>The caller ID MSISDN</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_callStartTime">
+        $callStartTime
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_callStartTime" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$callStartTime</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session start time, in UNIX EPOCH
+milliseconds</p>
 </section>
 
     
@@ -476,30 +658,28 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_active">
-        $active
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_active" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_client">
+        $client
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_client" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">0</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">bool</span>
-    <span class="phpdocumentor-signature__name">$active</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$client</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Application Status</p>
-</section>
-
+    
     
     
 
@@ -511,50 +691,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_applicationId">
-        $applicationId
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_applicationId" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_destination">
+        $destination
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_destination" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">0</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">$applicationId</span>
-    </code>
-
-        <section class="phpdocumentor-description"><p>Application Numeric ID</p>
-</section>
-
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                -read-only        "
->
-    <h4 class="phpdocumentor-element__name" id="property_createdAt">
-        $createdAt
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_createdAt" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -564,10 +709,10 @@
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$createdAt</span>
+    <span class="phpdocumentor-signature__name">$destination</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>API Key Creation Date and time</p>
+        <section class="phpdocumentor-description"><p>The destination MSISDN</p>
 </section>
 
     
@@ -581,15 +726,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_deletedAt">
-        $deletedAt
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_deletedAt" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_direction">
+        $direction
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_direction" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -599,10 +744,46 @@
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$deletedAt</span>
+    <span class="phpdocumentor-signature__name">$direction</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>API Key Deletion Date and time</p>
+        <section class="phpdocumentor-description"><p>The direction of the call (see
+https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_domain">
+        $domain
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_domain" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$domain</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Domain Name</p>
 </section>
 
     
@@ -618,13 +799,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="property_domainId">
         $domainId
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_domainId" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_domainId" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -637,7 +818,42 @@
     <span class="phpdocumentor-signature__name">$domainId</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Domain Numeric ID</p>
+        <section class="phpdocumentor-description"><p>Session Domain Numeric ID</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_error">
+        $error
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_error" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$error</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session last encountered error</p>
 </section>
 
     
@@ -653,13 +869,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="property_id">
         $id
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_id" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_id" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -672,7 +888,7 @@
     <span class="phpdocumentor-signature__name">$id</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Apikey Numeric ID</p>
+        <section class="phpdocumentor-description"><p>Session Numeric ID</p>
 </section>
 
     
@@ -686,15 +902,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_keyId">
-        $keyId
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_keyId" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_profile">
+        $profile
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_profile" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -703,11 +919,12 @@
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$keyId</span>
+        <span class="phpdocumentor-signature__type"><a href="classes/Cloudonix-Entities-Profile.html"><abbr title="\Cloudonix\Entities\Profile">Profile</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$profile</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>API Key String</p>
+        <section class="phpdocumentor-description"><p>Session profile (see
+https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)</p>
 </section>
 
     
@@ -721,15 +938,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_modifiedAt">
-        $modifiedAt
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_modifiedAt" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_routes">
+        $routes
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_routes" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -738,11 +955,12 @@
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$modifiedAt</span>
+        <span class="phpdocumentor-signature__type">object</span>
+    <span class="phpdocumentor-signature__name">$routes</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>API Key Last Modification Date and time</p>
+        <section class="phpdocumentor-description"><p>Session LCR Routing plan, if defined via
+LCR API</p>
 </section>
 
     
@@ -756,15 +974,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_name">
-        $name
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_name" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_status">
+        $status
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_status" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -774,45 +992,11 @@
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$name</span>
+    <span class="phpdocumentor-signature__name">$status</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Apikey Name</p>
-</section>
-
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                -read-only        "
->
-    <h4 class="phpdocumentor-element__name" id="property_secret">
-        $secret
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_secret" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">0</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$secret</span>
-    </code>
-
-        <section class="phpdocumentor-description"><p>API Key Secret</p>
+        <section class="phpdocumentor-description"><p>Session current status (see
+https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)</p>
 </section>
 
     
@@ -828,13 +1012,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="property_subscriberId">
         $subscriberId
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_subscriberId" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_subscriberId" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -847,7 +1031,7 @@
     <span class="phpdocumentor-signature__name">$subscriberId</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Subscriber Numeric ID</p>
+        <section class="phpdocumentor-description"><p>Domain Subscriber Numeric ID</p>
 </section>
 
     
@@ -861,15 +1045,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_tenantId">
-        $tenantId
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_tenantId" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_timeLimit">
+        $timeLimit
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_timeLimit" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -879,10 +1063,10 @@
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">$tenantId</span>
+    <span class="phpdocumentor-signature__name">$timeLimit</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Tenant Numeric ID</p>
+        <section class="phpdocumentor-description"><p>Session time limit, if defined, in seconds</p>
 </section>
 
     
@@ -896,15 +1080,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_type">
-        $type
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_type" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_token">
+        $token
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_token" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -914,45 +1098,10 @@
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$type</span>
+    <span class="phpdocumentor-signature__name">$token</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>API Key Type (Informational Only)</p>
-</section>
-
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                -read-only        "
->
-    <h4 class="phpdocumentor-element__name" id="property_userId">
-        $userId
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_userId" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">0</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$userId</span>
-    </code>
-
-        <section class="phpdocumentor-description"><p>Cockpit User ID</p>
+        <section class="phpdocumentor-description"><p>Session unique token identifier</p>
 </section>
 
     
@@ -968,15 +1117,15 @@
 >
     <h4 class="phpdocumentor-element__name" id="property_canonicalPath">
         $canonicalPath
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_canonicalPath" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-CloudonixCollection.html#property_canonicalPath" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/CloudonixCollection.php"><a href="files/src-collections-cloudonixcollection.html"><abbr title="src/Collections/CloudonixCollection.php">CloudonixCollection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
@@ -986,39 +1135,6 @@
         <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">$canonicalPath</span>
      = <span class="phpdocumentor-signature__default-value">&quot;&quot;</span></code>
-
-    
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_client">
-        $client
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_client" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">40</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$client</span>
-    </code>
 
     
     
@@ -1095,26 +1211,26 @@
         class="
             phpdocumentor-element
             -property
-            -protected
+            -private
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="property_parent">
         $parent
-        <a href="classes/Cloudonix-Collections-Apikeys.html#property_parent" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#property_parent" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">53</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
+    <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">$parent</span>
     </code>
@@ -1129,7 +1245,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Cloudonix-Collections-Apikeys.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cloudonix-Collections-Sessions.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -1140,13 +1256,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -1181,13 +1297,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___toString">
         __toString()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method___toString" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method___toString" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">164</span>
+    <span class="phpdocumentor-element-found-in__line">176</span>
 
     </aside>
 
@@ -1205,6 +1321,51 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_application">
+        application()
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_application" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">95</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">application</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limit</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1000</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$limit</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">1000</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a></span>
             </section>
 
 </article>
@@ -1251,13 +1412,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_getIterator">
         getIterator()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method_getIterator" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_getIterator" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">158</span>
+    <span class="phpdocumentor-element-found-in__line">170</span>
 
     </aside>
 
@@ -1286,13 +1447,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_getPath">
         getPath()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method_getPath" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_getPath" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 
     </aside>
 
@@ -1320,58 +1481,22 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_list">
-        list()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method_list" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_incoming">
+        incoming()
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_incoming" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">83</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">list</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Apikeys.html"><abbr title="\Cloudonix\Collections\Apikeys">Apikeys</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Apikeys.html"><abbr title="\Cloudonix\Collections\Apikeys">Apikeys</abbr></a></span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_newKey">
-        newKey()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method_newKey" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">65</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Create a new API Key in the current Access Right (based upon the parent class)</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">newKey</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$keyname</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Apikey.html"><abbr title="\Cloudonix\Entities\Apikey">Apikey</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">incoming</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limit</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1000</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1379,9 +1504,9 @@
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$keyname</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
+                <span class="phpdocumentor-signature__argument__name">$limit</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">1000</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1391,7 +1516,7 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Apikey.html"><abbr title="\Cloudonix\Entities\Apikey">Apikey</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a></span>
             </section>
 
 </article>
@@ -1448,13 +1573,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_offsetGet">
         offsetGet()
-        <a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_offsetGet" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_offsetGet" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/CloudonixCollection.php"><a href="files/src-collections-cloudonixcollection.html"><abbr title="src/Collections/CloudonixCollection.php">CloudonixCollection.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 
     </aside>
 
@@ -1489,13 +1614,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_offsetSet">
         offsetSet()
-        <a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_offsetSet" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_offsetSet" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/CloudonixCollection.php"><a href="files/src-collections-cloudonixcollection.html"><abbr title="src/Collections/CloudonixCollection.php">CloudonixCollection.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 
     </aside>
 
@@ -1537,18 +1662,17 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_offsetUnset">
         offsetUnset()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method_offsetUnset" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_offsetUnset" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">132</span>
+    <span class="phpdocumentor-element-found-in__line">159</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Delete the remote API key when a collection member is unset</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">offsetUnset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$offset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -1577,19 +1701,64 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_refresh">
-        refresh()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method_refresh" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_outgoing">
+        outgoing()
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_outgoing" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">89</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Refresh the collection data from remote API</p>
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">outgoing</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limit</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1000</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$limit</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">1000</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Sessions.html"><abbr title="\Cloudonix\Collections\Sessions">Sessions</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_refresh">
+        refresh()
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_refresh" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">129</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Refresh the collection</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1610,18 +1779,150 @@
                     <article
         class="phpdocumentor-element
             -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_startOutboundCall">
+        startOutboundCall()
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_startOutboundCall" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">63</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">startOutboundCall</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$destination</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$callerId</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&quot;&quot;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$timeout</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">60</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appData</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[&#039;application&#039; =&gt; &#039;call-routing&#039;]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$destination</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$callerId</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&quot;&quot;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$timeout</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">60</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$appData</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[&#039;application&#039; =&gt; &#039;call-routing&#039;]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_startSubscriberSession">
+        startSubscriberSession()
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_startSubscriberSession" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">73</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">startSubscriberSession</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$subscriber</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$destination</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$callback</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$timeLimit</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">1800</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$subscriber</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$destination</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$callback</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$timeLimit</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">1800</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
             -protected
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_refreshCollectionData">
         refreshCollectionData()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method_refreshCollectionData" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_refreshCollectionData" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">114</span>
+    <span class="phpdocumentor-element-found-in__line">142</span>
 
     </aside>
 
@@ -1661,13 +1962,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_setPath">
         setPath()
-        <a href="classes/Cloudonix-Collections-Apikeys.html#method_setPath" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#method_setPath" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Apikeys.php"><a href="files/src-collections-apikeys.html"><abbr title="src/Collections/Apikeys.php">Apikeys.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collections/Sessions.php"><a href="files/src-collections-sessions.html"><abbr title="src/Collections/Sessions.php">Sessions.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">90</span>
+    <span class="phpdocumentor-element-found-in__line">118</span>
 
     </aside>
 
@@ -1675,7 +1976,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">setPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$branchPath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$domain</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1683,7 +1984,7 @@
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$branchPath</span>
+                <span class="phpdocumentor-signature__argument__name">$domain</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -1701,7 +2002,7 @@
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Collections/Apikeys.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Collections/Sessions.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -1800,54 +2101,59 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_accessRights">$accessRights<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_active">$active<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_applicationId">$applicationId<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_createdAt">$createdAt<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_deletedAt">$deletedAt<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_domainId">$domainId<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_id">$id<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_keyId">$keyId<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_modifiedAt">$modifiedAt<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_name">$name<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_secret">$secret<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_subscriberId">$subscriberId<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_tenantId">$tenantId<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_type">$type<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_userId">$userId<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_canonicalPath">$canonicalPath<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_client">$client<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#property_collection">$collection<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#property_collectionCount">$collectionCount<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
-                                                    <li><a href="classes/Cloudonix-Collections-Apikeys.html#property_parent">$parent<a href="classes/Cloudonix-Collections-Apikeys.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_callAnswerTime">$callAnswerTime<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_callback">$callback<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_callEndTime">$callEndTime<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_callerId">$callerId<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_callStartTime">$callStartTime<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_client">$client<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_destination">$destination<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_direction">$direction<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_domain">$domain<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_domainId">$domainId<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_error">$error<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_id">$id<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_profile">$profile<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_routes">$routes<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_status">$status<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_subscriberId">$subscriberId<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_timeLimit">$timeLimit<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_token">$token<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#property_canonicalPath">$canonicalPath<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#property_collection">$collection<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#property_collectionCount">$collectionCount<a href="classes/Cloudonix-Collections-Sessions.html"></li>
+                                                    <li><a href="classes/Cloudonix-Collections-Sessions.html#property_parent">$parent<a href="classes/Cloudonix-Collections-Sessions.html"></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method___construct">__construct()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method___toString">__toString()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method___construct">__construct()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method___toString">__toString()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_application">application()</a></li>
                                             <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_count">count()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method_getIterator">getIterator()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method_getPath">getPath()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method_list">list()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method_newKey">newKey()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_getIterator">getIterator()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_getPath">getPath()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_incoming">incoming()</a></li>
                                             <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_offsetExists">offsetExists()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_offsetGet">offsetGet()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-CloudonixCollection.html#method_offsetSet">offsetSet()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method_offsetUnset">offsetUnset()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method_refresh">refresh()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method_refreshCollectionData">refreshCollectionData()</a></li>
-                                            <li><a href="classes/Cloudonix-Collections-Apikeys.html#method_setPath">setPath()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_offsetGet">offsetGet()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_offsetSet">offsetSet()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_offsetUnset">offsetUnset()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_outgoing">outgoing()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_refresh">refresh()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_startOutboundCall">startOutboundCall()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_startSubscriberSession">startSubscriberSession()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_refreshCollectionData">refreshCollectionData()</a></li>
+                                            <li><a href="classes/Cloudonix-Collections-Sessions.html#method_setPath">setPath()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1867,7 +2173,7 @@
     </section>
 </section>
         </div>
-        <a href="classes/Cloudonix-Collections-Apikeys.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Cloudonix-Collections-Sessions.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

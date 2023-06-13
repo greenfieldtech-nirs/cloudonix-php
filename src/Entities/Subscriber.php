@@ -33,13 +33,11 @@
     class Subscriber extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $canonicalPath = "";
 
         /**
          * Subscriber DataModel Object Constructor
          *
-         * @param string      $subscriber             A Cloudonix Subscriber Name (in cockpit.cloudonix.io also known
-         *                                            as MSISDN)
+         * @param string      $subscriber             A Cloudonix Subscriber Name (or MSISDN)
          * @param mixed       $parentBranch           A reference to the previous data model node
          * @param object|null $subscriberObject       A Cloudonix Subscriber Object as stdClass
          *                                            If $subscriberObject is provided, it will be used to build the
@@ -53,14 +51,34 @@
             parent::__construct($subscriberObject);
         }
 
+        /**
+         * Delete the subscriber
+         *
+         * Delete a subscriber from the domain. If $force is set to true, active sessions of the
+         * subscriber will be terminated and the subscriber will be deleted.
+         *
+         * @param bool $force
+         *
+         * @return bool
+         */
         public function delete(bool $force = false): bool
         {
-            $result = $this->client->httpConnector->request("DELETE", ($this->getPath() . ($force)) ? "?can-deactivate=true" : "");
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . (($force) ? "?can-deactivate=true" : ""));
             if ($result->code == 204)
                 return true;
             return false;
         }
 
+        /**
+         * Reset the subscriber SIP Password.
+         *
+         * Specifying "GEN" as the password input will auto-generate a secured password.
+         * The new password will be returned as part of the updated subscriber Object.
+         *
+         * @param string|null $password
+         *
+         * @return $this
+         */
         public function resetSipPassword(string $password = null): Subscriber
         {
             if ($password == "GEN") {
@@ -83,7 +101,7 @@
                 $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS . "/" . $string;
         }
 
-        protected function buildEntityData(mixed $input)
+        private function buildEntityData(mixed $input)
         {
             foreach ($input as $key => $value) {
                 if ($key == "profile") {

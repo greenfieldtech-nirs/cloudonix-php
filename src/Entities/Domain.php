@@ -47,7 +47,6 @@
     class Domain extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $canonicalPath = "";
         public CollectionVoiceApplications $collectionVoiceApplications;
         public CollectionApikeys $collectionApikeys;
         public CollectionSubscribers $collectionSubscribers;
@@ -297,8 +296,8 @@
         /**
          * Create a new Subscriber in the domain
          *
-         * @param string $subscriber  Subscriber MSISDN or other unique identified
-         * @param string $sipPassword Subscriber SIP password
+         * @param string      $subscriber  Subscriber MSISDN or other unique identified
+         * @param string|null $sipPassword Subscriber SIP password
          *
          * @return EntitySubscriber
          */
@@ -488,7 +487,7 @@
             return json_encode($this->refresh());
         }
 
-        protected function buildEntityData(mixed $input): void
+        private function buildEntityData(mixed $input): void
         {
             foreach ($input as $key => $value) {
                 if ($key == "profile") {

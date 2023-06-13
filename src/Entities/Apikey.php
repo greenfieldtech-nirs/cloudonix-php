@@ -1,4 +1,12 @@
 <?php
+    /**
+     * @package cloudonixPhp
+     * @filename: Entities/Application.php
+     * @author  Nir Simionovich <nirs@cloudonix.io>
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=apikeys
+     * @license MIT License (https://choosealicense.com/licenses/mit/)
+     * @created :  2023-05-14
+     */
 
     namespace Cloudonix\Entities;
 
@@ -7,14 +15,7 @@
     /**
      * API Key Data Model Entity
      *
-     * This class represents the generalised form of a Cloudonix Application object.
-     *
-     * @package cloudonixPhp
-     * @filename: Entities/Application.php
-     * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=apikeys
-     * @license MIT License (https://choosealicense.com/licenses/mit/)
-     * @created :  2023-05-14
+     * This class represents the generalised form of a Cloudonix API Key object.
      *
      * @property-read int    $id                     Apikey Numeric ID
      * @property-read string $name                   Apikey Name
@@ -35,7 +36,6 @@
     class Apikey extends CloudonixEntity
     {
         private mixed $client;
-        protected string $canonicalPath = "";
         private string $parentBranch;
 
         /**
@@ -119,7 +119,7 @@
          * @param mixed $input
          * @return void
          */
-        protected function buildEntityData(mixed $input): void
+        private function buildEntityData(mixed $input): void
         {
             if (!is_null($input))
                 foreach ($input as $key => $value) {

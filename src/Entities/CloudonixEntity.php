@@ -28,10 +28,6 @@
 
         abstract public function getPath();
 
-        abstract protected function buildEntityData(mixed $input);
-
-        abstract protected function refresh();
-
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());

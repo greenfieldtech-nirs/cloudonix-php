@@ -157,11 +157,13 @@
 
         public function getIterator(): Traversable
         {
+            if (!count($this->collection)) $this->refresh();
             return parent::getIterator();
         }
 
         public function __toString(): string
         {
+            if (!count($this->collection)) $this->refresh();
             return parent::__toString();
         }
     }

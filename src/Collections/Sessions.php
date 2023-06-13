@@ -66,35 +66,35 @@
             $appData['timeout'] = $timeout;
             $appData['caller-id'] = $callerId;
 
-            $newSessionResult = $this->client->httpConnector->request("POST", URLPATH_CALLS . "/" . $this->parent->domain . URLPATH_APPLICATION, $appData);
-            return new EntitySession($newSessionResult->token, $this->parent);
+            $newSessionResult = $this->client->httpConnector->request("POST", URLPATH_CALLS . "/" . $this->parent->domain . "/application/", $appData);
+            return new EntitySession($newSessionResult->token, $this, $newSessionResult);
         }
 
         public function startSubscriberSession(string $subscriber, string $destination, string $callback, int $timeLimit = 1800): EntitySession
         {
-            $newSessionResult = $this->client->httpConnector->request("POST", URLPATH_CALLS . "/" . $this->parent->domain . URLPATH_OUTGOING . "/" . $subscriber, [
+            $newSessionResult = $this->client->httpConnector->request("POST", URLPATH_CALLS . "/" . $this->parent->domain . "/outgoing/" . $subscriber, [
                 'timeLimit' => $timeLimit,
                 'callback' => $callback,
                 'destination' => $destination
             ]);
-            return new EntitySession($newSessionResult->token, $this->parent);
+            return new EntitySession($newSessionResult->token, $this, $newSessionResult);
         }
 
-        public function incoming(): Sessions
+        public function incoming(int $limit = 1000): Sessions
         {
-            $this->refreshCollectionData($this->client->httpConnector->request("GET", URLPATH_CALLS . "/" . $this->parent->domain . URLPATH_INCOMING));
+            $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath() . FILTER_INCOMING . "&limit=" . $limit));
             return $this;
         }
 
-        public function outgoing(): Sessions
+        public function outgoing(int $limit = 1000): Sessions
         {
-            $this->refreshCollectionData($this->client->httpConnector->request("GET", URLPATH_CALLS . "/" . $this->parent->domain . URLPATH_OUTGOING));
+            $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath() . FILTER_OUTGOING . "&limit=" . $limit));
             return $this;
         }
 
-        public function application(): Sessions
+        public function application(int $limit = 1000): Sessions
         {
-            $this->refreshCollectionData($this->client->httpConnector->request("GET", URLPATH_CALLS . "/" . $this->parent->domain . URLPATH_APPLICATION));
+            $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath() . FILTER_APPLICATION . "&limit=" . $limit));
             return $this;
         }
 
@@ -163,19 +163,19 @@
 
         public function offsetGet(mixed $offset): mixed
         {
-            $this->refresh();
+            if (!count($this->collection)) $this->refresh();
             return parent::offsetGet($offset);
         }
 
         public function getIterator(): Traversable
         {
-            $this->refresh();
+            if (!count($this->collection)) $this->refresh();
             return parent::getIterator();
         }
 
         public function __toString(): string
         {
-            $this->refresh();
+            if (!count($this->collection)) $this->refresh();
             return parent::__toString();
         }
     }

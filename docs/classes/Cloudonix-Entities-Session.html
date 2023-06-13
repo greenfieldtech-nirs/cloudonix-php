@@ -147,7 +147,7 @@
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    VoiceApplication
+    Session
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/Cloudonix-Entities-CloudonixEntity.html"><abbr title="\Cloudonix\Entities\CloudonixEntity">CloudonixEntity</abbr></a>
@@ -169,15 +169,15 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Voice Application Data Model Entity</p>
+            <p class="phpdocumentor-summary">Session Data Model Entity</p>
 
-    <section class="phpdocumentor-description"><p>This class represents the generalised form of a Cloudonix Voice Application object.</p>
+    <section class="phpdocumentor-description"><p>This class represents the generalised form of a Cloudonix Session object.</p>
 </section>
 
 
@@ -186,7 +186,7 @@
 
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cloudonix-Entities-Session.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -200,78 +200,108 @@
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cloudonix-Entities-Session.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_active">$active</a>
-    <span>
-                        &nbsp;: bool            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_collectionDnids">$collectionDnids</a>
-    <span>
-                        &nbsp;: <a href="classes/Cloudonix-Collections-Dnids.html"><abbr title="\Cloudonix\Collections\Dnids">Dnids</abbr></a>            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_createdAt">$createdAt</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_deletedAt">$deletedAt</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_domainId">$domainId</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_callAnswerTime">$callAnswerTime</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_id">$id</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_callback">$callback</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_callEndTime">$callEndTime</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_method">$method</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_callerId">$callerId</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_modifiedAt">$modifiedAt</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_callStartTime">$callStartTime</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_destination">$destination</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_name">$name</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_direction">$direction</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_profile">$profile</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_domain">$domain</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_domainId">$domainId</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_error">$error</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_id">$id</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_profile">$profile</a>
     <span>
                         &nbsp;: <a href="classes/Cloudonix-Entities-Profile.html"><abbr title="\Cloudonix\Entities\Profile">Profile</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_type">$type</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_routes">$routes</a>
+    <span>
+                        &nbsp;: object            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_status">$status</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_url">$url</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_subscriberId">$subscriberId</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_timeLimit">$timeLimit</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Cloudonix-Entities-Session.html#property_token">$token</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
@@ -283,7 +313,7 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_client">$client</a>
+    <a href="classes/Cloudonix-Entities-Session.html#property_client">$client</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
@@ -292,16 +322,16 @@
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cloudonix-Entities-Session.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method___construct">__construct()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Application DataModel Object Constructor</dd>
+<dd>Session DataModel Object Constructor</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Cloudonix-Entities-CloudonixEntity.html#method___get">__get()</a>
@@ -322,88 +352,69 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_delete">delete()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method_delete">delete()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Delete an active session - will terminate the active call</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_dnid">dnid()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method_forkRoutedCall">forkRoutedCall()</a>
     <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a>    </span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
+<dd>Fork an active session/call, transferring each participant to a new voice application.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_dnids">dnids()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cloudonix-Collections-Dnids.html"><abbr title="\Cloudonix\Collections\Dnids">Dnids</abbr></a>    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_getPath">getPath()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method_getPath">getPath()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Return the entity REST API canonical path</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidAsterisk">newDnidAsterisk()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a>    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidPattern">newDnidPattern()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a>    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidPrefix">newDnidPrefix()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a>    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidRegex">newDnidRegex()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a>    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setActive">setActive()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-Domain.html"><abbr title="\Cloudonix\Entities\Domain">Domain</abbr></a>    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setApplicationUrl">setApplicationUrl()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method_notifyRinging">notifyRinging()</a>
     <span>
                                 &nbsp;: $this    </span>
 </dt>
-<dd>Set the Voice Application remote URL and method</dd>
+<dd>Notify that a remote subscriber device (either a mobile application or web application) is currently ringing</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_subscriberData">subscriberData()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method_switchVoiceApplicationToCXML">switchVoiceApplicationToCXML()</a>
     <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html"><abbr title="\Cloudonix\Entities\VoiceApplicationSubscriberData">VoiceApplicationSubscriberData</abbr></a>    </span>
+                                &nbsp;: $this    </span>
 </dt>
+<dd>Transfer session control to a new voice application, provided as CXML.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Cloudonix-Entities-Session.html#method_switchVoiceApplicationToUrl">switchVoiceApplicationToUrl()</a>
+    <span>
+                                &nbsp;: $this    </span>
+</dt>
+<dd>Transfer session control to a new voice application, provided a remote URL.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Cloudonix-Entities-Session.html#method_updateTimeLimit">updateTimeLimit()</a>
+    <span>
+                                &nbsp;: $this    </span>
+</dt>
+<dd>Update the current timeLimit of an active session</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_buildEntityData">buildEntityData()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method_buildEntityData">buildEntityData()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Build the local Application properties</dd>
+<dd>Build the local Dnid properties</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_refresh">refresh()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method_refresh">refresh()</a>
     <span>
-                                &nbsp;: <a href="classes/Cloudonix-Entities-VoiceApplication.html"><abbr title="\Cloudonix\Entities\VoiceApplication">VoiceApplication</abbr></a>    </span>
+                                &nbsp;: <a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a>    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setPath">setPath()</a>
+    <a href="classes/Cloudonix-Entities-Session.html#method_setPath">setPath()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
@@ -420,7 +431,7 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Cloudonix-Entities-VoiceApplication.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cloudonix-Entities-Session.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -428,85 +439,17 @@
             phpdocumentor-element
             -property
             -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_active">
-        $active
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_active" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">0</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">bool</span>
-    <span class="phpdocumentor-signature__name">$active</span>
-    </code>
-
-        <section class="phpdocumentor-description"><p>Application Status</p>
-</section>
-
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_collectionDnids">
-        $collectionDnids
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_collectionDnids" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">42</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/Cloudonix-Collections-Dnids.html"><abbr title="\Cloudonix\Collections\Dnids">Dnids</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$collectionDnids</span>
-    </code>
-
-    
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_createdAt">
-        $createdAt
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_createdAt" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_callAnswerTime">
+        $callAnswerTime
+        <a href="classes/Cloudonix-Entities-Session.html#property_callAnswerTime" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -515,11 +458,12 @@
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$createdAt</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$callAnswerTime</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Application Creation Date and time</p>
+        <section class="phpdocumentor-description"><p>Session answer time, in UNIX EPOCH
+milliseconds</p>
 </section>
 
     
@@ -533,15 +477,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_deletedAt">
-        $deletedAt
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_deletedAt" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_callback">
+        $callback
+        <a href="classes/Cloudonix-Entities-Session.html#property_callback" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -551,10 +495,224 @@
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$deletedAt</span>
+    <span class="phpdocumentor-signature__name">$callback</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Application Deletion Date and time</p>
+        <section class="phpdocumentor-description"><p>Session update URL as defined in the
+domain</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_callEndTime">
+        $callEndTime
+        <a href="classes/Cloudonix-Entities-Session.html#property_callEndTime" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$callEndTime</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session end time, in UNIX EPOCH
+milliseconds</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_callerId">
+        $callerId
+        <a href="classes/Cloudonix-Entities-Session.html#property_callerId" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$callerId</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>The caller ID MSISDN</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_callStartTime">
+        $callStartTime
+        <a href="classes/Cloudonix-Entities-Session.html#property_callStartTime" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$callStartTime</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session start time, in UNIX EPOCH
+milliseconds</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_destination">
+        $destination
+        <a href="classes/Cloudonix-Entities-Session.html#property_destination" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$destination</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>The destination MSISDN</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_direction">
+        $direction
+        <a href="classes/Cloudonix-Entities-Session.html#property_direction" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$direction</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>The direction of the call (see
+https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_domain">
+        $domain
+        <a href="classes/Cloudonix-Entities-Session.html#property_domain" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$domain</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Domain Name</p>
 </section>
 
     
@@ -570,13 +728,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="property_domainId">
         $domainId
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_domainId" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#property_domainId" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -589,7 +747,42 @@
     <span class="phpdocumentor-signature__name">$domainId</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Domain Numeric ID</p>
+        <section class="phpdocumentor-description"><p>Session Domain Numeric ID</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_error">
+        $error
+        <a href="classes/Cloudonix-Entities-Session.html#property_error" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$error</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session last encountered error</p>
 </section>
 
     
@@ -605,13 +798,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="property_id">
         $id
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_id" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#property_id" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -624,42 +817,7 @@
     <span class="phpdocumentor-signature__name">$id</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Application Numeric ID</p>
-</section>
-
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_method">
-        $method
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_method" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">0</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$method</span>
-    </code>
-
-        <section class="phpdocumentor-description"><p>Application Method (GET or POST)</p>
+        <section class="phpdocumentor-description"><p>Session Numeric ID</p>
 </section>
 
     
@@ -672,86 +830,16 @@
             -property
             -public
                                                 -read-only        "
->
-    <h4 class="phpdocumentor-element__name" id="property_modifiedAt">
-        $modifiedAt
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_modifiedAt" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">0</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$modifiedAt</span>
-    </code>
-
-        <section class="phpdocumentor-description"><p>Application Last Modification Date and time</p>
-</section>
-
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                -read-only        "
->
-    <h4 class="phpdocumentor-element__name" id="property_name">
-        $name
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_name" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">0</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$name</span>
-    </code>
-
-        <section class="phpdocumentor-description"><p>Application Name</p>
-</section>
-
-    
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="property_profile">
         $profile
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_profile" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#property_profile" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -764,7 +852,8 @@
     <span class="phpdocumentor-signature__name">$profile</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Application Profile Object</p>
+        <section class="phpdocumentor-description"><p>Session profile (see
+https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)</p>
 </section>
 
     
@@ -778,15 +867,15 @@
             -public
                                                 -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_type">
-        $type
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_type" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_routes">
+        $routes
+        <a href="classes/Cloudonix-Entities-Session.html#property_routes" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                         <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -795,11 +884,12 @@
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$type</span>
+        <span class="phpdocumentor-signature__type">object</span>
+    <span class="phpdocumentor-signature__name">$routes</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Application type</p>
+        <section class="phpdocumentor-description"><p>Session LCR Routing plan, if defined via
+LCR API</p>
 </section>
 
     
@@ -811,17 +901,17 @@
             phpdocumentor-element
             -property
             -public
-                                                        "
+                                                -read-only        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_url">
-        $url
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_url" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_status">
+        $status
+        <a href="classes/Cloudonix-Entities-Session.html#property_status" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">0</span>
 
@@ -831,10 +921,116 @@
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$url</span>
+    <span class="phpdocumentor-signature__name">$status</span>
     </code>
 
-        <section class="phpdocumentor-description"><p>Application URL</p>
+        <section class="phpdocumentor-description"><p>Session current status (see
+https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_subscriberId">
+        $subscriberId
+        <a href="classes/Cloudonix-Entities-Session.html#property_subscriberId" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$subscriberId</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Domain Subscriber Numeric ID</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_timeLimit">
+        $timeLimit
+        <a href="classes/Cloudonix-Entities-Session.html#property_timeLimit" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">$timeLimit</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session time limit, if defined, in seconds</p>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                -read-only        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_token">
+        $token
+        <a href="classes/Cloudonix-Entities-Session.html#property_token" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">0</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$token</span>
+    </code>
+
+        <section class="phpdocumentor-description"><p>Session unique token identifier</p>
 </section>
 
     
@@ -883,15 +1079,15 @@
 >
     <h4 class="phpdocumentor-element__name" id="property_client">
         $client
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#property_client" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#property_client" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
@@ -912,7 +1108,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Cloudonix-Entities-VoiceApplication.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cloudonix-Entities-Session.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -923,21 +1119,21 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Application DataModel Object Constructor</p>
+        <p class="phpdocumentor-summary">Session DataModel Object Constructor</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$containerApplicationBlockName</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parentBranch</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">object|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$containerApplicationBlockObject</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$token</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parentBranch</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">object|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sessionObject</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -945,11 +1141,11 @@
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$containerApplicationBlockName</span>
+                <span class="phpdocumentor-signature__argument__name">$token</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Cloudonix Voice Application Name or ID</p>
+                    <section class="phpdocumentor-description"><p>Session Token</p>
 </section>
 
             </dd>
@@ -963,13 +1159,13 @@
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$containerApplicationBlockObject</span>
+                <span class="phpdocumentor-signature__argument__name">$sessionObject</span>
                 : <span class="phpdocumentor-signature__argument__return-type">object|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>A Cloudonix Application object
-If $applicationObject is provided, it will be used to
-build the Application Entity object</p>
+                    <section class="phpdocumentor-description"><p>A Cloudonix Session Object as stdClass
+If $sessionObject is provided, it will be used to build the
+Session Entity object</p>
 </section>
 
             </dd>
@@ -1111,25 +1307,44 @@ build the Application Entity object</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_delete">
         delete()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_delete" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#method_delete" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">159</span>
+    <span class="phpdocumentor-element-found-in__line">199</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Delete an active session - will terminate the active call</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">delete</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">delete</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$reason</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&quot;&quot;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
-    
-    
+        <section class="phpdocumentor-description"><p>When terminating a session, $reason may be provided as one of the following:</p>
+<ul>
+<li>timeout    The subscriber can't be reached</li>
+<li>denied     The subscriber actively rejected the call</li>
+<li>busy       The subscriber is currently busy on another call</li>
+<li>nocredit   The subscriber has run out of credit (useful for billing related use-cases)</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$reason</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&quot;&quot;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
     
 
             <section>
@@ -1144,77 +1359,95 @@ build the Application Entity object</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_dnid">
-        dnid()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_dnid" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_forkRoutedCall">
+        forkRoutedCall()
+        <a href="classes/Cloudonix-Entities-Session.html#method_forkRoutedCall" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">65</span>
+    <span class="phpdocumentor-element-found-in__line">168</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Fork an active session/call, transferring each participant to a new voice application.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">dnid</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dnid</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">forkRoutedCall</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$caller</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$callee</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$callback</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&quot;&quot;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
-    
+        <section class="phpdocumentor-description"><p>The $caller and $callee are represented by an array, which may consist of the following
+keys:
+- cxml: An embedded CXML script to be executed.
+- url and method: A remotely provided voice application resource</p>
+<p>Example:</p>
+<code class="prettyprint">
+<p>$caller = [
+&quot;cxml&quot; =&gt; &quot;&lt;Response&gt;&lt;Dial&gt;&lt;Conference&gt;room 101&lt;/Conference&gt;&lt;/Dial&gt;&lt;Hangup/&gt;&lt;/Response&gt;&quot;
+];</p>
+<p>$callee = [
+&quot;url&quot; =&gt; &quot;https://some.remote.server/some.script&quot;,
+&quot;method&quot; =&gt; &quot;POST&quot;
+];</p>
+</code>
+<p>For more information about this functionality, please refer to:
+https://dev.docs.cloudonix.io/#/platform/api-core/sessions?id=session-control-fork-routed-call</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$dnid</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$caller</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>A new Voice Application resource description array, as above</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$callee</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>A new Voice Application resource description array, as above</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$callback</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&quot;&quot;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Optional remote session update callback URL</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cloudonix-Entities-Session.html#method_forkRoutedCall#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="https://dev.docs.cloudonix.io/#/platform/api-core/sessions?id=session-control-fork-routed-call">https://dev.docs.cloudonix.io/#/platform/api-core/sessions?id=session-control-fork-routed-call</a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_dnids">
-        dnids()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_dnids" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">70</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">dnids</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Dnids.html"><abbr title="\Cloudonix\Collections\Dnids">Dnids</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Collections-Dnids.html"><abbr title="\Cloudonix\Collections\Dnids">Dnids</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
             </section>
 
 </article>
@@ -1226,13 +1459,13 @@ build the Application Entity object</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_getPath">
         getPath()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_getPath" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#method_getPath" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">172</span>
+    <span class="phpdocumentor-element-found-in__line">212</span>
 
     </aside>
 
@@ -1260,30 +1493,41 @@ build the Application Entity object</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_newDnidAsterisk">
-        newDnidAsterisk()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidAsterisk" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_notifyRinging">
+        notifyRinging()
+        <a href="classes/Cloudonix-Entities-Session.html#method_notifyRinging" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">100</span>
+    <span class="phpdocumentor-element-found-in__line">99</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Notify that a remote subscriber device (either a mobile application or web application) is currently ringing</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">newDnidAsterisk</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dnid</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">notifyRinging</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$msisdn</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$token</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
-    
+        <section class="phpdocumentor-description"><p>The provided $msisdn represents an existing Cloudonix subscriber, that has the $token associated with it.
+This method is used in RegFree Dialing implementations.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$dnid</span>
+                <span class="phpdocumentor-signature__argument__name">$msisdn</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$token</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -1295,7 +1539,7 @@ build the Application Entity object</p>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type">$this</span>
             </section>
 
 </article>
@@ -1305,22 +1549,23 @@ build the Application Entity object</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_newDnidPattern">
-        newDnidPattern()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidPattern" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_switchVoiceApplicationToCXML">
+        switchVoiceApplicationToCXML()
+        <a href="classes/Cloudonix-Entities-Session.html#method_switchVoiceApplicationToCXML" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">111</span>
+    <span class="phpdocumentor-element-found-in__line">114</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Transfer session control to a new voice application, provided as CXML.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">newDnidPattern</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dnid</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">switchVoiceApplicationToCXML</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cxml</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1328,7 +1573,7 @@ build the Application Entity object</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$dnid</span>
+                <span class="phpdocumentor-signature__argument__name">$cxml</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -1340,7 +1585,7 @@ build the Application Entity object</p>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type">$this</span>
             </section>
 
 </article>
@@ -1350,158 +1595,23 @@ build the Application Entity object</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_newDnidPrefix">
-        newDnidPrefix()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidPrefix" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_switchVoiceApplicationToUrl">
+        switchVoiceApplicationToUrl()
+        <a href="classes/Cloudonix-Entities-Session.html#method_switchVoiceApplicationToUrl" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">128</span>
 
     </aside>
 
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">newDnidPrefix</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dnid</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$dnid</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_newDnidRegex">
-        newDnidRegex()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidRegex" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">89</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">newDnidRegex</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dnid</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$dnid</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Dnid.html"><abbr title="\Cloudonix\Entities\Dnid">Dnid</abbr></a></span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_setActive">
-        setActive()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setActive" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">148</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setActive</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$status</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Domain.html"><abbr title="\Cloudonix\Entities\Domain">Domain</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$status</span>
-                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Domain.html"><abbr title="\Cloudonix\Entities\Domain">Domain</abbr></a></span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_setApplicationUrl">
-        setApplicationUrl()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setApplicationUrl" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">130</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Set the Voice Application remote URL and method</p>
+        <p class="phpdocumentor-summary">Transfer session control to a new voice application, provided a remote URL.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setApplicationUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&quot;POST&quot;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+                    <span class="phpdocumentor-signature__name">switchVoiceApplicationToUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&quot;POST&quot;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1513,18 +1623,14 @@ build the Application Entity object</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Remote Voice Application URL</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$method</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                  = <span class="phpdocumentor-signature__argument__default-value">&quot;POST&quot;</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Remote Voice Application URL method [GET/POST]</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -1533,10 +1639,6 @@ build the Application Entity object</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">$this</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>A refreshed Voice Application object</p>
-</section>
-
             </section>
 
 </article>
@@ -1546,22 +1648,23 @@ build the Application Entity object</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_subscriberData">
-        subscriberData()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_subscriberData" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_updateTimeLimit">
+        updateTimeLimit()
+        <a href="classes/Cloudonix-Entities-Session.html#method_updateTimeLimit" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">154</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Update the current timeLimit of an active session</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">subscriberData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$subscriber</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html"><abbr title="\Cloudonix\Entities\VoiceApplicationSubscriberData">VoiceApplicationSubscriberData</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">updateTimeLimit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$timelimit</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1569,8 +1672,8 @@ build the Application Entity object</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$subscriber</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$timelimit</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1581,7 +1684,7 @@ build the Application Entity object</p>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-VoiceApplicationSubscriberData.html"><abbr title="\Cloudonix\Entities\VoiceApplicationSubscriberData">VoiceApplicationSubscriberData</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type">$this</span>
             </section>
 
 </article>
@@ -1593,21 +1696,21 @@ build the Application Entity object</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_buildEntityData">
         buildEntityData()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_buildEntityData" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#method_buildEntityData" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">204</span>
+    <span class="phpdocumentor-element-found-in__line">245</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Build the local Application properties</p>
+        <p class="phpdocumentor-summary">Build the local Dnid properties</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">buildEntityData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$applicationStdObject</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">buildEntityData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dnidStdObject</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1615,7 +1718,7 @@ build the Application Entity object</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$applicationStdObject</span>
+                <span class="phpdocumentor-signature__argument__name">$dnidStdObject</span>
                 : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -1635,20 +1738,20 @@ build the Application Entity object</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_refresh">
         refresh()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_refresh" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#method_refresh" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">191</span>
+    <span class="phpdocumentor-element-found-in__line">232</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">refresh</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-VoiceApplication.html"><abbr title="\Cloudonix\Entities\VoiceApplication">VoiceApplication</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">refresh</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1658,7 +1761,7 @@ build the Application Entity object</p>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-VoiceApplication.html"><abbr title="\Cloudonix\Entities\VoiceApplication">VoiceApplication</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cloudonix-Entities-Session.html"><abbr title="\Cloudonix\Entities\Session">Session</abbr></a></span>
             </section>
 
 </article>
@@ -1670,13 +1773,13 @@ build the Application Entity object</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_setPath">
         setPath()
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setPath" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#method_setPath" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/VoiceApplication.php"><a href="files/src-entities-voiceapplication.html"><abbr title="src/Entities/VoiceApplication.php">VoiceApplication.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/Session.php"><a href="files/src-entities-session.html"><abbr title="src/Entities/Session.php">Session.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">185</span>
+    <span class="phpdocumentor-element-found-in__line">225</span>
 
     </aside>
 
@@ -1684,7 +1787,7 @@ build the Application Entity object</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">setPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$string</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$branchPath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$token</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&quot;&quot;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$domain</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1692,14 +1795,14 @@ build the Application Entity object</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$string</span>
+                <span class="phpdocumentor-signature__argument__name">$token</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
+                 = <span class="phpdocumentor-signature__argument__default-value">&quot;&quot;</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$branchPath</span>
+                <span class="phpdocumentor-signature__argument__name">$domain</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -1717,7 +1820,7 @@ build the Application Entity object</p>
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Entities/VoiceApplication.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Entities/Session.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -1816,52 +1919,53 @@ build the Application Entity object</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Cloudonix-Entities-Session.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Cloudonix-Entities-Session.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_active">$active<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_collectionDnids">$collectionDnids<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_createdAt">$createdAt<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_deletedAt">$deletedAt<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_domainId">$domainId<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_id">$id<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_method">$method<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_modifiedAt">$modifiedAt<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_name">$name<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_profile">$profile<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_type">$type<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_url">$url<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-CloudonixEntity.html#property_canonicalPath">$canonicalPath<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
-                                                    <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#property_client">$client<a href="classes/Cloudonix-Entities-VoiceApplication.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_callAnswerTime">$callAnswerTime<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_callback">$callback<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_callEndTime">$callEndTime<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_callerId">$callerId<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_callStartTime">$callStartTime<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_destination">$destination<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_direction">$direction<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_domain">$domain<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_domainId">$domainId<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_error">$error<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_id">$id<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_profile">$profile<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_routes">$routes<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_status">$status<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_subscriberId">$subscriberId<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_timeLimit">$timeLimit<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_token">$token<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-CloudonixEntity.html#property_canonicalPath">$canonicalPath<a href="classes/Cloudonix-Entities-Session.html"></li>
+                                                    <li><a href="classes/Cloudonix-Entities-Session.html#property_client">$client<a href="classes/Cloudonix-Entities-Session.html"></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method___construct">__construct()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method___construct">__construct()</a></li>
                                             <li><a href="classes/Cloudonix-Entities-CloudonixEntity.html#method___get">__get()</a></li>
                                             <li><a href="classes/Cloudonix-Entities-CloudonixEntity.html#method___set">__set()</a></li>
                                             <li><a href="classes/Cloudonix-Entities-CloudonixEntity.html#method___toString">__toString()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_delete">delete()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_dnid">dnid()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_dnids">dnids()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_getPath">getPath()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidAsterisk">newDnidAsterisk()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidPattern">newDnidPattern()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidPrefix">newDnidPrefix()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_newDnidRegex">newDnidRegex()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setActive">setActive()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setApplicationUrl">setApplicationUrl()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_subscriberData">subscriberData()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_buildEntityData">buildEntityData()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_refresh">refresh()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-VoiceApplication.html#method_setPath">setPath()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_delete">delete()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_forkRoutedCall">forkRoutedCall()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_getPath">getPath()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_notifyRinging">notifyRinging()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_switchVoiceApplicationToCXML">switchVoiceApplicationToCXML()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_switchVoiceApplicationToUrl">switchVoiceApplicationToUrl()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_updateTimeLimit">updateTimeLimit()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_buildEntityData">buildEntityData()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_refresh">refresh()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-Session.html#method_setPath">setPath()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1881,7 +1985,7 @@ build the Application Entity object</p>
     </section>
 </section>
         </div>
-        <a href="classes/Cloudonix-Entities-VoiceApplication.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Cloudonix-Entities-Session.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

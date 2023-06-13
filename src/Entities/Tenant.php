@@ -39,7 +39,6 @@
     class Tenant extends CloudonixEntity
     {
         protected CloudonixClient $client;
-        protected string $canonicalPath = "";
         protected string $entityId;
 
         public CollectionDomains $collectionDomains;
@@ -182,7 +181,7 @@
          *
          * @return void
          */
-        protected function buildEntityData(mixed $input): void
+        private function buildEntityData(mixed $input): void
         {
             foreach ($input as $key => $value) {
                 if (!is_object($value)) {

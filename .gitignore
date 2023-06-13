@@ -6,3 +6,4 @@
 /tests/.phpunit.result.cache
 /tests/.phpunit.cache/
 /tests/Cloudonix/.env
+/pagekite/

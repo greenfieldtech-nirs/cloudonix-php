@@ -23,7 +23,6 @@
     class Profile extends CloudonixEntity implements \IteratorAggregate, \ArrayAccess
     {
         protected mixed $client;
-        protected string $canonicalPath = "";
         protected array $profile;
 
         /**
@@ -82,7 +81,7 @@
          *
          * @return void
          */
-        protected function buildEntityData(mixed $profileStdObject): void
+        private function buildEntityData(mixed $profileStdObject): void
         {
             if (!is_null($profileStdObject))
                 foreach ($profileStdObject->profile as $key => $value) {

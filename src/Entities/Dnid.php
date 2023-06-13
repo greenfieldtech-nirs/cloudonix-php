@@ -170,7 +170,7 @@
          *
          * @return void
          */
-        protected function buildEntityData(mixed $dnidStdObject): void
+        private function buildEntityData(mixed $dnidStdObject): void
         {
             if (!is_null($dnidStdObject))
 

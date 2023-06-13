@@ -90,19 +90,20 @@
 
         public function offsetGet(mixed $offset): mixed
         {
+            if (!count($this->collection)) $this->refresh();
             $this->getContainerApplication($offset);
             return parent::offsetGet($offset);
         }
 
         public function getIterator(): Traversable
         {
-            $this->refresh();
+            if (!count($this->collection)) $this->refresh();
             return parent::getIterator();
         }
 
         public function __toString(): string
         {
-            $this->refresh();
+            if (!count($this->collection)) $this->refresh();
             return parent::__toString();
         }
     }

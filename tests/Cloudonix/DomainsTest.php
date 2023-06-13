@@ -357,6 +357,32 @@
             $this->assertIsObject($newSession);
         }
 
+        public function testDomainSubscriberSessionNotifyRinging()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Setting RegFree domain " . self::$testConfiguration->newDomain);
+            $setRegFree = self::$testDomainObject->setRegFree("https://api64.ipify.org/", "this.is.a.super.secret.key");
+            $this->consoleLogger->debug("[" . get_class() . "] Starting outbound call in domain " . self::$testConfiguration->newDomain);
+            $domainSessions = self::$testDomainObject->sessions();
+            $newSession = $domainSessions->startSubscriberSession(self::$testConfiguration->newDomainSubscriber, '972732557799', "https://api64.ipify.org/");
+            $this->consoleLogger->debug("[" . get_class() . "] New session response is " . $newSession);
+            $newSession = $newSession->notifyRinging(self::$testConfiguration->newDomainSubscriber, $newSession->token);
+            $this->consoleLogger->debug("[" . get_class() . "] Post ringing update response is " . $newSession);
+            $this->assertIsObject($newSession);
+        }
+
+        public function testDomainSubscriberSessionTimeLimitUpdate()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Starting outbound call in domain " . self::$testConfiguration->newDomain);
+            $domainSessions = self::$testDomainObject->sessions();
+            $newSession = $domainSessions->startSubscriberSession(self::$testConfiguration->newDomainSubscriber, '972546982826', "https://api64.ipify.org/");
+            $this->consoleLogger->debug("[" . get_class() . "] New session response is " . $newSession);
+            $this->assertIsObject($newSession);
+            $this->consoleLogger->debug("[" . get_class() . "] Updating time limit to 600 seconds");
+            $newSession = $newSession->updateTimeLimit(600);
+            $this->consoleLogger->debug("[" . get_class() . "] New session response is " . $newSession);
+            $this->assertIsObject($newSession);
+        }
+
         public function testDomainSessions()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Retrieving Sessions for domain" . self::$testConfiguration->newDomain);

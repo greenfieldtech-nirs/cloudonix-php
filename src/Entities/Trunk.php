@@ -213,7 +213,7 @@
             return json_encode($this->refresh());
         }
 
-        protected function buildEntityData(mixed $input): void
+        private function buildEntityData(mixed $input): void
         {
             foreach ($input as $key => $value) {
                 if ($key == "profile") {

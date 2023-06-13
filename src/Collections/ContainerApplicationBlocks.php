@@ -61,19 +61,19 @@
 
         public function offsetGet(mixed $offset): mixed
         {
-            $this->refresh();
+            if (!count($this->collection)) $this->refresh();
             return parent::offsetGet($offset);
         }
 
         public function getIterator(): Traversable
         {
-            $this->refresh();
+            if (!count($this->collection)) $this->refresh();
             return parent::getIterator();
         }
 
         public function __toString(): string
         {
-            $this->refresh();
+            if (!count($this->collection)) $this->refresh();
             return parent::__toString();
         }
 

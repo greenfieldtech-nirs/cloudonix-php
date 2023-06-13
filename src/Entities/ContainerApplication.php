@@ -33,20 +33,20 @@
         /**
          * Application DataModel Object Constructor
          *
-         * @param string      $containerApplicationBlockName   Cloudonix Container Application Name or ID
+         * @param string      $voiceApplicationName            Cloudonix Container Application Name or ID
          * @param mixed       $parentBranch                    A reference to the previous data model node
-         * @param object|null $containerApplicationBlockObject A Cloudonix Container Application object
+         * @param object|null $voiceApplicationObject          A Cloudonix Container Application object
          *                                                     If $containerApplicationObject is provided, it will be
          *                                                     used to build the Container Application Entity object
          */
-        public function __construct(string $containerApplicationBlockName, mixed $parentBranch, object $containerApplicationBlockObject = null)
+        public function __construct(string $voiceApplicationName, mixed $parentBranch, object $voiceApplicationObject = null)
         {
             $this->client = $parentBranch->client;
-            $this->setPath($containerApplicationBlockName, $parentBranch->canonicalPath);
-            if (is_null($containerApplicationBlockObject)) {
+            $this->setPath($voiceApplicationName, $parentBranch->canonicalPath);
+            if (is_null($voiceApplicationObject)) {
                 $this->refresh();
             } else {
-                $this->buildEntityData($containerApplicationBlockObject);
+                $this->buildEntityData($voiceApplicationObject);
             }
             parent::__construct($this);
 
@@ -88,7 +88,7 @@
          *
          * @return void
          */
-        protected function buildEntityData(mixed $applicationStdObject): void
+        private function buildEntityData(mixed $applicationStdObject): void
         {
             if (!is_null($applicationStdObject))
                 foreach ($applicationStdObject as $key => $value) {

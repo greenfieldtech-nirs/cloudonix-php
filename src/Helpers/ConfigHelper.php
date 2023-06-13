@@ -36,9 +36,9 @@
     const URLPATH_DNIDS = "/dnids";
     const URLPATH_CALLS = "/calls";
     const URLPATH_SESSIONS = "/sessions";
-    const URLPATH_INCOMING = "/incoming";
-    const URLPATH_OUTGOING = "/outgoing";
-    const URLPATH_APPLICATION = "/application";
+    const FILTER_INCOMING = "?by_direction=incoming";
+    const FILTER_OUTGOING = "?by_direction=outgoing";
+    const FILTER_APPLICATION = "?by_direction=application";
     const URLPATH_CONFERENCES = "/conferences";
 
 

@@ -1,9 +1,9 @@
 <?php
     /**
      * @package cloudonixPhp
-     * @file    Collections/Dnids.php
+     * @file    Collections/SubscriberDataKeys.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
-     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=dnids
+     * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=voice-application-subscriber-data
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      */
@@ -14,39 +14,31 @@
     use Traversable;
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
-    use Cloudonix\Entities\Dnid as EntityDnid;
+    use Cloudonix\Entities\SubscriberDataKey as EntitySubscriberDataKey;
 
     /**
-     * DNIDs Collection
+     * Subscriber Data Keys Collection
      *
-     * @property-read int    $id                                  DNID Numeric ID
-     * @property-read int    $domainId                            Domain Numeric ID
-     * @property-read int    $applicationId                       Voice Application Numeric ID
-     * @property-read string $applicationName                     Voice Application Name
-     * @property-read int    $messagingApplicationId              Voice Application Numeric ID
-     * @property-read string $messagingApplicationName            Voice Application Name
-     * @property-read string $dnid                                DNID Expression
-     * @property-read string $source                              DNID Source String
-     * @property-read bool   $expression                          DNID Source is RegEx formatted
-     * @property-read bool   $prefix                              DNID Source is Prefix formatted
-     * @property-read bool   $asteriskCompatible                  DNID Source is Asterisk extensions.conf formatted
-     * @property-read bool   $global                              DNID is defined as global platform DNID
-     * @property      bool   $active                              DNID Status
-     * @property-read string $createdAt                           DNID Creation Date and time
-     * @property-read string $modifiedAt                          DNID Last Modification Date and time
-     * @property-read string $deletedAt                           DNID Deletion Date and time
+     * Cloudonix voice applications allow the developer to securely store subscriber related information, in a
+     * similar fashion to how web applications can store data in cookies. Data is stored in string format, providing
+     * the developer with maximum flexibility in storing JSON or other encoded data.
+     *
+     * @property      string $key                    Subscriber data key
+     * @property      string $data                   Subscriber data storage
+     * @property-read string $createdAt              Subscriber data Creation Date and time
+     * @property-read string $modifiedAt             Subscriber data Last Modification Date and time
+     * @property-read string $deletedAt              Subscriber data Last Deletion Date and time
      */
-    class Dnids extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class SubscriberDataKeys extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
         public mixed $client;
-        public string $canonicalPath = "";
         private mixed $parent;
 
         public function __construct(mixed $parent)
         {
             $this->client = $parent->client;
             $this->parent = $parent;
-            $this->setPath($parent->canonicalPath);
+            $this->setPath($parent->domain);
             parent::__construct();
         }
 
@@ -63,14 +55,14 @@
         /**
          * Set the entity REST API canonical path
          *
-         * @param string $branchPath
+         * @param string $domain
          *
          * @return void
          */
-        protected function setPath(string $branchPath): void
+        protected function setPath(string $domain): void
         {
             if (!strlen($this->canonicalPath))
-                $this->canonicalPath = $branchPath . URLPATH_DNIDS;
+                $this->canonicalPath = URLPATH_CALLS . "/" . $domain . URLPATH_SESSIONS;
         }
 
         /**
@@ -78,7 +70,7 @@
          *
          * @return $this
          */
-        public function refresh(): Dnids
+        public function refresh(): SubscriberDataKeys
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
@@ -89,14 +81,14 @@
          *
          * @param mixed $param
          *
-         * @return void
+         * @return array
          */
         protected function refreshCollectionData(mixed $param): array
         {
             $this->collection = [];
             if (!is_null($param))
                 foreach ($param as $key => $value) {
-                    $this->collection[$value->id] = new EntityDnid($value->id, $this->parent, $value);
+                    $this->collection[$value->id] = new EntitySubscriberDataKey($value->application, $value->subscriber->msisdn, $value);
                 }
             return $this->collection;
         }
