@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/SubscriberDataKeys.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=voice-application-subscriber-data
@@ -31,15 +31,17 @@
      */
     class SubscriberDataKeys extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
-        public mixed $client;
-        private mixed $parent;
+        protected mixed $client;
+        protected mixed $parent;
+        protected string $msisdn;
 
-        public function __construct(mixed $parent)
+        public function __construct(mixed $parent, string $msisdn)
         {
             $this->client = $parent->client;
+            parent::__construct($this);
             $this->parent = $parent;
-            $this->setPath($parent->domain);
-            parent::__construct();
+            $this->msisdn = $msisdn;
+            $this->setPath($parent->canonicalPath);
         }
 
         /**
@@ -55,14 +57,13 @@
         /**
          * Set the entity REST API canonical path
          *
-         * @param string $domain
+         * @param string $parentCanonicalPath
          *
          * @return void
          */
-        protected function setPath(string $domain): void
+        protected function setPath(string $parentCanonicalPath): void
         {
-            if (!strlen($this->canonicalPath))
-                $this->canonicalPath = URLPATH_CALLS . "/" . $domain . URLPATH_SESSIONS;
+            $this->canonicalPath = $parentCanonicalPath . "/subscribers/" . $this->msisdn;
         }
 
         /**
@@ -88,36 +89,42 @@
             $this->collection = [];
             if (!is_null($param))
                 foreach ($param as $key => $value) {
-                    $this->collection[$value->id] = new EntitySubscriberDataKey($value->application, $value->subscriber->msisdn, $value);
+                    $this->collection[$value->key] = new EntitySubscriberDataKey($this->parent, $value->subscriber->msisdn, $value);
                 }
             return $this->collection;
         }
 
         public function offsetSet(mixed $offset, mixed $value): void
         {
-            return;
+            if (!is_null($offset)) {
+                $result = $this->client->httpConnector->request("PUT", $this->getPath() . "/" . $offset, $value);
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+            }
         }
 
         public function offsetUnset(mixed $offset): void
         {
-            return;
+            if (!is_null($offset)) {
+                $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $offset);
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+            }
         }
 
         public function offsetGet(mixed $offset): mixed
         {
-            if (!count($this->collection)) $this->refresh();
+            $this->refresh();
             return parent::offsetGet($offset);
         }
 
         public function getIterator(): Traversable
         {
-            if (!count($this->collection)) $this->refresh();
+            $this->refresh();
             return parent::getIterator();
         }
 
         public function __toString(): string
         {
-            if (!count($this->collection)) $this->refresh();
+            $this->refresh();
             return parent::__toString();
         }
     }

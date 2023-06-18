@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    tests/TenantTest.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -174,17 +174,15 @@
             $this->assertTrue($deleteResult);
         }
 
-        public function testContainerApplications()
+        public function testNewContainerApplication()
         {
-            $this->consoleLogger->info("");
-            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
-
+            $containerApplicationResult = self::$testTenantObject->newContainerApplication(self::$testConfiguration->newContainerApplication, 'static', '<Response>\n<Hangup/>\n</Response>');
+            $this->consoleLogger->debug("[" . get_class() . "] New Container Application Result: " . $containerApplicationResult);
         }
 
         public function testContainerApplication()
         {
             $this->consoleLogger->info("");
             $this->consoleLogger->info("[" . get_class() . "] Executing " . __FUNCTION__);
-
         }
     }

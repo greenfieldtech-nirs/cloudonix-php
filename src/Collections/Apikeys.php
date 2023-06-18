@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/Domains.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=keys
@@ -47,7 +47,7 @@
             $this->parent = $parent;
             $this->setPath($parent->canonicalPath);
             $this->refresh();
-            parent::__construct();
+            parent::__construct($this);
         }
 
         public function list(): Apikeys

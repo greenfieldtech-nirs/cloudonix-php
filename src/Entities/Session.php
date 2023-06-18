@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Entities/Session.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session
@@ -61,7 +61,7 @@
         public function __construct(string $token, mixed $parentBranch, object $sessionObject = null)
         {
             $this->client = $parentBranch->client;
-            parent::__construct($this->client);
+            parent::__construct($this, $parentBranch);
             if (!is_null($sessionObject)) {
                 $this->buildEntityData($sessionObject);
                 $this->setPath($sessionObject->token, $sessionObject->domain);
@@ -79,8 +79,9 @@
          */
         public function updateTimeLimit(int $timelimit): Session
         {
-            $updatedSession = $this->client->httpConnector->request("PATCH", $this->getPath(), ['timeLimit' => $timelimit]);
-            $this->buildEntityData($updatedSession);
+            $result = $this->client->httpConnector->request("PATCH", $this->getPath(), ['timeLimit' => $timelimit]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+            $this->buildEntityData($result);
             return $this;
         }
 
@@ -98,6 +99,7 @@
         public function notifyRinging(string $msisdn, string $token): Session
         {
             $result = $this->client->httpConnector->request("GET", URLPATH_CALLS . "/" . $this->domain . "/ringing/" . $msisdn . "/" . $token);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             if ($result->code == 200)
                 $this->refresh();
             return $this;
@@ -112,7 +114,9 @@
          */
         public function switchVoiceApplicationToCXML(string $cxml): Session
         {
-            $this->buildEntityData($this->client->httpConnector->request("POST", $this->getPath() . "/application", ['cxml' => $cxml]));
+            $result = $this->client->httpConnector->request("POST", $this->getPath() . "/application", ['cxml' => $cxml]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+            $this->buildEntityData($result);
             return $this;
         }
 
@@ -126,7 +130,9 @@
          */
         public function switchVoiceApplicationToUrl(string $url, string $method = "POST"): Session
         {
-            $this->buildEntityData($this->client->httpConnector->request("POST", $this->getPath() . "/application", ['url' => $url, 'method' => $method]));
+            $result = $this->client->httpConnector->request("POST", $this->getPath() . "/application", ['url' => $url, 'method' => $method]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+            $this->buildEntityData($result);
             return $this;
         }
 
@@ -158,9 +164,9 @@
          *
          * @see https://dev.docs.cloudonix.io/#/platform/api-core/sessions?id=session-control-fork-routed-call
          *
-         * @param array  $caller        A new Voice Application resource description array, as above
-         * @param array  $callee        A new Voice Application resource description array, as above
-         * @param string $callback      Optional remote session update callback URL
+         * @param array  $caller   A new Voice Application resource description array, as above
+         * @param array  $callee   A new Voice Application resource description array, as above
+         * @param string $callback Optional remote session update callback URL
          *
          * @return array
          */
@@ -203,24 +209,11 @@
             return false;
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
         public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $domain
-         * @param string $token
-         *
-         * @return void
-         */
         protected function setPath(string $token = "", string $domain): void
         {
             $this->canonicalPath = URLPATH_CALLS . "/" . $domain . URLPATH_SESSIONS;
@@ -234,18 +227,11 @@
             return $this;
         }
 
-        /**
-         * Build the local Dnid properties
-         *
-         * @param mixed $dnidStdObject
-         *
-         * @return void
-         */
-        private function buildEntityData(mixed $dnidStdObject): void
+        private function buildEntityData(mixed $input): void
         {
-            if (!is_null($dnidStdObject))
-
-                foreach ($dnidStdObject as $key => $value) {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
+            if (!is_null($input))
+                foreach ($input as $key => $value) {
                     if ($key == "profile") {
                         $this->profile = new EntityProfile($value, $this);
                     } else {

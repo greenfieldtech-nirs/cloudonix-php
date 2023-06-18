@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Helpers/HttpHelper.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -13,8 +13,6 @@
     use GuzzleHttp\Exception\GuzzleException;
     use stdClass;
     use GuzzleHttp\Client as GuzzleClient;
-    use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-    use GuzzleHttp\Exception\ServerException as GuzzleServerException;
 
     /**
      * HTTP Helper Class
@@ -104,6 +102,7 @@
                 case 204:
                     $result = ['code' => 204, 'message' => 'No content'];
                     break;
+                case 201:
                 case 200:
                     $result = json_decode((string)$result->getBody());
                     break;

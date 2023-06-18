@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/Dnids.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=trunks
@@ -43,7 +43,7 @@
         public function __construct(string $trunk, mixed $parentBranch, object $trunkObject = null)
         {
             $this->client = $parentBranch->client;
-            parent::__construct($this->client);
+            parent::__construct($this);
             if (!is_null($trunkObject)) {
                 $this->buildEntityData($trunkObject);
                 $this->setPath($trunkObject->domain, $parentBranch->canonicalPath);

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/CloudonixCollection.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -24,8 +24,10 @@
 
         abstract protected function refreshCollectionData(mixed $param): array;
 
-        public function __construct()
+        public function __construct(mixed $param)
         {
+            $this->client->logger->debug(__METHOD__ . " Construction with parent " . get_class($param));
+            $this->client->logger->debug(__METHOD__ . " Parent canoncialPath: " . $param->canonicalPath);
         }
 
         public function count(): int

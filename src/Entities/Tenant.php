@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Entities/Tenant.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -21,7 +21,10 @@
     use Cloudonix\Collections\ContainerApplications as CollectionContainerApplications;
     use Cloudonix\Collections\Apikeys as CollectionApikeys;
 
+    use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
+
     use Exception;
+    use GuzzleHttp\Exception\GuzzleException;
 
     /**
      * Tenant Data Model Entity
@@ -59,27 +62,6 @@
         }
 
         /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
-        public function getPath(): string
-        {
-            return $this->canonicalPath;
-        }
-
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @return string
-         */
-        protected function setPath(string $entityId): void
-        {
-            if (!strlen($this->canonicalPath))
-                $this->canonicalPath = URLPATH_TENANTS . "/" . $entityId;
-        }
-
-        /**
          * Get the Cloudonix Tenant object
          *
          * @return $this
@@ -96,7 +78,7 @@
          * @param bool $active
          *
          * @return $this
-         * @throws Exception
+         * @throws GuzzleException
          */
         public function setActive(bool $active = true): Tenant
         {
@@ -135,14 +117,20 @@
          * @param string $domain
          *
          * @return EntityDomain
+         * @throws GuzzleException
          */
         public function newDomain(string $domain): EntityDomain
         {
             $canonicalPath = $this->getPath() . URLPATH_DOMAINS;
-            $newDomain = $this->client->httpConnector->request('POST', $canonicalPath, ['domain' => $domain]);
-            return new EntityDomain($domain, $this, $newDomain);
+            $result = $this->client->httpConnector->request('POST', $canonicalPath, ['domain' => $domain]);
+            return new EntityDomain($domain, $this, $result);
         }
 
+        /**
+         * Obtain a collection of all tenant associated container applications
+         *
+         * @return CollectionContainerApplications
+         */
         public function containerApplications(): CollectionContainerApplications
         {
             if (!isset($this->collectionContainerApplications))
@@ -151,11 +139,49 @@
             return $this->collectionContainerApplications->refresh();
         }
 
-        public function containerApplication(string $containerApplicationName): EntityContainerApplication
+        /**
+         * Obtain a container application object, based upon the container application name
+         *
+         * @param string $name
+         *
+         * @return ContainerApplication
+         */
+        public function containerApplication(string $name): EntityContainerApplication
         {
-            return new EntityContainerApplication($containerApplicationName, $this);
+            return new EntityContainerApplication($name, $this);
         }
 
+        /**
+         * Create a new container application
+         *
+         * @param string $name
+         * @param string $runtime
+         * @param string $code
+         *
+         * @return ContainerApplication
+         */
+        public function newContainerApplication(string $name, string $runtime, string $code): EntityContainerApplication
+        {
+            $utilityHelper = new UtilityHelper();
+            $canonicalPath = $this->getPath() . URLPATH_CONTAINER_APPLICATIONS;
+            $result = $this->client->httpConnector->request('POST', $canonicalPath, [
+                'name' => $name,
+                'blocks' => [
+                    [
+                        'name' => 'main',
+                        'runtime' => $runtime,
+                        'code' => $utilityHelper->validateCode($code)
+                    ]
+                ]
+            ]);
+            return new EntityContainerApplication($name, $this, $result);
+        }
+
+        /**
+         * Obtain a collection of API Keys associated with the tenant
+         *
+         * @return CollectionApikeys
+         */
         public function apikeys(): CollectionApikeys
         {
             if (!isset($this->collectionApikeys))
@@ -164,25 +190,44 @@
             return $this->collectionApikeys->refresh();
         }
 
+        /**
+         * Obtain an API key object, based upon the API key ID
+         *
+         * @param string $keyId
+         *
+         * @return Apikey
+         */
         public function apikey(string $keyId): EntityApikey
         {
             return new EntityApikey($keyId, $this);
         }
 
+        /**
+         * Create a new API key and return its object
+         *
+         * @param string $keyName
+         *
+         * @return Apikey
+         */
         public function newApikey(string $keyName): EntityApikey
         {
             return $this->collectionApikeys->newKey($keyName);
         }
 
-        /**
-         * Build the tenant object properties
-         *
-         * @param mixed $input
-         *
-         * @return void
-         */
+        public function getPath(): string
+        {
+            return $this->canonicalPath;
+        }
+
+        protected function setPath(string $entityId): void
+        {
+            if (!strlen($this->canonicalPath))
+                $this->canonicalPath = URLPATH_TENANTS . "/" . $entityId;
+        }
+
         private function buildEntityData(mixed $input): void
         {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if (!is_object($value)) {
                     $this->$key = $value;
@@ -198,11 +243,6 @@
             }
         }
 
-        /**
-         * Query the remote REST API for the latest tenant object
-         *
-         * @return string
-         */
         protected function refresh(): mixed
         {
             return $this->client->httpConnector->request("GET", $this->getPath());

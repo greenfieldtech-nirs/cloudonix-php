@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/ContainerApplicationBlocks.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=hosted-applications
@@ -33,9 +33,9 @@
         public function __construct(mixed $parent, mixed $applicationBlocks)
         {
             $this->client = $parent->client;
+            parent::__construct($this);
             $this->parent = $parent;
             $this->canonicalPath = $parent->canonicalPath;
-            parent::__construct();
         }
 
         public function getPath(): string

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/Domains.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=subscribers
@@ -35,7 +35,6 @@
     class Subscribers extends CloudonixCollection
     {
         protected mixed $client;
-        protected string $canonicalPath = "";
         protected mixed $parent;
 
         public function __construct(mixed $parent)
@@ -43,7 +42,7 @@
             $this->client = $parent->client;
             $this->parent = $parent;
             $this->setPath($parent->canonicalPath);
-            parent::__construct();
+            parent::__construct($this);
         }
 
         public function list(): Subscribers

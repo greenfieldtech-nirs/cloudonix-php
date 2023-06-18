@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Entities/SubscriberDataKey.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models
@@ -33,75 +33,62 @@
         /**
          * VoiceApplication Subscriber Data DataModel Object Constructor
          *
-         * @param EntityVoiceApplication $voiceApplicationObject Cloudonix Voice Application Object
-         * @param string                 $subscriber             Cloudonix Subscriber ID or MSISDN
+         * @param mixed      $voiceApplicationObject        Cloudonix Voice Application Object
+         * @param string     $subscriber                    Cloudonix Subscriber ID or MSISDN
+         * @param mixed|null $voiceApplicationDataKeyObject A Cloudonix Voice Application Data Key Object
          */
-        public function __construct(EntityVoiceApplication $voiceApplicationObject, string $subscriber, mixed $subscriberDataObject)
+        public function __construct(mixed $voiceApplicationObject, string $subscriber, mixed $voiceApplicationDataKeyObject = null)
         {
             $this->client = $voiceApplicationObject->client;
-            parent::__construct($this);
-            if (!is_null($subscriberDataObject)) {
-                $this->buildEntityData($subscriberDataObject);
-                $this->setPath($subscriberDataObject->canonicalPath, $subscriber);
-            } else {
-                $this->setPath($voiceApplicationObject->canonicalPath, $subscriber);
+            parent::__construct($this, $voiceApplicationObject);
+
+            if (!is_null($voiceApplicationDataKeyObject)) {
+                $this->buildEntityData($voiceApplicationDataKeyObject);
             }
+            $this->setPath($voiceApplicationObject->canonicalPath, $subscriber);
         }
 
+        /**
+         * Delete a voice application subsriber data key
+         *
+         * @return bool
+         */
         public function delete(): bool
         {
             $result = $this->buildEntityData($this->client->httpConnector->request("DELETE", $this->getPath()));
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             if ($result->code == 204)
                 return true;
             return false;
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
-        public function getPath()
+        public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $string
-         * @param string $subscriber
-         *
-         * @return void
-         */
         protected function setPath(string $string, string $subscriber): void
         {
             if (!strlen($this->canonicalPath))
-                $this->canonicalPath = $string . "/subscriber-data/" . $subscriber;
+                $this->canonicalPath = $string . "/subscribers/" . $subscriber;
         }
 
-        /**
-         * Refresh the local storage with the remote data
-         *
-         * @return $this
-         */
         public function refresh(): SubscriberDataKey
         {
             $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
-        /**
-         * Build the voice application subscribers data
-         *
-         * @param mixed $inputObject
-         *
-         * @return void
-         */
-        private function buildEntityData(mixed $inputObject): void
+        public function __get(mixed $name): SubscriberDataKey
         {
-            if (!is_null($inputObject))
-                foreach ($inputObject as $key => $value) {
+            return $this;
+        }
+
+        private function buildEntityData(mixed $input): void
+        {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
+            if (!is_null($input))
+                foreach ($input as $key => $value) {
                     if ($key == "application")
                         continue;
                     else if ($key == "subscriber")

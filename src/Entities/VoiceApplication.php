@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @filename: Entities/VoiceApplication.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=applications
@@ -16,7 +16,6 @@
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\Dnid as EntityDnid;
-    use Cloudonix\Entities\SubscriberDataKey as EntitySubscriberData;
 
     use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
@@ -41,34 +40,46 @@
     {
         protected mixed $client;
         public CollectionDnids $collectionDnids;
-        public CollectionSubscriberData $collectionSubscriberDataKeys;
 
         /**
          * Application DataModel Object Constructor
          *
-         * @param string      $voiceApplicationName            Cloudonix Voice Application Name or ID
-         * @param mixed       $parentBranch                    A reference to the previous data model node
-         * @param object|null $voiceApplicationObject          A Cloudonix Application object
-         *                                                     If $voiceApplicationObject is provided, it will be used to
-         *                                                     build the Application Entity object
+         * @param string     $voiceApplicationName             Cloudonix Voice Application Name or ID
+         * @param mixed      $parentBranch                     A reference to the previous data model node
+         * @param mixed|null $voiceApplicationObject           A Cloudonix Application object
+         *                                                     If $voiceApplicationObject is provided, it will be used
+         *                                                     to build the Application Entity object
          */
-        public function __construct(string $voiceApplicationName, mixed $parentBranch, object $voiceApplicationObject = null)
+        public function __construct(string $voiceApplicationName, mixed $parentBranch, mixed $voiceApplicationObject = null)
         {
-            parent::__construct($this);
             $this->client = $parentBranch->client;
-            $this->setPath($voiceApplicationName, $parentBranch->canonicalPath);
-            if (is_null($voiceApplicationObject)) {
-                $this->refresh();
-            } else {
+            parent::__construct($this, $parentBranch);
+
+            if (!is_null($voiceApplicationObject)) {
+                $this->setPath($voiceApplicationObject->name, $parentBranch->canonicalPath);
                 $this->buildEntityData($voiceApplicationObject);
+            } else {
+                $this->setPath($voiceApplicationName, $parentBranch->canonicalPath);
             }
         }
 
+        /**
+         * Return a DNID object, assigned to the voice application
+         *
+         * @param string $dnid
+         *
+         * @return Dnid
+         */
         public function dnid(string $dnid): EntityDnid
         {
             return new Dnid($dnid, $this);
         }
 
+        /**
+         * Return a collection of DNID objects, assigned to the voice application
+         *
+         * @return CollectionDnids
+         */
         public function dnids(): CollectionDnids
         {
             if (!isset($this->collectionDnids))
@@ -77,19 +88,25 @@
             return $this->collectionDnids;
         }
 
-        public function subscribersData(): CollectionSubscriberData
+        /**
+         * Return a voice application subscriber data object
+         *
+         * @param string $subscriberMsisdn
+         *
+         * @return CollectionSubscriberData
+         */
+        public function subscriberData(string $subscriberMsisdn): CollectionSubscriberData
         {
-            if (!isset($this->collectionSubscriberDataKeys))
-                $this->collectionSubscriberDataKeys = new CollectionSubscriberData($this);
-
-            return $this->collectionSubscriberDataKeys;
+            return new CollectionSubscriberData($this, $subscriberMsisdn);
         }
 
-        public function subscriberData(string $msisdn): EntitySubscriberData
-        {
-            return new EntitySubscriberData();
-        }
-
+        /**
+         * Assign a new DNID number to a voice application, based upon a DNID prefix
+         *
+         * @param string $dnid
+         *
+         * @return Dnid
+         */
         public function newDnidPrefix(string $dnid): EntityDnid
         {
             $dnidResult = $this->client->httpConnector->request("POST", $this->getPath() . "/dnids", [
@@ -98,9 +115,17 @@
                 'prefix' => true,
                 'asteriskCompatible' => false
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($dnidResult));
             return new EntityDnid($dnidResult->id, $this, $dnidResult);
         }
 
+        /**
+         * Assign a new DNID number to a voice application, based upon a regular expression
+         *
+         * @param string $dnid
+         *
+         * @return Dnid
+         */
         public function newDnidRegex(string $dnid): EntityDnid
         {
             $dnidResult = $this->client->httpConnector->request("POST", $this->getPath() . "/dnids", [
@@ -109,9 +134,17 @@
                 'prefix' => false,
                 'asteriskCompatible' => false
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($dnidResult));
             return new EntityDnid($dnidResult->id, $this, $dnidResult);
         }
 
+        /**
+         * Assign a new DNID number to a voice application, based upon an Asterisk dialplan expression
+         *
+         * @param string $dnid
+         *
+         * @return Dnid
+         */
         public function newDnidAsterisk(string $dnid): EntityDnid
         {
             $dnidResult = $this->client->httpConnector->request("POST", $this->getPath() . "/dnids", [
@@ -120,9 +153,17 @@
                 'prefix' => false,
                 'asteriskCompatible' => true
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($dnidResult));
             return new EntityDnid($dnidResult->id, $this, $dnidResult);
         }
 
+        /**
+         * Assign a new DNID number to a voice application, based upon a DNID pattern match
+         *
+         * @param string $dnid
+         *
+         * @return Dnid
+         */
         public function newDnidPattern(string $dnid): EntityDnid
         {
             $dnidResult = $this->client->httpConnector->request("POST", $this->getPath() . "/dnids", [
@@ -131,6 +172,7 @@
                 'prefix' => false,
                 'asteriskCompatible' => false
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($dnidResult));
             return new EntityDnid($dnidResult->id, $this, $dnidResult);
         }
 
@@ -153,46 +195,50 @@
             if (!$validatedUrl)
                 return $this;
 
-            $this->client->httpConnector->request("PATCH", $this->getPath(), [
+            $patchResult = $this->client->httpConnector->request("PATCH", $this->getPath(), [
                 'url' => $validatedUrl,
                 'method' => strtoupper($method)
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($patchResult));
+
             return $this->refresh();
         }
 
+        /**
+         * Enable/Disable a DNID number
+         *
+         * @param bool $status
+         *
+         * @return Domain
+         */
         public function setActive(bool $status): Domain
         {
-            $this->client->httpConnector->request("PATCH", $this->getPath(), ['active' => $status]);
+            $patchResult = $this->client->httpConnector->request("PATCH", $this->getPath(), ['active' => $status]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($patchResult));
             return $this->refresh();
         }
 
+        /**
+         * Delete a DNID
+         *
+         * @return bool
+         */
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+
             if ($result->code == 204)
                 return true;
             return false;
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
-        public function getPath()
+        public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $string
-         * @param string $branchPath
-         *
-         * @return void
-         */
-        protected function setPath(string $string, string $branchPath)
+        protected function setPath(string $string, string $branchPath): void
         {
             if (!strlen($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_APPLICATIONS . "/" . $string;
@@ -204,20 +250,14 @@
             return $this;
         }
 
-        /**
-         * Build the local Application properties
-         *
-         * @param mixed $applicationStdObject
-         *
-         * @return void
-         */
-        private function buildEntityData(mixed $applicationStdObject): void
+        private function buildEntityData(mixed $input): void
         {
-            if (!is_null($applicationStdObject))
-                foreach ($applicationStdObject as $key => $value) {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
+            if (!is_null($input))
+                foreach ($input as $key => $value) {
                     if ($key == "profile") {
-                        $myProfile = new EntityProfile($value, $this);
-                        $this->profile = $myProfile;
+                        $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " creating profile with this: " . json_encode($this));
+                        $this->profile = new EntityProfile($value, $this);
                     } else if ($key == "domain") {
                         continue;
                     } else {

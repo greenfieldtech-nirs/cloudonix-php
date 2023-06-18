@@ -1,12 +1,13 @@
 <?php
     /**
-     * @package  cloudonixPhp
+     * @package  cloudonix-php
      * @filename Entities/Domain.php
      * @author   Nir Simionovich <nirs@cloudonix.io>
      * @see      https://dev.docs.cloudonix.io/#/platform/api-core/models?id=domains
      * @license  MIT License (https://choosealicense.com/licenses/mit/)
      * @created  2023-05-14
      */
+
     namespace Cloudonix\Entities;
 
     use Cloudonix\Collections\VoiceApplications as CollectionVoiceApplications;
@@ -19,7 +20,7 @@
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Dnid as EntityDnid;
     use Cloudonix\Entities\Profile as EntityProfile;
-    use Cloudonix\Entities\VoiceApplication as EntityApplication;
+    use Cloudonix\Entities\VoiceApplication as EntityVoiceApplication;
     use Cloudonix\Entities\Apikey as EntityApikey;
     use Cloudonix\Entities\Subscriber as EntitySubscriber;
     use Cloudonix\Entities\Trunk as EntityTrunk;
@@ -31,18 +32,18 @@
      *
      * This class represents the generalised form of a Cloudonix Domain object.
      *
-     * @property-read int               $id                                  Domain Numeric ID
-     * @property-read int               $tenantId                            Tenant Numeric ID
-     * @property      int               $defaultApplicationId                Domain Default Application ID
-     * @property      string            $domain                              Domain name, usually an FQDN
-     * @property-read string            $createdAt                           Domain Creation Date and time
-     * @property-read string            $modifiedAt                          Domain Last Modification Date and time
-     * @property-read string            $deletedAt                           Domain Deletion Date and time
-     * @property-read string            $uuid                                Domain UUID
-     * @property      bool              $active                              Domain Status
-     * @property      bool              $registrationFree                    Domain RegFree Dialing Status
-     * @property      EntityProfile     $profile                             Domain Profile Object
-     * @property-read EntityApplication $defaultApplication                  Domain Default Application Object
+     * @property-read int                    $id                                  Domain Numeric ID
+     * @property-read int                    $tenantId                            Tenant Numeric ID
+     * @property      int                    $defaultApplicationId                Domain Default Application ID
+     * @property      string                 $domain                              Domain name, usually an FQDN
+     * @property-read string                 $createdAt                           Domain Creation Date and time
+     * @property-read string                 $modifiedAt                          Domain Last Modification Date and time
+     * @property-read string                 $deletedAt                           Domain Deletion Date and time
+     * @property-read string                 $uuid                                Domain UUID
+     * @property      bool                   $active                              Domain Status
+     * @property      bool                   $registrationFree                    Domain RegFree Dialing Status
+     * @property      EntityProfile          $profile                             Domain Profile Object
+     * @property-read EntityVoiceApplication $defaultApplication                  Domain Default Application Object
      */
     class Domain extends CloudonixEntity
     {
@@ -66,7 +67,7 @@
         public function __construct(string $domain, mixed $parentBranch, object $domainObject = null)
         {
             $this->client = $parentBranch->client;
-            parent::__construct($this->client);
+            parent::__construct($this, $parentBranch);
             if (!is_null($domainObject)) {
                 $this->buildEntityData($domainObject);
                 $this->setPath($domainObject->domain, $parentBranch->canonicalPath);
@@ -125,6 +126,7 @@
                 'transport' => $transport,
                 'direction' => 'public-inbound'
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             return new EntityTrunk($name, $this, $result);
         }
 
@@ -142,10 +144,10 @@
          */
         public function newOutboundTrunk(string $name,
                                          string $ip,
-                                         int $port = 5060,
+                                         int    $port = 5060,
                                          string $transport = "udp",
                                          string $prefix = "",
-                                         int $metric = 10): EntityTrunk
+                                         int    $metric = 10): EntityTrunk
         {
             $result = $this->client->httpConnector->request("POST", $this->getPath() . URLPATH_TRUNKS, [
                 'name' => $name,
@@ -156,6 +158,7 @@
                 'metric' => $metric,
                 'direction' => 'public-outbound'
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             return new EntityTrunk($name, $this, $result);
         }
 
@@ -187,13 +190,13 @@
         /**
          * Return a new Voice Application Entity object
          *
-         * @param string $voiceapplication
+         * @param string $voiceApplication
          *
-         * @return EntityApplication
+         * @return EntityVoiceApplication
          */
-        public function voiceApplication(string $voiceapplication): EntityApplication
+        public function voiceApplication(string $voiceApplication): EntityVoiceApplication
         {
-            return new EntityApplication($voiceapplication, $this);
+            return new EntityVoiceApplication($voiceApplication, $this);
         }
 
         /**
@@ -216,17 +219,19 @@
          * @param string $url    Voice application URL
          * @param string $method Voice application HTTP Method (GET/POST)
          *
-         * @return EntityApplication
+         * @return EntityVoiceApplication
          */
-        public function newVoiceApplicationFromUrl(string $name, string $url, string $method): EntityApplication
+        public function newVoiceApplicationFromUrl(string $name, string $url, string $method): EntityVoiceApplication
         {
             $canonicalPath = $this->getPath() . URLPATH_APPLICATIONS;
-            $newApplicationObject = $this->client->httpConnector->request('POST', $canonicalPath, [
+            $result = $this->client->httpConnector->request('POST', $canonicalPath, [
                 'name' => $name,
                 'url' => $url,
                 'method' => $method
             ]);
-            return new EntityApplication($name, $this, $newApplicationObject);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+
+            return new EntityVoiceApplication($name, $this, $result);
         }
 
 
@@ -447,7 +452,7 @@
 
         public function setAlias(string $alias): Domain
         {
-            $this->client->httpConnector->request("POST", $this->getPath() . "/aliases", [ 'alias' => $alias ]);
+            $this->client->httpConnector->request("POST", $this->getPath() . "/aliases", ['alias' => $alias]);
             return $this->refresh();
         }
 
@@ -489,13 +494,14 @@
 
         private function buildEntityData(mixed $input): void
         {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
                     $this->profile = new EntityProfile($value, $this);
                 } else if ($key == "defaultApplication") {
                     $this->defaultApplicationId = $value;
                 } else if ($key == "application") {
-                    $this->defaultApplication = new EntityApplication($value->id, $this, $value);
+                    $this->defaultApplication = new EntityVoiceApplication($value->id, $this, $value);
                 } else if ($key == "tenant") {
                     continue;
                 } else {

@@ -103,6 +103,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/cloudonix-cxml.html" class="">CxML</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/cloudonix-entities.html" class="">Entities</a>
                 
             </li>
@@ -116,8 +120,14 @@
                 <section class="phpdocumentor-sidebar__category">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
-    <a href="packages/cloudonixPhp.html" class="">cloudonixPhp</a>
+    <a href="packages/cloudonix.html" class="">cloudonix</a>
 </h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/cloudonix-php.html" class="">php</a>
+                
+            </li>
+            </ul>
 
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -156,7 +166,8 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/cloudonixPhp.html">cloudonixPhp</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/cloudonix.html">cloudonix</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/cloudonix-php.html">php</a></li>
                             </ul>
         </div>
     
@@ -287,13 +298,6 @@
 <dd>Return the entity REST API canonical path</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_buildEntityData">buildEntityData()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Build the local Container Application Block properties</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_refresh">refresh()</a>
     <span>
                                 &nbsp;: <a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html"><abbr title="\Cloudonix\Entities\ContainerApplicationBlock">ContainerApplicationBlock</abbr></a>    </span>
@@ -305,6 +309,13 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Set the entity REST API canonical path</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_buildEntityData">buildEntityData()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Build the local Container Application Block properties</dd>
 
     </dl>
 
@@ -556,7 +567,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$containerApplicationBlockName</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parentBranch</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">object|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$containerApplicationBlockObject</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$voiceApplicationName</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parentBranch</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">object|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$voiceApplicationObject</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -564,7 +575,7 @@
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$containerApplicationBlockName</span>
+                <span class="phpdocumentor-signature__argument__name">$voiceApplicationName</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -582,7 +593,7 @@
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$containerApplicationBlockObject</span>
+                <span class="phpdocumentor-signature__argument__name">$voiceApplicationObject</span>
                 : <span class="phpdocumentor-signature__argument__return-type">object|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -612,7 +623,7 @@ to build the Application Entity object</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/CloudonixEntity.php"><a href="files/src-entities-cloudonixentity.html"><abbr title="src/Entities/CloudonixEntity.php">CloudonixEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">53</span>
 
     </aside>
 
@@ -653,7 +664,7 @@ to build the Application Entity object</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/CloudonixEntity.php"><a href="files/src-entities-cloudonixentity.html"><abbr title="src/Entities/CloudonixEntity.php">CloudonixEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">58</span>
 
     </aside>
 
@@ -701,7 +712,7 @@ to build the Application Entity object</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/CloudonixEntity.php"><a href="files/src-entities-cloudonixentity.html"><abbr title="src/Entities/CloudonixEntity.php">CloudonixEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -736,7 +747,7 @@ to build the Application Entity object</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/CloudonixEntity.php"><a href="files/src-entities-cloudonixentity.html"><abbr title="src/Entities/CloudonixEntity.php">CloudonixEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -771,7 +782,7 @@ to build the Application Entity object</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/ContainerApplicationBlock.php"><a href="files/src-entities-containerapplicationblock.html"><abbr title="src/Entities/ContainerApplicationBlock.php">ContainerApplicationBlock.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">59</span>
 
     </aside>
 
@@ -799,48 +810,6 @@ to build the Application Entity object</p>
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_buildEntityData">
-        buildEntityData()
-        <a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_buildEntityData" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/ContainerApplicationBlock.php"><a href="files/src-entities-containerapplicationblock.html"><abbr title="src/Entities/ContainerApplicationBlock.php">ContainerApplicationBlock.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">87</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Build the local Container Application Block properties</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">buildEntityData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$applicationStdObject</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$applicationStdObject</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_refresh">
         refresh()
         <a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_refresh" class="headerlink"><i class="fas fa-link"></i></a>
@@ -849,7 +818,7 @@ to build the Application Entity object</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/ContainerApplicationBlock.php"><a href="files/src-entities-containerapplicationblock.html"><abbr title="src/Entities/ContainerApplicationBlock.php">ContainerApplicationBlock.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">77</span>
 
     </aside>
 
@@ -884,7 +853,7 @@ to build the Application Entity object</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/ContainerApplicationBlock.php"><a href="files/src-entities-containerapplicationblock.html"><abbr title="src/Entities/ContainerApplicationBlock.php">ContainerApplicationBlock.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 
     </aside>
 
@@ -909,6 +878,48 @@ to build the Application Entity object</p>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$branchPath</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_buildEntityData">
+        buildEntityData()
+        <a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_buildEntityData" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entities/ContainerApplicationBlock.php"><a href="files/src-entities-containerapplicationblock.html"><abbr title="src/Entities/ContainerApplicationBlock.php">ContainerApplicationBlock.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">90</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Build the local Container Application Block properties</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">buildEntityData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$applicationStdObject</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$applicationStdObject</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1050,9 +1061,9 @@ to build the Application Entity object</p>
                                             <li><a href="classes/Cloudonix-Entities-CloudonixEntity.html#method___toString">__toString()</a></li>
                                             <li><a href="classes/Cloudonix-Entities-CloudonixEntity.html#method_delete">delete()</a></li>
                                             <li><a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_getPath">getPath()</a></li>
-                                            <li><a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_buildEntityData">buildEntityData()</a></li>
                                             <li><a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_refresh">refresh()</a></li>
                                             <li><a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_setPath">setPath()</a></li>
+                                            <li><a href="classes/Cloudonix-Entities-ContainerApplicationBlock.html#method_buildEntityData">buildEntityData()</a></li>
                                     </ul>
             </li>
                     </ul>

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/Dnids.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=dnids
@@ -55,9 +55,9 @@
         public function __construct(mixed $parent)
         {
             $this->client = $parent->client;
+            parent::__construct($this);
             $this->parent = $parent;
             $this->setPath($parent->domain);
-            parent::__construct();
         }
 
         public function startOutboundCall(string $destination, string $callerId = "", int $timeout = 60, array $appData = ['application' => 'call-routing']): EntitySession
@@ -66,7 +66,7 @@
             $appData['timeout'] = $timeout;
             $appData['caller-id'] = $callerId;
 
-            $newSessionResult = $this->client->httpConnector->request("POST", URLPATH_CALLS . "/" . $this->parent->domain . "/application/", $appData);
+            $newSessionResult = $this->client->httpConnector->request("POST", URLPATH_CALLS . "/" . $this->parent->domain . "/application", $appData);
             return new EntitySession($newSessionResult->token, $this, $newSessionResult);
         }
 

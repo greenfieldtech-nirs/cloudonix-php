@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Helpers/LogHelper.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -9,6 +9,7 @@
 
     namespace Cloudonix\Helpers;
 
+    use Ramsey\Uuid\Uuid;
     use Monolog\Logger;
     use Monolog\Handler\StreamHandler;
     use Monolog\Formatter\LineFormatter;
@@ -20,15 +21,17 @@
      */
     class LogHelper
     {
-        public $logger;
-        public $level;
+        public Logger $logger;
+        public mixed $level;
+        public \Ramsey\Uuid\UuidInterface $uuid;
 
         public function __construct($logChannelLevel = LOGGER_DISABLE, string $logChannelName = 'cloudonix-php', string $logChannelStream = 'cloudonix-php.log')
         {
             $this->logger = new Logger($logChannelName);
             $streamHandler = new StreamHandler($logChannelStream);
 
-            $streamFormat = "%datetime% %channel% [%level_name%]: %message% %context% %extra%\n";
+            $this->uuid = Uuid::uuid4();
+            $streamFormat = "%datetime% %channel% [" . $this->uuid . "] [%level_name%]: %message% %context% %extra%\n";
             $streamDateFormat = "M d H:i:s";
             $streamHandler->setFormatter(new LineFormatter($streamFormat, $streamDateFormat, false, true));
             $this->logger->pushHandler($streamHandler);

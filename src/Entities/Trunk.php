@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Entities/Subscriber.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=voice-trunk
@@ -12,6 +12,7 @@
     use Cloudonix\CloudonixClient as CloudonixClient;
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
+    use GuzzleHttp\Exception\GuzzleException;
 
     /**
      * Trunk Data Model Entity
@@ -50,13 +51,13 @@
         public function __construct(string $trunk, mixed $parentBranch, object $trunkObject = null)
         {
             $this->client = $parentBranch->client;
+            parent::__construct($this, $parentBranch);
             if (!is_null($trunkObject)) {
                 $this->buildEntityData($trunkObject);
                 $this->setPath($trunkObject->id, $parentBranch->canonicalPath);
             } else {
                 $this->setPath($trunk, $parentBranch->canonicalPath);
             }
-            parent::__construct($this->client);
         }
 
         /**
@@ -68,6 +69,7 @@
          * @param string $transport
          *
          * @return $this
+         * @throws GuzzleException
          */
         public function setEndpoint(string $ip, int $port = 5060, string $prefix = "", string $transport = ""): Trunk
         {
@@ -81,6 +83,7 @@
                 'prefix' => $prefix,
                 'transport' => $transport
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
 
             $this->buildEntityData($result);
             return $this;
@@ -93,6 +96,7 @@
          * @param string $headerValue
          *
          * @return $this
+         * @throws GuzzleException
          */
         public function setInboundFilter(string $headerName, string $headerValue): Trunk
         {
@@ -104,6 +108,7 @@
                 'headerName' => $headerName,
                 'headerValue' => $headerValue
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
 
             $this->buildEntityData($result);
             return $this;
@@ -169,6 +174,7 @@
          * @param int $metric
          *
          * @return $this
+         * @throws GuzzleException
          */
         public function setOutboundMetric(int $metric): Trunk
         {
@@ -183,6 +189,12 @@
             return $this;
         }
 
+        /**
+         * Delete a trunk
+         *
+         * @return bool
+         * @throws GuzzleException
+         */
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());
@@ -215,6 +227,7 @@
 
         private function buildEntityData(mixed $input): void
         {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
                     $this->profile = new EntityProfile($value, $this);

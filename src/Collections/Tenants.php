@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/Dnids.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=tenants
@@ -40,7 +40,7 @@
             $this->client = $parent->client;
             $this->parent = $parent;
             $this->setPath($parent->canonicalPath);
-            parent::__construct();
+            parent::__construct($this);
         }
 
         /**

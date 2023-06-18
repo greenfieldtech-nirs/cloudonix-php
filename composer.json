@@ -24,6 +24,9 @@
 	  "Cloudonix\\": [
 		"./src/"
 	  ],
+	  "Cloudonix\\Verbs\\": [
+		"./src/CxML/"
+	  ],
 	  "Cloudonix\\Helpers\\": [
 		"./src/Helpers/"
 	  ],
@@ -48,7 +51,8 @@
 	"phpfastcache/phpfastcache": ">=9.1.3",
 	"monolog/monolog": ">=3.3.1",
     "vlucas/phpdotenv": "^5.5",
-    "hackzilla/password-generator": "^1.6"
+    "hackzilla/password-generator": "^1.6",
+    "spatie/array-to-xml": "^3.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^10",

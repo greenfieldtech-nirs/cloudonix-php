@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/ContainerApplications.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=hosted-applications
@@ -34,7 +34,7 @@
             $this->client = $parent->client;
             $this->parent = $parent;
             $this->setPath($parent->canonicalPath);
-            parent::__construct();
+            parent::__construct($this);
         }
 
         /**

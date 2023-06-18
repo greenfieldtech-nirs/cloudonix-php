@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @file    Entities/CloudonixEntity.php
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models
@@ -18,10 +18,18 @@
     abstract class CloudonixEntity
     {
         protected string $canonicalPath = "";
-        public function __construct(mixed $client)
+        public function __construct(mixed $client, mixed $parentBranch = null)
         {
+            if (is_object($parentBranch)) {
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " Construction with parent " . get_class($parentBranch));
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " Parent canoncialPath: " . json_encode($parentBranch));
+            } else {
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " Construction without parent");
+            }
+
             if (!is_null($client))
                 foreach ($client as $key => $value) {
+                    if ($key=="canonicalPath") continue;
                     if (!is_object($value)) $this->$key = $value;
                 }
         }

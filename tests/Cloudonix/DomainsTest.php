@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    tests/DomainTest.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -343,6 +343,7 @@
         {
             $this->consoleLogger->debug("[" . get_class() . "] Starting outbound call in domain " . self::$testConfiguration->newDomain);
             $domainSessions = self::$testDomainObject->sessions();
+            $this->consoleLogger->debug("[" . get_class() . "] Sessions object is " . $domainSessions);
             $newSession = $domainSessions->startOutboundCall('972546982826');
             $this->consoleLogger->debug("[" . get_class() . "] New session response is " . $newSession);
             $this->assertIsObject($newSession);
@@ -429,21 +430,22 @@
         {
             $newProfileValue = "testvalue_" . date("His");
             $this->consoleLogger->debug("[" . get_class() . "] Setting VoiceApplication profile for " . self::$testApplicationObject->name);
+            $this->consoleLogger->debug("[" . get_class() . "] VoiceApplication Object is now " . self::$testApplicationObject);
+            $this->consoleLogger->debug("[" . get_class() . "] VoiceApplication CanonicalPath is now " . self::$testApplicationObject->canonicalPath);
+            $this->consoleLogger->debug("[" . get_class() . "] VoiceApplication Profile is now " . self::$testApplicationObject->profile);
             self::$testApplicationObject->profile['test-key'] = $newProfileValue;
             $this->consoleLogger->debug("[" . get_class() . "] Setting application " . self::$testApplicationObject->name . " profile with 'test-key' with value  " . self::$testApplicationObject->profile['test-key']);
-            $updatedVoiceApplication = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name);
-            $this->consoleLogger->debug("[" . get_class() . "] Updated voice application object is " . $updatedVoiceApplication);
-            $this->assertIsString($updatedVoiceApplication->profile['test-key']);
-            $this->assertEquals($newProfileValue, $updatedVoiceApplication->profile['test-key']);
+            $this->consoleLogger->debug("[" . get_class() . "] Updated voice application object is " . self::$testApplicationObject);
+            $this->assertIsString(self::$testApplicationObject->profile['test-key']);
+            $this->assertEquals($newProfileValue, self::$testApplicationObject->profile['test-key']);
         }
 
         public function testNewDomainVoiceApplicationUnsetProfile()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Unsetting application " . self::$testApplicationObject->name . " profile with 'test-key' ");
             unset(self::$testApplicationObject->profile['test-key']);
-            $updatedVoiceApplication = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name);
-            $this->consoleLogger->debug("[" . get_class() . "] Updated voice application object is " . $updatedVoiceApplication);
-            $this->assertObjectNotHasProperty('test-key', $updatedVoiceApplication->profile);
+            $this->consoleLogger->debug("[" . get_class() . "] Updated voice application object is " . self::$testApplicationObject->profile);
+            $this->assertObjectNotHasProperty('test-key', self::$testApplicationObject->profile);
         }
 
         public function testNewDomainVoiceApplicationSetUrl()
@@ -457,28 +459,48 @@
 
         public function testDomainVoiceApplicationSetSubscriberDataSet()
         {
-            $this->consoleLogger->debug("[" . get_class() . "] Set subscriber data in domain: " . self::$testDomainObject->domain);
+            $this->consoleLogger->debug("[" . get_class() . "] Set subscriber application data in domain: " . self::$testDomainObject->domain);
             $mySubscriberMSISDN = self::$testConfiguration->newDomainSubscriber;
             $this->consoleLogger->debug("[" . get_class() . "] Setting subscriber " . $mySubscriberMSISDN . " with data: newkey=new_value");
-            $subscriberData = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->subscriberData($mySubscriberMSISDN)['newkey'] = "new_value";
+            $subscriberData = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->subscriberData($mySubscriberMSISDN);
             $this->consoleLogger->debug("[" . get_class() . "] Subscriber Data object is now " . $subscriberData);
-            $this->assertTrue(false);
+            $subscriberData['new_data_key1'] = "new_data_value1";
+            $subscriberData['new_data_key2'] = "new_data_value2";
+            $subscriberData['new_data_key3'] = "new_data_value3";
+            $this->consoleLogger->debug("[" . get_class() . "] Subscriber Data object is now " . $subscriberData);
+            $this->assertIsIterable($subscriberData);
+            $this->assertCount(3, $subscriberData);
         }
 
         public function testDomainVoiceApplicationSetSubscriberDataGet()
         {
-            $this->consoleLogger->debug("[" . get_class() . "] Set subscriber data in domain: " . self::$testDomainObject->domain);
+            $this->consoleLogger->debug("[" . get_class() . "] Get subscriber application data in domain: " . self::$testDomainObject->domain);
             $mySubscriberMSISDN = self::$testConfiguration->newDomainSubscriber;
+            $subscriberData = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->subscriberData($mySubscriberMSISDN);
+            $this->consoleLogger->debug("[" . get_class() . "] Subscriber Data object is now " . $subscriberData);
+            $this->assertIsIterable($subscriberData);
+            $this->assertCount(3, $subscriberData);
+            $this->consoleLogger->debug("[" . get_class() . "] new_data_key1 is " . $subscriberData['new_data_key1']->data);
+            $this->consoleLogger->debug("[" . get_class() . "] new_data_key2 is " . $subscriberData['new_data_key2']->data);
+            $this->consoleLogger->debug("[" . get_class() . "] new_data_key3 is " . $subscriberData['new_data_key3']->data);
 
-            $this->assertTrue(false);
+            $this->assertEquals('new_data_value1', $subscriberData['new_data_key1']->data);
+            $this->assertEquals('new_data_value2', $subscriberData['new_data_key2']->data);
+            $this->assertEquals('new_data_value3', $subscriberData['new_data_key3']->data);
         }
 
         public function testDomainVoiceApplicationSetSubscriberDataDelete()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Set subscriber data in domain: " . self::$testDomainObject->domain);
             $mySubscriberMSISDN = self::$testConfiguration->newDomainSubscriber;
-
-            $this->assertTrue(false);
+            $subscriberData = self::$testDomainObject->voiceApplication(self::$testApplicationObject->name)->subscriberData($mySubscriberMSISDN);
+            $this->consoleLogger->debug("[" . get_class() . "] Subscriber Data object is now " . $subscriberData);
+            unset($subscriberData['new_data_key1']);
+            unset($subscriberData['new_data_key2']);
+            unset($subscriberData['new_data_key3']);
+            $this->consoleLogger->debug("[" . get_class() . "] Subscriber Data object is now " . $subscriberData);
+            $this->assertIsIterable($subscriberData);
+            $this->assertCount(0, $subscriberData);
         }
 
         public function testDomainDnidCollection()

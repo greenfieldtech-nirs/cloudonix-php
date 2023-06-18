@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @filename: Entities/ContainerApplicationBlock.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=hosted-applications
@@ -30,21 +30,24 @@
         /**
          * Application DataModel Object Constructor
          *
-         * @param string      $voiceApplicationName            Cloudonix Container Application Block Name or ID
+         * @param string      $containerApplicationName        Cloudonix Container Application Block Name or ID
          * @param mixed       $parentBranch                    A reference to the previous data model node
-         * @param object|null $voiceApplicationObject          Cloudonix Container Application Block object
+         * @param object|null $containerApplicationObject      Cloudonix Container Application Block object
          *                                                     If $containerApplicationBlockObject is provided, it will be used
          *                                                     to build the Application Entity object
          */
-        public function __construct(string $voiceApplicationName, mixed $parentBranch, object $voiceApplicationObject = null)
+        public function __construct(string $containerApplicationName, mixed $parentBranch, object $containerApplicationObject = null)
         {
-            parent::__construct($this);
             $this->client = $parentBranch->client;
-            $this->setPath($voiceApplicationName, $parentBranch->canonicalPath);
-            if (is_null($voiceApplicationObject)) {
+            parent::__construct($this, $parentBranch);
+
+            $this->client->logger->debug("ContainerApplicationBlock object construction with parent " . get_class($parentBranch));
+            $this->client->logger->debug("ContainerApplicationBlock object parent canoncialPath: " . $parentBranch->canonicalPath);
+            $this->setPath($containerApplicationName, $parentBranch->canonicalPath);
+            if (is_null($containerApplicationObject)) {
                 $this->refresh();
             } else {
-                $this->buildEntityData($voiceApplicationObject);
+                $this->buildEntityData($containerApplicationObject);
             }
         }
 
@@ -53,7 +56,7 @@
          *
          * @return string
          */
-        public function getPath()
+        public function getPath(): string
         {
             return $this->canonicalPath;
         }

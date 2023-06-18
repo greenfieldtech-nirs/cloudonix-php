@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Collections/Domains.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=domains
@@ -46,7 +46,7 @@
             $this->client = $parent->client;
             $this->parent = $parent;
             $this->setPath($parent->canonicalPath);
-            parent::__construct();
+            parent::__construct($this);
         }
 
         /**

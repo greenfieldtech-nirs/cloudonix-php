@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    Entities/Subscriber.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=subscriber
@@ -46,9 +46,9 @@
         public function __construct(string $subscriber, mixed $parentBranch, object $subscriberObject = null)
         {
             $this->client = $parentBranch->client;
+            parent::__construct($subscriberObject, $parentBranch);
             $this->setPath($subscriber, $parentBranch->canonicalPath);
             $this->buildEntityData($subscriberObject);
-            parent::__construct($subscriberObject);
         }
 
         /**
@@ -64,6 +64,7 @@
         public function delete(bool $force = false): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath() . (($force) ? "?can-deactivate=true" : ""));
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             if ($result->code == 204)
                 return true;
             return false;
@@ -86,6 +87,7 @@
                 $password = $passwd->generateSecuredPassword();
             }
             $result = $this->client->httpConnector->request("PATCH", $this->getPath(), ['sip-password' => $password]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             $this->buildEntityData($result);
             return $this;
         }
@@ -101,8 +103,9 @@
                 $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS . "/" . $string;
         }
 
-        private function buildEntityData(mixed $input)
+        private function buildEntityData(mixed $input): void
         {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
                     $this->profile = new EntityProfile($value, $this);

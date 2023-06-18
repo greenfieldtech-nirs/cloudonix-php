@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @filename: Entities/Application.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=apikeys
@@ -35,8 +35,8 @@
      */
     class Apikey extends CloudonixEntity
     {
-        private mixed $client;
-        private string $parentBranch;
+        protected mixed $client;
+        protected string $parentBranch;
 
         /**
          * Domain DataModel Object Constructor
@@ -50,9 +50,9 @@
         public function __construct(string $keyId, mixed $parentBranch, mixed $apikeyObject = null)
         {
             $this->client = $parentBranch->client;
+            parent::__construct($this, $parentBranch);
             $this->parentBranch = $parentBranch;
             $this->setPath($keyId, $parentBranch->canonicalPath);
-
             if (!is_null($apikeyObject)) {
                 $this->buildEntityData($apikeyObject);
                 $this->setPath($apikeyObject->id, $parentBranch->canonicalPath);
@@ -60,7 +60,6 @@
                 $this->setPath($keyId, $parentBranch->canonicalPath);
                 $this->refresh();
             }
-            parent::__construct($this);
         }
 
         /**
@@ -70,6 +69,7 @@
          */
         public function delete(): bool
         {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " " . $this->getPath());
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());
             if ($result->code == 204)
                 return true;
@@ -77,50 +77,26 @@
             return false;
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
         public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $string
-         * @param string $branchPath
-         *
-         * @return void
-         */
         protected function setPath(string $string, string $branchPath): void
         {
             if (!strlen($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_APIKEYS . "/" . $string;
         }
 
-        /**
-         * Refresh the object data from remote API
-         *
-         * @return $this
-         */
         protected function refresh(): Apikey
         {
-            $apikeyData = $this->client->httpConnector->request("GET", $this->getPath());
-            $this->buildEntityData($apikeyData);
+            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
-        /**
-         * Build the local Apikey properties
-         *
-         * @param mixed $input
-         * @return void
-         */
         private function buildEntityData(mixed $input): void
         {
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             if (!is_null($input))
                 foreach ($input as $key => $value) {
                     if ($key == "subscriber") {

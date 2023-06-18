@@ -1,6 +1,6 @@
 <?php
     /**
-     * @package cloudonixPhp
+     * @package cloudonix-php
      * @file    CloudonixClient.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -21,7 +21,6 @@
     /**
      * CloudonixClient Object
      */
-
     class CloudonixClient
     {
         public HttpHelper $httpConnector;
@@ -38,7 +37,6 @@
         {
             try {
                 $this->logger = new LogHelper($debug);
-                $this->logger->debug("CloudonixClient is starting");
                 $this->httpConnector = new HttpHelper($apikey, $httpEndpoint, $timeout, $debug);
             } catch (Exception $e) {
                 die($e->getMessage() . '  code: ' . $e->getCode());
@@ -53,7 +51,7 @@
         public function tenants(): CollectionTenants
         {
             if (!isset($this->tenants)) {
-                $this->logger->debug("Starting Tenants for the first time...");
+                $this->logger->debug("Starting Tenants Collection for the first time...");
                 $this->tenants = new CollectionTenants($this);
             }
             return $this->tenants;
@@ -61,6 +59,7 @@
 
         public function tenant(string $tenantId = "self"): EntityTenant
         {
+            $this->logger->debug("Starting Tenant {$tenantId} for the first time...");
             $tenantObject = new EntityTenant($this, $tenantId);
             return $tenantObject->get();
         }
