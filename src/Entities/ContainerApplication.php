@@ -28,8 +28,8 @@
     class ContainerApplication extends CloudonixEntity
     {
         protected mixed $client;
-        protected CollectionContainerApplicationBlocks $blocks;
-
+        protected string $parentBranch;
+        protected string $canonicalPath;
         /**
          * Application DataModel Object Constructor
          *
@@ -41,7 +41,7 @@
          */
         public function __construct(string $containerApplicationName, mixed $parentBranch, object $containerApplicationObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($this, $parentBranch);
             $this->setPath($containerApplicationName, $parentBranch->canonicalPath);
             if (!is_null($containerApplicationObject)) {
@@ -58,7 +58,7 @@
 
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_CONTAINER_APPLICATIONS . "/" . $string;
         }
 

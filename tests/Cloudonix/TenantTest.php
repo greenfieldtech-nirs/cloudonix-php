@@ -176,13 +176,26 @@
 
         public function testNewContainerApplication()
         {
-            $containerApplicationResult = self::$testTenantObject->newContainerApplication(self::$testConfiguration->newContainerApplication, 'static', '<Response>\n<Hangup/>\n</Response>');
+            $containerApplicationResult = self::$testTenantObject->newContainerApplication(self::$testConfiguration->newContainerApplication, 'static', '<Response><Hangup/></Response>');
             $this->consoleLogger->debug("[" . get_class() . "] New Container Application Result: " . $containerApplicationResult);
+            $this->assertIsInt($containerApplicationResult->id);
+            $this->assertIsString($containerApplicationResult->name);
+            $this->assertEquals(self::$testConfiguration->newContainerApplication, $containerApplicationResult->name);
         }
 
-        public function testContainerApplication()
+        public function testContainerApplicationObject()
         {
-            $this->consoleLogger->info("");
-            $this->consoleLogger->info("[" . get_class() . "] Executing " . __FUNCTION__);
+            $this->consoleLogger->debug("[" . get_class() . "] Get previously created container application: " . self::$testConfiguration->newContainerApplication);
+            $myContainerApplication = self::$testTenantObject->containerApplication(self::$testConfiguration->newContainerApplication);
+            $this->consoleLogger->debug("[" . get_class() . "] Container application object is: " . $myContainerApplication);
+            $this->assertIsInt($myContainerApplication->id);
+            $this->assertIsString($myContainerApplication->name);
+            $this->assertEquals(self::$testConfiguration->newContainerApplication, $myContainerApplication->name);
         }
+
+        public function testContainerApplicationAddBlock()
+        {
+
+        }
+
     }

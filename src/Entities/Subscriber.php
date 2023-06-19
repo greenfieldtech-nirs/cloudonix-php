@@ -33,6 +33,8 @@
     class Subscriber extends CloudonixEntity
     {
         protected mixed $client;
+        protected string $parentBranch;
+        protected string $canonicalPath;
 
         /**
          * Subscriber DataModel Object Constructor
@@ -45,7 +47,7 @@
          */
         public function __construct(string $subscriber, mixed $parentBranch, object $subscriberObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($subscriberObject, $parentBranch);
             $this->setPath($subscriber, $parentBranch->canonicalPath);
             $this->buildEntityData($subscriberObject);
@@ -99,7 +101,7 @@
 
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS . "/" . $string;
         }
 

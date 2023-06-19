@@ -29,6 +29,8 @@
     class SubscriberDataKey extends CloudonixEntity
     {
         protected mixed $client;
+        protected string $parentBranch;
+        protected string $canonicalPath;
 
         /**
          * VoiceApplication Subscriber Data DataModel Object Constructor
@@ -69,7 +71,7 @@
 
         protected function setPath(string $string, string $subscriber): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $string . "/subscribers/" . $subscriber;
         }
 

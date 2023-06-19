@@ -9,6 +9,7 @@
     namespace Cloudonix\Collections;
 
     use ArrayIterator;
+    use Cloudonix\Entities\Profile;
     use Traversable;
 
     /**
@@ -18,7 +19,6 @@
     {
         protected array $collection = [];
         protected int $collectionCount = 0;
-        protected string $canonicalPath = "";
 
         abstract public function getPath(): string;
 
@@ -28,6 +28,16 @@
         {
             $this->client->logger->debug(__METHOD__ . " Construction with parent " . get_class($param));
             $this->client->logger->debug(__METHOD__ . " Parent canoncialPath: " . $param->canonicalPath);
+        }
+
+        /**
+         * Return the client object
+         *
+         * @return mixed
+         */
+        public function getClient(): mixed
+        {
+            return $this->client;
         }
 
         public function count(): int

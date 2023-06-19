@@ -17,19 +17,17 @@
      */
     abstract class CloudonixEntity
     {
-        protected string $canonicalPath = "";
         public function __construct(mixed $client, mixed $parentBranch = null)
         {
             if (is_object($parentBranch)) {
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " Construction with parent " . get_class($parentBranch));
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " Parent canoncialPath: " . json_encode($parentBranch));
-            } else {
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " Construction without parent");
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] Class " . get_class($parentBranch));
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] canoncialPath: " . $parentBranch->canoncialPath);
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] Object: " . json_encode($parentBranch));
             }
 
             if (!is_null($client))
                 foreach ($client as $key => $value) {
-                    if ($key=="canonicalPath") continue;
+                    if ($key == "canonicalPath") continue;
                     if (!is_object($value)) $this->$key = $value;
                 }
         }
@@ -43,6 +41,16 @@
                 return true;
 
             return false;
+        }
+
+        /**
+         * Return the client object
+         *
+         * @return mixed
+         */
+        public function getClient(): mixed
+        {
+            return $this->client;
         }
 
         public function __toString(): string

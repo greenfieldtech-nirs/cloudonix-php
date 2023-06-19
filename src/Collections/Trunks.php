@@ -36,13 +36,13 @@
      */
     class Trunks extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
-        public mixed $client;
-        public string $canonicalPath = "";
-        private mixed $parent;
+        protected mixed $client;
+        protected mixed $parent;
+        protected string $canonicalPath;
 
         public function __construct(string $trunk, mixed $parentBranch, object $trunkObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($this);
             if (!is_null($trunkObject)) {
                 $this->buildEntityData($trunkObject);
@@ -71,7 +71,7 @@
          */
         protected function setPath(string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_APPLICATIONS;
         }
 

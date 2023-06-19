@@ -30,6 +30,8 @@
     class Dnid extends CloudonixEntity
     {
         protected mixed $client;
+        protected string $parentBranch;
+        protected string $canonicalPath;
 
         /**
          * DNID DataModel Object Constructor
@@ -42,7 +44,7 @@
          */
         public function __construct(string $dnid, mixed $parentBranch, object $dnidObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($this, $parentBranch);
             if (!is_null($dnidObject)) {
                 $this->buildEntityData($dnidObject);
@@ -152,7 +154,7 @@
          */
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_DNIDS . "/" . $string;
         }
 

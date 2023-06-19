@@ -36,10 +36,11 @@
     {
         protected mixed $client;
         protected mixed $parent;
+        protected string $canonicalPath;
 
         public function __construct(mixed $parent)
         {
-            $this->client = $parent->client;
+            $this->client = $parent->getClient();
             $this->parent = $parent;
             $this->setPath($parent->canonicalPath);
             parent::__construct($this);
@@ -93,7 +94,7 @@
          */
         protected function setPath(string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS;
         }
 

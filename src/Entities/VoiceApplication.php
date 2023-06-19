@@ -39,6 +39,8 @@
     class VoiceApplication extends CloudonixEntity
     {
         protected mixed $client;
+        protected string $parentBranch;
+        protected string $canonicalPath;
         public CollectionDnids $collectionDnids;
 
         /**
@@ -52,7 +54,7 @@
          */
         public function __construct(string $voiceApplicationName, mixed $parentBranch, mixed $voiceApplicationObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($this, $parentBranch);
 
             if (!is_null($voiceApplicationObject)) {
@@ -240,7 +242,7 @@
 
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_APPLICATIONS . "/" . $string;
         }
 

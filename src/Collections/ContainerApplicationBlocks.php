@@ -26,16 +26,19 @@
      */
     class ContainerApplicationBlocks extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
-        public mixed $client;
-        public string $canonicalPath = "";
-        private mixed $parent;
+        protected mixed $client;
+        protected mixed $parent;
+        protected string $canonicalPath;
 
-        public function __construct(mixed $parent, mixed $applicationBlocks)
+        public function __construct(mixed $parent, mixed $applicationBlocks = null)
         {
-            $this->client = $parent->client;
-            parent::__construct($this);
+            $this->client = $parent->getClient();
             $this->parent = $parent;
             $this->canonicalPath = $parent->canonicalPath;
+            parent::__construct($this);
+            if (!is_null($applicationBlocks))
+                $this->refreshCollectionData($applicationBlocks);
+
         }
 
         public function getPath(): string
@@ -52,10 +55,9 @@
         protected function refreshCollectionData(mixed $param): array
         {
             $this->collection = [];
-            if (!is_null($param) && !isset($param->code))
-                foreach ($param->blocks as $key => $value) {
-                    $this->collection[$value->name] = new EntityContainerApplicationBlock($value->name, $this->parent, $value);
-                }
+            foreach ($param->blocks as $key => $value) {
+                $this->collection[$value->name] = new EntityContainerApplicationBlock($value->name, $this->parent, $value);
+            }
             return $this->collection;
         }
 

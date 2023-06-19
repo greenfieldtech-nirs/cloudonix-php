@@ -37,6 +37,7 @@
     {
         protected mixed $client;
         protected string $parentBranch;
+        protected string $canonicalPath;
 
         /**
          * Domain DataModel Object Constructor
@@ -49,7 +50,7 @@
          */
         public function __construct(string $keyId, mixed $parentBranch, mixed $apikeyObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($this, $parentBranch);
             $this->parentBranch = $parentBranch;
             $this->setPath($keyId, $parentBranch->canonicalPath);
@@ -84,7 +85,7 @@
 
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_APIKEYS . "/" . $string;
         }
 

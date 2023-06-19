@@ -49,15 +49,16 @@
      */
     class Sessions extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
-        public mixed $client;
-        private mixed $parent;
+        protected mixed $client;
+        protected mixed $parent;
+        protected string $canonicalPath;
 
         public function __construct(mixed $parent)
         {
-            $this->client = $parent->client;
-            parent::__construct($this);
-            $this->parent = $parent;
+            $this->client = $parent->getClient();
             $this->setPath($parent->domain);
+            $this->parent = $parent;
+            parent::__construct($this);
         }
 
         public function startOutboundCall(string $destination, string $callerId = "", int $timeout = 60, array $appData = ['application' => 'call-routing']): EntitySession
@@ -67,6 +68,7 @@
             $appData['caller-id'] = $callerId;
 
             $newSessionResult = $this->client->httpConnector->request("POST", URLPATH_CALLS . "/" . $this->parent->domain . "/application", $appData);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " newSessionResult " . json_encode($newSessionResult));
             return new EntitySession($newSessionResult->token, $this, $newSessionResult);
         }
 
@@ -77,6 +79,7 @@
                 'callback' => $callback,
                 'destination' => $destination
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " newSessionResult " . json_encode($newSessionResult));
             return new EntitySession($newSessionResult->token, $this, $newSessionResult);
         }
 
@@ -117,7 +120,7 @@
          */
         protected function setPath(string $domain): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = URLPATH_CALLS . "/" . $domain . URLPATH_SESSIONS;
         }
 

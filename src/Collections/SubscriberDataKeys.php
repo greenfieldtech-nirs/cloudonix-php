@@ -33,15 +33,17 @@
     {
         protected mixed $client;
         protected mixed $parent;
+        protected string $canonicalPath;
+
         protected string $msisdn;
 
         public function __construct(mixed $parent, string $msisdn)
         {
-            $this->client = $parent->client;
-            parent::__construct($this);
+            $this->client = $parent->getClient();
             $this->parent = $parent;
             $this->msisdn = $msisdn;
             $this->setPath($parent->canonicalPath);
+            parent::__construct($this);
         }
 
         /**

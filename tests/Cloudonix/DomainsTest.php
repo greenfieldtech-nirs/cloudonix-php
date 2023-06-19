@@ -265,12 +265,13 @@
         public function testDomainInboundTrunkCreate()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Create Inbound Trunk in domain: " . self::$testDomainObject->domain);
-            self::$testInboundTrunkObject = self::$testDomainObject->newInboundTrunk("inbound_" . date("Hi"), "10.0.0.1");
+            $newTrunkName = "trunkInbound_" . date("His") . ".sip.trunk.com";
+            self::$testInboundTrunkObject = self::$testDomainObject->newInboundTrunk("inbound_" . date("Hi"), $newTrunkName);
             $this->consoleLogger->debug("[" . get_class() . "] Result trunk is:  " . self::$testInboundTrunkObject);
 
             $this->assertIsObject(self::$testInboundTrunkObject);
             $this->assertIsInt(self::$testInboundTrunkObject->id);
-            $this->assertEquals(self::$testInboundTrunkObject->ip, "10.0.0.1");
+            $this->assertEquals(self::$testInboundTrunkObject->ip, $newTrunkName);
             $this->assertEquals(self::$testInboundTrunkObject->port, 5060);
             $this->assertEquals(self::$testInboundTrunkObject->direction, "public-inbound");
         }
@@ -278,10 +279,11 @@
         public function testDomainInboundTrunkUpdate()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Update Inbound Trunk in domain: " . self::$testDomainObject->domain);
-            $myUpdatedInboundTrunk = self::$testInboundTrunkObject->setEndpoint("10.10.10.10", 5060);
+            $newTrunkName = "trunkInbound_" . date("His") . ".sip.trunk.com";
+            $myUpdatedInboundTrunk = self::$testInboundTrunkObject->setEndpoint($newTrunkName, 5060);
             $this->consoleLogger->debug("[" . get_class() . "] Result trunk is:  " . $myUpdatedInboundTrunk);
             $this->assertIsInt($myUpdatedInboundTrunk->id);
-            $this->assertEquals($myUpdatedInboundTrunk->ip, "10.10.10.10");
+            $this->assertEquals($myUpdatedInboundTrunk->ip, $newTrunkName);
             $this->assertEquals($myUpdatedInboundTrunk->port, 5060);
             $this->assertEquals($myUpdatedInboundTrunk->direction, "public-inbound");
         }

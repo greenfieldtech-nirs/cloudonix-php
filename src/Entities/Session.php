@@ -48,26 +48,29 @@
     class Session extends CloudonixEntity
     {
         protected mixed $client;
+        protected string $parentBranch;
+        protected string $canonicalPath;
 
         /**
          * Session DataModel Object Constructor
          *
-         * @param string      $token                  Session Token
-         * @param mixed       $parentBranch           A reference to the previous data model node
-         * @param object|null $sessionObject          A Cloudonix Session Object as stdClass
+         * @param string $token                       Session Token
+         * @param mixed  $parentBranch                A reference to the previous data model node
+         * @param mixed  $sessionObject               A Cloudonix Session Object as stdClass
          *                                            If $sessionObject is provided, it will be used to build the
          *                                            Session Entity object
          */
-        public function __construct(string $token, mixed $parentBranch, object $sessionObject = null)
+        public function __construct(string $token, mixed $parentBranch, mixed $sessionObject = null)
         {
-            $this->client = $parentBranch->client;
-            parent::__construct($this, $parentBranch);
+            $this->client = $parentBranch->getClient();
+
             if (!is_null($sessionObject)) {
-                $this->buildEntityData($sessionObject);
                 $this->setPath($sessionObject->token, $sessionObject->domain);
+                $this->buildEntityData($sessionObject);
             } else {
                 $this->setPath($token, $parentBranch->domain);
             }
+            parent::__construct($this, $parentBranch);
         }
 
         /**

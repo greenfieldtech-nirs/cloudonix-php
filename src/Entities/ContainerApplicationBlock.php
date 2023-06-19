@@ -25,7 +25,8 @@
     class ContainerApplicationBlock extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $canonicalPath = "";
+        protected string $parentBranch;
+        protected string $canonicalPath;
 
         /**
          * Application DataModel Object Constructor
@@ -38,7 +39,7 @@
          */
         public function __construct(string $containerApplicationName, mixed $parentBranch, object $containerApplicationObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($this, $parentBranch);
 
             $this->client->logger->debug("ContainerApplicationBlock object construction with parent " . get_class($parentBranch));
@@ -70,7 +71,7 @@
          */
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath;
         }
 

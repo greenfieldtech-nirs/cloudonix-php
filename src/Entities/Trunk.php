@@ -7,6 +7,7 @@
      * @license MIT License (https://choosealicense.com/licenses/mit/)
      * @created 2023-05-14
      */
+
     namespace Cloudonix\Entities;
 
     use Cloudonix\CloudonixClient as CloudonixClient;
@@ -37,24 +38,26 @@
      */
     class Trunk extends CloudonixEntity
     {
-        protected CloudonixClient $client;
+        protected mixed $client;
+        protected string $parentBranch;
+        protected string $canonicalPath;
 
         /**
          * Trunk DataModel Object Constructor
          *
-         * @param string      $trunk                  Cloudonix Trunk Identifier
-         * @param mixed       $parentBranch           A reference to the previous data model node
-         * @param object|null $trunkObject            A Cloudonix Trunk Object as stdClass
+         * @param string $trunk                       Cloudonix Trunk Identifier
+         * @param mixed  $parentBranch                A reference to the previous data model node
+         * @param mixed  $trunkObject                 A Cloudonix Trunk Object as stdClass
          *                                            If $trunkObject is provided, it will be used to build the Domain
          *                                            Entity object
          */
-        public function __construct(string $trunk, mixed $parentBranch, object $trunkObject = null)
+        public function __construct(string $trunk, mixed $parentBranch, mixed $trunkObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($this, $parentBranch);
             if (!is_null($trunkObject)) {
-                $this->buildEntityData($trunkObject);
                 $this->setPath($trunkObject->id, $parentBranch->canonicalPath);
+                $this->buildEntityData($trunkObject);
             } else {
                 $this->setPath($trunk, $parentBranch->canonicalPath);
             }
@@ -210,7 +213,7 @@
 
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_TRUNKS . "/" . $string;
         }
 

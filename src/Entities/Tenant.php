@@ -41,7 +41,9 @@
      */
     class Tenant extends CloudonixEntity
     {
-        protected CloudonixClient $client;
+        protected mixed $client;
+        protected string $parentBranch;
+        protected string $canonicalPath;
         protected string $entityId;
 
         public CollectionDomains $collectionDomains;
@@ -221,7 +223,7 @@
 
         protected function setPath(string $entityId): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = URLPATH_TENANTS . "/" . $entityId;
         }
 

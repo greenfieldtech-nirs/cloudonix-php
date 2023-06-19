@@ -48,6 +48,8 @@
     class Domain extends CloudonixEntity
     {
         protected mixed $client;
+        protected string $parentBranch;
+        protected string $canonicalPath;
         public CollectionVoiceApplications $collectionVoiceApplications;
         public CollectionApikeys $collectionApikeys;
         public CollectionSubscribers $collectionSubscribers;
@@ -66,11 +68,11 @@
          */
         public function __construct(string $domain, mixed $parentBranch, object $domainObject = null)
         {
-            $this->client = $parentBranch->client;
+            $this->client = $parentBranch->getClient();
             parent::__construct($this, $parentBranch);
             if (!is_null($domainObject)) {
-                $this->buildEntityData($domainObject);
                 $this->setPath($domainObject->domain, $parentBranch->canonicalPath);
+                $this->buildEntityData($domainObject);
             } else {
                 $this->setPath($domain, $parentBranch->canonicalPath);
             }
@@ -477,7 +479,7 @@
 
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!strlen($this->canonicalPath))
+            if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_DOMAINS . "/" . $string;
         }
 
