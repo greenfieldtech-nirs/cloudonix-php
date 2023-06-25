@@ -46,20 +46,20 @@
          * Trunk DataModel Object Constructor
          *
          * @param string $trunk                       Cloudonix Trunk Identifier
-         * @param mixed  $parentBranch                A reference to the previous data model node
-         * @param mixed  $trunkObject                 A Cloudonix Trunk Object as stdClass
+         * @param Domain $parent                      The parent object that created this object
+         * @param mixed  $inputObject                 A Cloudonix Trunk Object as stdClass
          *                                            If $trunkObject is provided, it will be used to build the Domain
          *                                            Entity object
          */
-        public function __construct(string $trunk, mixed $parentBranch, mixed $trunkObject = null)
+        public function __construct(string $trunk, Domain $parent, mixed $inputObject = null)
         {
-            $this->client = $parentBranch->getClient();
-            parent::__construct($this, $parentBranch);
-            if (!is_null($trunkObject)) {
-                $this->setPath($trunkObject->id, $parentBranch->canonicalPath);
-                $this->buildEntityData($trunkObject);
+            $this->client = $parent->getClient();
+            parent::__construct($this, $parent);
+            if (!is_null($inputObject)) {
+                $this->setPath($inputObject->id, $parent->getPath());
+                $this->buildEntityData($inputObject);
             } else {
-                $this->setPath($trunk, $parentBranch->canonicalPath);
+                $this->setPath($trunk, $parent->getPath());
             }
         }
 
@@ -233,7 +233,7 @@
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
-                    $this->profile = new EntityProfile($value, $this);
+                    $this->profile = new EntityProfile($this, $value);
                 } else if ($key == "domain") {
                     continue;
                 } else {

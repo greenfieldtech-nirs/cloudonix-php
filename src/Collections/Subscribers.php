@@ -15,34 +15,35 @@
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\Subscriber as EntitySubscriber;
-    use Cloudonix\Entities\Apikey as EntityApikey;
+    use Cloudonix\Entities\Domain;
+    use Cloudonix\Entities\Profile;
 
     use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
     /**
      * Subscribers Collection
      *
-     * @property-read int           $id                            Subscriber Numeric ID
-     * @property-read string        $msisdn                        Subscriber MSISDN
-     * @property-read int           $domainId                      Domain Numeric ID
-     * @property      bool          $active                        Subscriber Status
-     * @property      string        $sipPassword                   Subscriber SIP Password
-     * @property-read string        $createdAt                     Subscriber Creation Date and time
-     * @property-read string        $modifiedAt                    Subscriber Last Modification Date and time
-     * @property-read string        $deletedAt                     Subscriber Deletion Date and time
-     * @property      EntityProfile $profile                       Subscriber Profile Object
+     * @property-read int     $id                            Subscriber Numeric ID
+     * @property-read string  $msisdn                        Subscriber MSISDN
+     * @property-read int     $domainId                      Domain Numeric ID
+     * @property      bool    $active                        Subscriber Status
+     * @property      string  $sipPassword                   Subscriber SIP Password
+     * @property-read string  $createdAt                     Subscriber Creation Date and time
+     * @property-read string  $modifiedAt                    Subscriber Last Modification Date and time
+     * @property-read string  $deletedAt                     Subscriber Deletion Date and time
+     * @property      Profile $profile                       Subscriber Profile Object
      */
     class Subscribers extends CloudonixCollection
     {
         protected mixed $client;
-        protected mixed $parent;
+        protected Domain $parent;
         protected string $canonicalPath;
 
-        public function __construct(mixed $parent)
+        public function __construct(Domain $parent)
         {
             $this->client = $parent->getClient();
             $this->parent = $parent;
-            $this->setPath($parent->canonicalPath);
+            $this->setPath($parent->getPath());
             parent::__construct($this);
         }
 

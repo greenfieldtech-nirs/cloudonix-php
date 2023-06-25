@@ -18,7 +18,6 @@
     use Cloudonix\Entities\Apikey as EntityApikey;
 
     use Cloudonix\Collections\Domains as CollectionDomains;
-    use Cloudonix\Collections\ContainerApplications as CollectionContainerApplications;
     use Cloudonix\Collections\Apikeys as CollectionApikeys;
 
     use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
@@ -47,18 +46,17 @@
         protected string $entityId;
 
         public CollectionDomains $collectionDomains;
-        public CollectionContainerApplications $collectionContainerApplications;
         public CollectionApikeys $collectionApikeys;
 
         /**
          * Tenant DataModel Object Constructor
          *
-         * @param CloudonixClient $client A CloudonixClient HTTP Connector Object
+         * @param CloudonixClient $child A CloudonixClient HTTP Connector Object
          */
-        public function __construct(CloudonixClient $client, string $entityId = "self")
+        public function __construct(CloudonixClient $child, string $entityId = "self")
         {
             $this->entityId = $entityId;
-            $this->client = $client;
+            $this->client = $child;
             $this->setPath($entityId);
             parent::__construct($this);
         }
@@ -236,7 +234,7 @@
                     $this->$key = $value;
                 } else {
                     if ($key == "profile") {
-                        $this->profile = new EntityProfile($value, $this);
+                        $this->profile = new EntityProfile($this, $value);
                     } else if ($key == "settings") {
                         continue;
                     } else {

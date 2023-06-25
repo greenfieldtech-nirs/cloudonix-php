@@ -9,6 +9,7 @@
      */
 
     namespace Cloudonix\Entities;
+
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
 
     /**
@@ -36,21 +37,21 @@
         /**
          * DNID DataModel Object Constructor
          *
-         * @param string      $dnid                   Cloudonix DNID ID
-         * @param mixed       $parentBranch           A reference to the previous data model node
-         * @param object|null $dnidObject             A Cloudonix DNID Object as stdClass
-         *                                            If $dnidObject is provided, it will be used to build the Domain
-         *                                            Entity object
+         * @param string          $dnid                Cloudonix DNID ID
+         * @param CloudonixEntity $parent              The parent object that created this object
+         * @param object|null     $inputObject         A Cloudonix DNID Object as stdClass
+         *                                             If $dnidObject is provided, it will be used to build the Domain
+         *                                             Entity object
          */
-        public function __construct(string $dnid, mixed $parentBranch, object $dnidObject = null)
+        public function __construct(string $dnid, CloudonixEntity $parent, object $inputObject = null)
         {
-            $this->client = $parentBranch->getClient();
-            parent::__construct($this, $parentBranch);
-            if (!is_null($dnidObject)) {
-                $this->buildEntityData($dnidObject);
-                $this->setPath($dnidObject->id, $parentBranch->canonicalPath);
+            $this->client = $parent->getClient();
+            parent::__construct($this, $parent);
+            if (!is_null($inputObject)) {
+                $this->buildEntityData($inputObject);
+                $this->setPath($inputObject->id, $parent->getPath());
             } else {
-                $this->setPath($dnid, $parentBranch->canonicalPath);
+                $this->setPath($dnid, $parent->getPath());
             }
         }
 

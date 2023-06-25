@@ -17,16 +17,13 @@
      */
     abstract class CloudonixEntity
     {
-        public function __construct(mixed $client, mixed $parentBranch = null)
+        public function __construct(object|null $child, object $parent = null)
         {
-            if (is_object($parentBranch)) {
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] Class " . get_class($parentBranch));
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] canoncialPath: " . $parentBranch->getPath());
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] Object: " . json_encode($parentBranch));
+            if (is_object($parent)) {
             }
 
-            if (!is_null($client))
-                foreach ($client as $key => $value) {
+            if (!is_null($child))
+                foreach ($child as $key => $value) {
                     if ($key == "canonicalPath") continue;
                     if (!is_object($value)) $this->$key = $value;
                 }
@@ -66,5 +63,14 @@
         public function __set(string $name, mixed $value)
         {
             $this->$name = $value;
+        }
+
+        private function buildEntityData(mixed $input): void
+        {
+            if (is_array($input) || is_object($input)) {
+                foreach ($input as $key => $value) {
+                    $this->$key = $value;
+                }
+            }
         }
     }

@@ -15,6 +15,7 @@
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\SubscriberDataKey as EntitySubscriberDataKey;
+    use Cloudonix\Entities\VoiceApplication;
 
     /**
      * Subscriber Data Keys Collection
@@ -37,12 +38,12 @@
 
         protected string $msisdn;
 
-        public function __construct(mixed $parent, string $msisdn)
+        public function __construct(VoiceApplication $parent, string $msisdn)
         {
             $this->client = $parent->getClient();
             $this->parent = $parent;
             $this->msisdn = $msisdn;
-            $this->setPath($parent->canonicalPath);
+            $this->setPath($parent->getPath());
             parent::__construct($this);
         }
 

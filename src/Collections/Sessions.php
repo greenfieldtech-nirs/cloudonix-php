@@ -11,11 +11,14 @@
     namespace Cloudonix\Collections;
 
     use ArrayIterator;
+    use Cloudonix\Entities\CloudonixEntity;
     use Traversable;
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\Session as EntitySession;
+    use Cloudonix\Entities\Domain;
+
 
     /**
      * Sessions Collection
@@ -50,10 +53,10 @@
     class Sessions extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
         protected mixed $client;
-        protected mixed $parent;
+        protected Domain $parent;
         protected string $canonicalPath;
 
-        public function __construct(mixed $parent)
+        public function __construct(Domain $parent)
         {
             $this->client = $parent->getClient();
             $this->setPath($parent->domain);

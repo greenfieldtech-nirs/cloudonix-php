@@ -16,6 +16,8 @@
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\Profile as EntityProfile;
 
+    use Cloudonix\Entities\Domain;
+
     /**
      * Trunks Collection
      *
@@ -40,15 +42,15 @@
         protected mixed $parent;
         protected string $canonicalPath;
 
-        public function __construct(string $trunk, mixed $parentBranch, object $trunkObject = null)
+        public function __construct(string $trunk, Domain $parentBranch, object $trunkObject = null)
         {
             $this->client = $parentBranch->getClient();
             parent::__construct($this);
             if (!is_null($trunkObject)) {
                 $this->buildEntityData($trunkObject);
-                $this->setPath($trunkObject->domain, $parentBranch->canonicalPath);
+                $this->setPath($trunkObject->domain, $parentBranch->getPath());
             } else {
-                $this->setPath($trunk, $parentBranch->canonicalPath);
+                $this->setPath($trunk, $parentBranch->getPath());
             }
         }
 

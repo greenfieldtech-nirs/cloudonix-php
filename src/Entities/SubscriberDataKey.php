@@ -35,30 +35,31 @@
         /**
          * VoiceApplication Subscriber Data DataModel Object Constructor
          *
-         * @param mixed      $voiceApplicationObject        Cloudonix Voice Application Object
-         * @param string     $subscriber                    Cloudonix Subscriber ID or MSISDN
-         * @param mixed|null $voiceApplicationDataKeyObject A Cloudonix Voice Application Data Key Object
+         * @param VoiceApplication $parent      Cloudonix Voice Application Object
+         * @param string           $subscriber  Cloudonix Subscriber ID or MSISDN
+         * @param object|null      $inputObject A Cloudonix Voice Application Data Key Object
          */
-        public function __construct(mixed $voiceApplicationObject, string $subscriber, mixed $voiceApplicationDataKeyObject = null)
+        public function __construct(VoiceApplication $parent, string $subscriber, object $inputObject = null)
         {
-            $this->client = $voiceApplicationObject->client;
-            parent::__construct($this, $voiceApplicationObject);
+            $this->client = $parent->getClient();
+            parent::__construct($this, $parent);
 
-            if (!is_null($voiceApplicationDataKeyObject)) {
-                $this->buildEntityData($voiceApplicationDataKeyObject);
+            if (!is_null($inputObject)) {
+                $this->buildEntityData($inputObject);
             }
-            $this->setPath($voiceApplicationObject->canonicalPath, $subscriber);
+            $this->setPath($parent->getPath(), $subscriber);
         }
 
         /**
-         * Delete a voice application subsriber data key
+         * Delete a voice application subscriber data key
          *
          * @return bool
          */
         public function delete(): bool
         {
-            $result = $this->buildEntityData($this->client->httpConnector->request("DELETE", $this->getPath()));
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath());
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+            $this->buildEntityData($result);
             if ($result->code == 204)
                 return true;
             return false;

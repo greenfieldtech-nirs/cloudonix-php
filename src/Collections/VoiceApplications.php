@@ -16,20 +16,21 @@
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\VoiceApplication as EntityApplication;
     use Cloudonix\Entities\Profile as EntityProfile;
+    use Cloudonix\Entities\Domain;
 
     /**
      * VoiceApplications Collection
      *
-     * @property-read int           $id                         Voice Application Numeric ID
-     * @property-read int           $domainId                   Domain Numeric ID
-     * @property-read string        $name                       Voice Application Name
-     * @property-read string        $type                       Voice Application Type
-     * @property      string        $url                        Voice Application URL Endpoint
-     * @property      string        $method                     Voice Application Endpoint HTTP Method
-     * @property      bool          $active                     Voice Application Status
-     * @property-read string        $createdAt                  Voice Application Creation Date and time
-     * @property-read string        $modifiedAt                 Voice Application Last Modification Date and time
-     * @property-read string        $deletedAt                  Voice Application Deletion Date and time
+     * @property-read int     $id                         Voice Application Numeric ID
+     * @property-read int     $domainId                   Domain Numeric ID
+     * @property-read string  $name                       Voice Application Name
+     * @property-read string  $type                       Voice Application Type
+     * @property      string  $url                        Voice Application URL Endpoint
+     * @property      string  $method                     Voice Application Endpoint HTTP Method
+     * @property      bool    $active                     Voice Application Status
+     * @property-read string  $createdAt                  Voice Application Creation Date and time
+     * @property-read string  $modifiedAt                 Voice Application Last Modification Date and time
+     * @property-read string  $deletedAt                  Voice Application Deletion Date and time
      * @property      EntityProfile $profile                    Voice Application Profile Object
      */
     class VoiceApplications extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
@@ -38,11 +39,11 @@
         protected mixed $parent;
         protected string $canonicalPath;
 
-        public function __construct(mixed $parent)
+        public function __construct(Domain $parent)
         {
             $this->client = $parent->getClient();
             $this->parent = $parent;
-            $this->setPath($parent->canonicalPath);
+            $this->setPath($parent->getPath());
             parent::__construct($this);
         }
 

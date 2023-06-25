@@ -46,22 +46,22 @@
         /**
          * Application DataModel Object Constructor
          *
-         * @param string     $voiceApplicationName             Cloudonix Voice Application Name or ID
-         * @param mixed      $parentBranch                     A reference to the previous data model node
-         * @param mixed|null $voiceApplicationObject           A Cloudonix Application object
+         * @param string          $voiceApplicationName        Cloudonix Voice Application Name or ID
+         * @param CloudonixEntity $parent                      The parent object that created this object
+         * @param mixed|null      $inputObject                 A Cloudonix Application object
          *                                                     If $voiceApplicationObject is provided, it will be used
          *                                                     to build the Application Entity object
          */
-        public function __construct(string $voiceApplicationName, mixed $parentBranch, mixed $voiceApplicationObject = null)
+        public function __construct(string $voiceApplicationName, CloudonixEntity $parent, mixed $inputObject = null)
         {
-            $this->client = $parentBranch->getClient();
-            parent::__construct($this, $parentBranch);
+            $this->client = $parent->getClient();
+            parent::__construct($this, $parent);
 
-            if (!is_null($voiceApplicationObject)) {
-                $this->setPath($voiceApplicationObject->name, $parentBranch->canonicalPath);
-                $this->buildEntityData($voiceApplicationObject);
+            if (!is_null($inputObject)) {
+                $this->setPath($inputObject->name, $parent->getPath());
+                $this->buildEntityData($inputObject);
             } else {
-                $this->setPath($voiceApplicationName, $parentBranch->canonicalPath);
+                $this->setPath($voiceApplicationName, $parent->getPath());
             }
         }
 
@@ -259,7 +259,7 @@
                 foreach ($input as $key => $value) {
                     if ($key == "profile") {
                         $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " creating profile with this: " . json_encode($this));
-                        $this->profile = new EntityProfile($value, $this);
+                        $this->profile = new EntityProfile($this, $value);
                     } else if ($key == "domain") {
                         continue;
                     } else {

@@ -40,17 +40,17 @@
          * Subscriber DataModel Object Constructor
          *
          * @param string      $subscriber             A Cloudonix Subscriber Name (or MSISDN)
-         * @param mixed       $parentBranch           A reference to the previous data model node
-         * @param object|null $subscriberObject       A Cloudonix Subscriber Object as stdClass
+         * @param Domain      $parent                 The parent object that created this object
+         * @param object|null $inputObject            A Cloudonix Subscriber Object as stdClass
          *                                            If $subscriberObject is provided, it will be used to build the
          *                                            Domain Entity object
          */
-        public function __construct(string $subscriber, mixed $parentBranch, object $subscriberObject = null)
+        public function __construct(string $subscriber, Domain $parent, object $inputObject = null)
         {
-            $this->client = $parentBranch->getClient();
-            parent::__construct($subscriberObject, $parentBranch);
-            $this->setPath($subscriber, $parentBranch->canonicalPath);
-            $this->buildEntityData($subscriberObject);
+            $this->client = $parent->getClient();
+            parent::__construct($inputObject, $parent);
+            $this->setPath($subscriber, $parent->getPath());
+            $this->buildEntityData($inputObject);
         }
 
         /**
@@ -110,7 +110,7 @@
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
-                    $this->profile = new EntityProfile($value, $this);
+                    $this->profile = new EntityProfile($this, $value);
                 } else {
                     $this->$key = $value;
                 }

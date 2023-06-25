@@ -32,17 +32,17 @@
         /**
          * Profile DataModel Object Constructor
          *
-         * @param object $profileStdObject Cloudonix Profile as Standard Object
-         * @param mixed  $parentBranch     A reference to the previous data model node
+         * @param CloudonixEntity  $parent      The parent object that created this object
+         * @param object $inputObject Cloudonix Profile as Standard Object
          */
-        public function __construct(mixed $profileStdObject, mixed $parentBranch)
+        public function __construct(CloudonixEntity $parent, mixed $inputObject)
         {
-            $this->client = $parentBranch->getClient();
-            parent::__construct($profileStdObject, $parentBranch);
-            $this->setPath($parentBranch->canonicalPath);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " parentBranch canonical path is now: " . $parentBranch->canonicalPath);
+            $this->client = $parent->getClient();
+            parent::__construct($inputObject, $parent);
+            $this->setPath($parent->getPath());
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " parentBranch canonical path is now: " . $parent->getPath());
 
-            $this->buildEntityData($profileStdObject);
+            $this->buildEntityData($inputObject);
         }
 
         /**

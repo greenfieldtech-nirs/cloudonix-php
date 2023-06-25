@@ -42,23 +42,24 @@
         /**
          * Domain DataModel Object Constructor
          *
-         * @param string      $keyId                  A Cloudonix Apikey (Designated as XI....)
-         * @param mixed       $parentBranch           A reference to the previous data model node
-         * @param object|null $apikeyObject           A Cloudonix Apikey Object as stdClass
-         *                                            If $apikeyObject is provided, it will be used to build the Domain
-         *                                            Entity object
+         * @param string          $keyId            A Cloudonix Apikey (Designated as XI....)
+         * @param CloudonixEntity $parent           A reference to the owner object, may be one
+         *                                          of the following: Tenant, Domain, Subscriber
+         *                                          or Application
+         * @param object|null     $inputObject      A Cloudonix Apikey Object as stdClass
+         *                                          If $apikeyObject is provided, it will be used
+         *                                          to build the Domain Entity object
          */
-        public function __construct(string $keyId, mixed $parentBranch, mixed $apikeyObject = null)
+        public function __construct(string $keyId, CloudonixEntity $parent, mixed $inputObject = null)
         {
-            $this->client = $parentBranch->getClient();
-            parent::__construct($this, $parentBranch);
-            $this->parentBranch = $parentBranch;
-            $this->setPath($keyId, $parentBranch->canonicalPath);
-            if (!is_null($apikeyObject)) {
-                $this->buildEntityData($apikeyObject);
-                $this->setPath($apikeyObject->id, $parentBranch->canonicalPath);
+            $this->client = $parent->getClient();
+            parent::__construct($this, $parent);
+            $this->parentBranch = $parent;
+            if (!is_null($inputObject)) {
+                $this->buildEntityData($inputObject);
+                $this->setPath($inputObject->id, $parent->getPath());
             } else {
-                $this->setPath($keyId, $parentBranch->canonicalPath);
+                $this->setPath($keyId, $parent->getPath());
                 $this->refresh();
             }
         }
@@ -98,7 +99,7 @@
         private function buildEntityData(mixed $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
-            if (!is_null($input))
+            if (!is_null($input)) {
                 foreach ($input as $key => $value) {
                     if ($key == "subscriber") {
                         $this->accessRights = "subscriber";
@@ -112,5 +113,6 @@
                         $this->$key = $value;
                     }
                 }
+            }
         }
     }

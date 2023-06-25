@@ -26,7 +26,6 @@
     use Cloudonix\Entities\Trunk as EntityTrunk;
     use Cloudonix\Entities\Session as EntitySession;
 
-
     /**
      * Domain Data Model Entity
      *
@@ -50,6 +49,7 @@
         protected mixed $client;
         protected string $parentBranch;
         protected string $canonicalPath;
+
         public CollectionVoiceApplications $collectionVoiceApplications;
         public CollectionApikeys $collectionApikeys;
         public CollectionSubscribers $collectionSubscribers;
@@ -61,20 +61,20 @@
          * Domain DataModel Object Constructor
          *
          * @param string      $domain                 A Cloudonix Domain Name
-         * @param mixed       $parentBranch           A reference to the previous data model node
-         * @param object|null $domainObject           A Cloudonix Domain Object as stdClass
+         * @param Tenant      $parent                 The parent object that created this object
+         * @param object|null $inputObject            A Cloudonix Domain Object as stdClass
          *                                            If $domainObject is provided, it will be used to build the Domain
          *                                            Entity object
          */
-        public function __construct(string $domain, mixed $parentBranch, object $domainObject = null)
+        public function __construct(string $domain, Tenant $parent, object $inputObject = null)
         {
-            $this->client = $parentBranch->getClient();
-            parent::__construct($this, $parentBranch);
-            if (!is_null($domainObject)) {
-                $this->setPath($domainObject->domain, $parentBranch->canonicalPath);
-                $this->buildEntityData($domainObject);
+            $this->client = $parent->getClient();
+            parent::__construct($this, $parent);
+            if (!is_null($inputObject)) {
+                $this->setPath($inputObject->domain, $parent->getPath());
+                $this->buildEntityData($inputObject);
             } else {
-                $this->setPath($domain, $parentBranch->canonicalPath);
+                $this->setPath($domain, $parent->getPath());
             }
         }
 
@@ -499,7 +499,7 @@
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
-                    $this->profile = new EntityProfile($value, $this);
+                    $this->profile = new EntityProfile($this, $value);
                 } else if ($key == "defaultApplication") {
                     $this->defaultApplicationId = $value;
                 } else if ($key == "application") {

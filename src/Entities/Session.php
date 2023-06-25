@@ -13,6 +13,9 @@
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
 
+    use Cloudonix\Collections\Sessions;
+    use Cloudonix\Entities\Domain;
+
     /**
      * Session Data Model Entity
      *
@@ -54,35 +57,35 @@
         /**
          * Session DataModel Object Constructor
          *
-         * @param string $token                       Session Token
-         * @param mixed  $parentBranch                A reference to the previous data model node
-         * @param mixed  $sessionObject               A Cloudonix Session Object as stdClass
-         *                                            If $sessionObject is provided, it will be used to build the
+         * @param string          $token              Session Token
+         * @param Sessions|Domain $parent             The parent object that created this object
+         * @param object|null     $inputObject        A Cloudonix Session Object as stdClass
+         *                                            If $inputObject is provided, it will be used to build the
          *                                            Session Entity object
          */
-        public function __construct(string $token, mixed $parentBranch, mixed $sessionObject = null)
+        public function __construct(string $token, Sessions|Domain $parent, object|null $inputObject = null)
         {
-            $this->client = $parentBranch->getClient();
+            $this->client = $parent->getClient();
 
-            if (!is_null($sessionObject)) {
-                $this->setPath($sessionObject->token, $sessionObject->domain);
-                $this->buildEntityData($sessionObject);
+            if (!is_null($inputObject)) {
+                $this->setPath($inputObject->token, $inputObject->domain);
+                $this->buildEntityData($inputObject);
             } else {
-                $this->setPath($token, $parentBranch->domain);
+                $this->setPath($token, $parent->domain);
             }
-            parent::__construct($this, $parentBranch);
+            parent::__construct($this, $parent);
         }
 
         /**
          * Update the current timeLimit of an active session
          *
-         * @param int $timelimit
+         * @param int $timeLimit
          *
          * @return $this
          */
-        public function updateTimeLimit(int $timelimit): Session
+        public function updateTimeLimit(int $timeLimit): Session
         {
-            $result = $this->client->httpConnector->request("PATCH", $this->getPath(), ['timeLimit' => $timelimit]);
+            $result = $this->client->httpConnector->request("PATCH", $this->getPath(), ['timeLimit' => $timeLimit]);
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             $this->buildEntityData($result);
             return $this;
@@ -236,7 +239,7 @@
             if (!is_null($input))
                 foreach ($input as $key => $value) {
                     if ($key == "profile") {
-                        $this->profile = new EntityProfile($value, $this);
+                        $this->profile = new EntityProfile($this, $value);
                     } else {
                         $this->$key = $value;
                     }

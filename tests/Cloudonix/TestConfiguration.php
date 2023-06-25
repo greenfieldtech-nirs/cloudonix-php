@@ -79,7 +79,6 @@
             $this->newDomainVoiceApplicationKV = $this->newDomainProfileKV;
             $this->newDomainSubscriberProfileKV = $this->newDomainProfileKV;
             $this->newDomainDNID = "DNID_" . $tsString;
-            $this->newContainerApplication = "ContainerApplication_" . $tsString;
         }
 
         public function __get(mixed $name)

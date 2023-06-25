@@ -11,6 +11,7 @@
     namespace Cloudonix\Collections;
 
     use Cloudonix\Entities\Apikey as EntityApikey;
+    use Cloudonix\Entities\CloudonixEntity;
     use Traversable;
     use ArrayIterator;
 
@@ -41,11 +42,11 @@
         protected mixed $parent;
         protected string $canonicalPath;
 
-        public function __construct(mixed $parent)
+        public function __construct(CloudonixEntity $parent)
         {
             $this->client = $parent->getClient();
             $this->parent = $parent;
-            $this->setPath($parent->canonicalPath);
+            $this->setPath($parent->getPath());
             parent::__construct($this);
         }
 
