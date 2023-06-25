@@ -21,7 +21,7 @@
         {
             if (is_object($parentBranch)) {
                 $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] Class " . get_class($parentBranch));
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] canoncialPath: " . $parentBranch->canoncialPath);
+                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] canoncialPath: " . $parentBranch->getPath());
                 $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " [Parent] Object: " . json_encode($parentBranch));
             }
 

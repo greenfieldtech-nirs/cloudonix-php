@@ -9,6 +9,8 @@
 
     namespace Cloudonix;
 
+    require_once 'TestConfiguration.php';
+
     use Cloudonix\TestConfiguration as TestConfiguration;
     use Cloudonix\CloudonixClient;
 

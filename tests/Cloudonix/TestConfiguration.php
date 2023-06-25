@@ -9,7 +9,9 @@
 
     namespace Cloudonix;
 
-    require_once "src/Helpers/ConfigHelper.php";
+    echo "My Dir: " . __DIR__ . "\n";
+
+    require_once '../../src/Helpers/ConfigHelper.php';
 
     use Dotenv\Dotenv;
 

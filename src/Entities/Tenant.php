@@ -176,6 +176,7 @@
                     ]
                 ]
             ]);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " newContainerApplication API Response: " . json_encode($result));
             return new EntityContainerApplication($name, $this, $result);
         }
 
