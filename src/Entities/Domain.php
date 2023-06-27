@@ -47,7 +47,6 @@
     class Domain extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
 
         public CollectionVoiceApplications $collectionVoiceApplications;
@@ -60,13 +59,13 @@
         /**
          * Domain DataModel Object Constructor
          *
-         * @param string      $domain                 A Cloudonix Domain Name
-         * @param Tenant      $parent                 The parent object that created this object
-         * @param object|null $inputObject            A Cloudonix Domain Object as stdClass
+         * @param string  $domain                     A Cloudonix Domain Name
+         * @param Tenant  $parent                     The parent object that created this object
+         * @param ?object $inputObject                A Cloudonix Domain Object as stdClass
          *                                            If $domainObject is provided, it will be used to build the Domain
          *                                            Entity object
          */
-        public function __construct(string $domain, Tenant $parent, object $inputObject = null)
+        public function __construct(string $domain, Tenant $parent, ?object $inputObject = null)
         {
             $this->client = $parent->getClient();
             parent::__construct($this, $parent);
@@ -494,7 +493,7 @@
             return json_encode($this->refresh());
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {

@@ -51,7 +51,6 @@
     class Session extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
 
         /**
@@ -59,11 +58,11 @@
          *
          * @param string          $token              Session Token
          * @param Sessions|Domain $parent             The parent object that created this object
-         * @param object|null     $inputObject        A Cloudonix Session Object as stdClass
+         * @param ?object         $inputObject        A Cloudonix Session Object as stdClass
          *                                            If $inputObject is provided, it will be used to build the
          *                                            Session Entity object
          */
-        public function __construct(string $token, Sessions|Domain $parent, object|null $inputObject = null)
+        public function __construct(string $token, Sessions|Domain $parent, ?object $inputObject = null)
         {
             $this->client = $parent->getClient();
 
@@ -233,16 +232,15 @@
             return $this;
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
-            if (!is_null($input))
-                foreach ($input as $key => $value) {
-                    if ($key == "profile") {
-                        $this->profile = new EntityProfile($this, $value);
-                    } else {
-                        $this->$key = $value;
-                    }
+            foreach ($input as $key => $value) {
+                if ($key == "profile") {
+                    $this->profile = new EntityProfile($this, $value);
+                } else {
+                    $this->$key = $value;
                 }
+            }
         }
     }

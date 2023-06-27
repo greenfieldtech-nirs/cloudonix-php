@@ -39,7 +39,6 @@
     class VoiceApplication extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
         public CollectionDnids $collectionDnids;
 
@@ -48,11 +47,11 @@
          *
          * @param string          $voiceApplicationName        Cloudonix Voice Application Name or ID
          * @param CloudonixEntity $parent                      The parent object that created this object
-         * @param mixed|null      $inputObject                 A Cloudonix Application object
+         * @param ?object         $inputObject                 A Cloudonix Application object
          *                                                     If $voiceApplicationObject is provided, it will be used
          *                                                     to build the Application Entity object
          */
-        public function __construct(string $voiceApplicationName, CloudonixEntity $parent, mixed $inputObject = null)
+        public function __construct(string $voiceApplicationName, CloudonixEntity $parent, ?object $inputObject = null)
         {
             $this->client = $parent->getClient();
             parent::__construct($this, $parent);
@@ -252,19 +251,18 @@
             return $this;
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
-            if (!is_null($input))
-                foreach ($input as $key => $value) {
-                    if ($key == "profile") {
-                        $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " creating profile with this: " . json_encode($this));
-                        $this->profile = new EntityProfile($this, $value);
-                    } else if ($key == "domain") {
-                        continue;
-                    } else {
-                        $this->$key = $value;
-                    }
+            foreach ($input as $key => $value) {
+                if ($key == "profile") {
+                    $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " creating profile with this: " . json_encode($this));
+                    $this->profile = new EntityProfile($this, $value);
+                } else if ($key == "domain") {
+                    continue;
+                } else {
+                    $this->$key = $value;
                 }
+            }
         }
     }

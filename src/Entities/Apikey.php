@@ -36,7 +36,6 @@
     class Apikey extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
 
         /**
@@ -54,13 +53,11 @@
         {
             $this->client = $parent->getClient();
             parent::__construct($this, $parent);
-            $this->parentBranch = $parent;
             if (!is_null($inputObject)) {
                 $this->buildEntityData($inputObject);
                 $this->setPath($inputObject->id, $parent->getPath());
             } else {
                 $this->setPath($keyId, $parent->getPath());
-                $this->refresh();
             }
         }
 
@@ -96,22 +93,26 @@
             return $this;
         }
 
-        private function buildEntityData(mixed $input): void
+        public function __get(mixed $name)
+        {
+            $this->refresh();
+            return parent::__get($name);
+        }
+
+        protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
-            if (!is_null($input)) {
-                foreach ($input as $key => $value) {
-                    if ($key == "subscriber") {
-                        $this->accessRights = "subscriber";
-                    } else if ($key == "application") {
-                        $this->accessRights = "application";
-                    } else if ($key == "domain") {
-                        $this->accessRights = "domain";
-                    } else if ($key == "tenant") {
-                        $this->accessRights = "tenant";
-                    } else {
-                        $this->$key = $value;
-                    }
+            foreach ($input as $key => $value) {
+                if ($key == "subscriber") {
+                    $this->accessRights = "subscriber";
+                } else if ($key == "application") {
+                    $this->accessRights = "application";
+                } else if ($key == "domain") {
+                    $this->accessRights = "domain";
+                } else if ($key == "tenant") {
+                    $this->accessRights = "tenant";
+                } else {
+                    $this->$key = $value;
                 }
             }
         }

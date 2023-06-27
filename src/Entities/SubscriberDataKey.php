@@ -29,7 +29,6 @@
     class SubscriberDataKey extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
 
         /**
@@ -37,9 +36,9 @@
          *
          * @param VoiceApplication $parent      Cloudonix Voice Application Object
          * @param string           $subscriber  Cloudonix Subscriber ID or MSISDN
-         * @param object|null      $inputObject A Cloudonix Voice Application Data Key Object
+         * @param ?object          $inputObject A Cloudonix Voice Application Data Key Object
          */
-        public function __construct(VoiceApplication $parent, string $subscriber, object $inputObject = null)
+        public function __construct(VoiceApplication $parent, string $subscriber, ?object $inputObject = null)
         {
             $this->client = $parent->getClient();
             parent::__construct($this, $parent);
@@ -87,17 +86,16 @@
             return $this;
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
-            if (!is_null($input))
-                foreach ($input as $key => $value) {
-                    if ($key == "application")
-                        continue;
-                    else if ($key == "subscriber")
-                        continue;
-                    else
-                        $this->$key = $value;
-                }
+            foreach ($input as $key => $value) {
+                if ($key == "application")
+                    continue;
+                else if ($key == "subscriber")
+                    continue;
+                else
+                    $this->$key = $value;
+            }
         }
     }

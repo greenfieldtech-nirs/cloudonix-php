@@ -1,7 +1,7 @@
 <?php
     /**
      * @package cloudonix-php
-     * @file    Collections/Domains.php
+     * @file    Collections/Apikeys.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=keys
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -10,36 +10,19 @@
 
     namespace Cloudonix\Collections;
 
+    use GuzzleHttp\Exception\GuzzleException;
+
     use Cloudonix\Entities\Apikey as EntityApikey;
     use Cloudonix\Entities\CloudonixEntity;
-    use Traversable;
-    use ArrayIterator;
-
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
 
     /**
      * API Keys Collection
-     *
-     * @property-read int    $id                     Apikey Numeric ID
-     * @property-read string $name                   Apikey Name
-     * @property-read int    $tenantId               Tenant Numeric ID
-     * @property-read int    $domainId               Domain Numeric ID
-     * @property-read int    $applicationId          Application Numeric ID
-     * @property-read int    $subscriberId           Subscriber Numeric ID
-     * @property-read string $userId                 Cockpit User ID
-     * @property      bool   $active                 Application Status
-     * @property-read string $keyId                  API Key String
-     * @property-read string $secret                 API Key Secret
-     * @property-read string $type                   API Key Type (Informational Only)
-     * @property-read string $accessRights           API Key Access Rights
-     * @property-read string $createdAt              API Key Creation Date and time
-     * @property-read string $modifiedAt             API Key Last Modification Date and time
-     * @property-read string $deletedAt              API Key Deletion Date and time
      */
     class Apikeys extends CloudonixCollection
     {
-        protected mixed $client;
-        protected mixed $parent;
+        protected object $client;
+        protected object $parent;
         protected string $canonicalPath;
 
         public function __construct(CloudonixEntity $parent)
@@ -50,75 +33,48 @@
             parent::__construct($this);
         }
 
-        public function list(): Apikeys
-        {
-            return $this;
-        }
-
         /**
          * Create a new API Key in the current Access Right (based upon the parent class)
          *
-         * @param string $keyname
+         * @param string $name
          *
          * @return EntityApikey
+         * @throws GuzzleException
          */
-        public function newKey(string $keyname): EntityApikey
+        public function newKey(string $name): EntityApikey
         {
-            $newApikeyObject = $this->client->httpConnector->request("POST", $this->getPath(), ["name" => $keyname]);
-            $this->collection[$newApikeyObject->keyId] = new EntityApikey($newApikeyObject->keyId, $this->parent, $newApikeyObject);
+            $newApikeyObject = $this->client->httpConnector->request("POST", $this->getPath(), ["name" => $name]);
+            $newApikey = new EntityApikey($newApikeyObject->keyId, $this->parent, $newApikeyObject);
+            $this->collection[] = $newApikey;
             $this->collectionCount++;
-            return $this->collection[$newApikeyObject->keyId];
+            return $newApikey;
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
         public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $branchPath
-         *
-         * @return void
-         */
         protected function setPath(string $branchPath): void
         {
-            if (!isset($this->canonicalPath))
+            if (!isset($this->canonicalPath)) {
                 $this->canonicalPath = $branchPath . URLPATH_APIKEYS;
+            }
         }
 
-        /**
-         * Refresh the collection data from remote API
-         *
-         * @return $this
-         */
-        public function refresh(): Apikeys
+        public function refresh(): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
-        /**
-         * Build the local collection data storage
-         *
-         * @param mixed $param
-         *
-         * @return array
-         */
-        protected function refreshCollectionData(mixed $param): array
+        protected function refreshCollectionData(object|array $param): array
         {
             $this->collection = [];
-            if (!is_null($param))
-                foreach ($param as $key => $value) {
-                    $this->collection[$value->keyId] = new EntityApikey($value->keyId, $this->parent, $value);
-                    $this->collectionCount++;
-                }
+            foreach ($param as $value) {
+                $this->collection[] = new EntityApikey($value->keyId, $this->parent, $value);
+            }
+            $this->collectionCount = count($this->collection);
             return $this->collection;
         }
 
@@ -128,35 +84,19 @@
          * @param mixed $offset
          *
          * @return void
+         * @throws GuzzleException
          */
         public function offsetUnset(mixed $offset): void
         {
-            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $offset);
-            if (!isset($result->code)) {
-                unset($this->collection[$offset]);
-                $this->collectionCount++;
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $this->collection[$offset]->keyId);
+            if ($result->code == 204) {
+                parent::offsetUnset($offset);
             }
+
         }
 
         public function offsetSet(mixed $offset, mixed $value): void
         {
             return;
-        }
-
-        public function offsetGet(mixed $offset): mixed
-        {
-            return parent::offsetGet($offset);
-        }
-
-        public function getIterator(): Traversable
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::getIterator();
-        }
-
-        public function __toString(): string
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::__toString();
         }
     }

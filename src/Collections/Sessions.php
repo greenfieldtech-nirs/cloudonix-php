@@ -10,45 +10,13 @@
 
     namespace Cloudonix\Collections;
 
-    use ArrayIterator;
-    use Cloudonix\Entities\CloudonixEntity;
-    use Traversable;
-
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
-    use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\Session as EntitySession;
     use Cloudonix\Entities\Domain;
 
 
     /**
      * Sessions Collection
-     *
-     * @property-read int           $id                                      Session Numeric ID
-     * @property-read int           $domainId                                Session Domain Numeric ID
-     * @property-read string        $domain                                  Domain Name
-     * @property-read int           $subscriberId                            Domain Subscriber Numeric ID
-     * @property-read string        $destination                             The destination MSISDN
-     * @property-read string        $callerId                                The caller ID MSISDN
-     * @property-read string        $direction                               The direction of the call (see
-     *                https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)
-     * @property-read string        $token                                   Session unique token identifier
-     * @property-read int           $timeLimit                               Session time limit, if defined, in seconds
-     * @property-read EntityProfile $profile                                 Session profile (see
-     *                https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)
-     * @property-read int           $callStartTime                           Session start time, in UNIX EPOCH
-     *                milliseconds
-     * @property-read int           $callAnswerTime                          Session answer time, in UNIX EPOCH
-     *                milliseconds
-     * @property-read int           $callEndTime                             Session end time, in UNIX EPOCH
-     *                milliseconds
-     * @property-read string        $callback                                Session update URL as defined in the
-     *                domain
-     * @property-read object        $routes                                  Session LCR Routing plan, if defined via
-     *                LCR API
-     * @property-read string        $status                                  Session current status (see
-     *                https://dev.docs.cloudonix.io/#/platform/api-core/models?id=session for additional information)
-     *
-     * @property-read string        $error                                   Session last encountered error
      */
     class Sessions extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
@@ -71,7 +39,6 @@
             $appData['caller-id'] = $callerId;
 
             $newSessionResult = $this->client->httpConnector->request("POST", URLPATH_CALLS . "/" . $this->parent->domain . "/application", $appData);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " newSessionResult " . json_encode($newSessionResult));
             return new EntitySession($newSessionResult->token, $this, $newSessionResult);
         }
 
@@ -82,7 +49,6 @@
                 'callback' => $callback,
                 'destination' => $destination
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " newSessionResult " . json_encode($newSessionResult));
             return new EntitySession($newSessionResult->token, $this, $newSessionResult);
         }
 
@@ -92,68 +58,53 @@
             return $this;
         }
 
-        public function outgoing(int $limit = 1000): Sessions
+        public function outgoing(int $limit = 1000): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath() . FILTER_OUTGOING . "&limit=" . $limit));
             return $this;
         }
 
-        public function application(int $limit = 1000): Sessions
+        public function application(int $limit = 1000): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath() . FILTER_APPLICATION . "&limit=" . $limit));
             return $this;
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
+        public function terminateByToken(string $token): self
+        {
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $token);
+            if ($result->code == 204) {
+                $this->refresh();
+            }
+            return $this;
+        }
+
         public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $domain
-         *
-         * @return void
-         */
         protected function setPath(string $domain): void
         {
             if (!isset($this->canonicalPath))
                 $this->canonicalPath = URLPATH_CALLS . "/" . $domain . URLPATH_SESSIONS;
         }
 
-        /**
-         * Refresh the collection
-         *
-         * @return $this
-         */
-        public function refresh(): Sessions
+        public function refresh(): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
-        /**
-         * Build the local collection data storage
-         *
-         * @param mixed $param
-         *
-         * @return array
-         */
-        protected function refreshCollectionData(mixed $param): array
+        protected function refreshCollectionData(object|array $param): array
         {
             $this->collection = [];
-            if (!is_null($param))
-                foreach ($param as $key => $value) {
-                    if (is_object($value)) {
-                        $this->collection[$value->token] = new EntitySession($value->token, $this->parent, $value);
-                    }
+            foreach ($param as $key => $value) {
+                if (is_object($value)) {
+                    $this->collection[] = new EntitySession($value->token, $this->parent, $value);
                 }
+            }
+            $this->collectionCount = count($this->collection);
             return $this->collection;
         }
 
@@ -164,24 +115,9 @@
 
         public function offsetUnset(mixed $offset): void
         {
-            return;
-        }
-
-        public function offsetGet(mixed $offset): mixed
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::offsetGet($offset);
-        }
-
-        public function getIterator(): Traversable
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::getIterator();
-        }
-
-        public function __toString(): string
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::__toString();
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $this->collection[$offset]->token);
+            if ($result->code == 204) {
+                parent::offsetUnset($offset);
+            }
         }
     }

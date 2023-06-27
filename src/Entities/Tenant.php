@@ -14,11 +14,12 @@
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\Domain as EntityDomain;
-    use Cloudonix\Entities\ContainerApplication as EntityContainerApplication;
+    use Cloudonix\Entities\HostedApplication as EntityHostedApplication;
     use Cloudonix\Entities\Apikey as EntityApikey;
 
     use Cloudonix\Collections\Domains as CollectionDomains;
     use Cloudonix\Collections\Apikeys as CollectionApikeys;
+    use Cloudonix\Collections\HostedApplications as CollectionHostedApplications;
 
     use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
@@ -41,12 +42,12 @@
     class Tenant extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
         protected string $entityId;
 
         public CollectionDomains $collectionDomains;
         public CollectionApikeys $collectionApikeys;
+        public CollectionHostedApplications $collectionHostedApplications;
 
         /**
          * Tenant DataModel Object Constructor
@@ -126,29 +127,18 @@
             return new EntityDomain($domain, $this, $result);
         }
 
-        /**
-         * Obtain a collection of all tenant associated container applications
-         *
-         * @return CollectionContainerApplications
-         */
-        public function containerApplications(): CollectionContainerApplications
+        public function hostedApplication(string $name): EntityHostedApplication
         {
-            if (!isset($this->collectionContainerApplications))
-                $this->collectionContainerApplications = new CollectionContainerApplications($this);
-
-            return $this->collectionContainerApplications->refresh();
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " Loading remote hostedApplication for API Response: " . $name);
+            return new EntityHostedApplication($name, $this);
         }
 
-        /**
-         * Obtain a container application object, based upon the container application name
-         *
-         * @param string $name
-         *
-         * @return ContainerApplication
-         */
-        public function containerApplication(string $name): EntityContainerApplication
+        public function hostedApplications(): CollectionHostedApplications
         {
-            return new EntityContainerApplication($name, $this);
+            if (!isset($this->collectionHostedApplications))
+                $this->collectionHostedApplications = new CollectionHostedApplications($this);
+
+            return $this->collectionHostedApplications->refresh();
         }
 
         /**
@@ -158,9 +148,10 @@
          * @param string $runtime
          * @param string $code
          *
-         * @return ContainerApplication
+         * @return HostedApplication
+         * @throws GuzzleException
          */
-        public function newContainerApplication(string $name, string $runtime, string $code): EntityContainerApplication
+        public function newHostedApplication(string $name, string $runtime, string $code): EntityHostedApplication
         {
             $utilityHelper = new UtilityHelper();
             $canonicalPath = $this->getPath() . URLPATH_CONTAINER_APPLICATIONS;
@@ -174,8 +165,8 @@
                     ]
                 ]
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " newContainerApplication API Response: " . json_encode($result));
-            return new EntityContainerApplication($name, $this, $result);
+            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " newHostedApplication API Response: " . json_encode($result));
+            return new EntityHostedApplication($name, $this, $result);
         }
 
         /**
@@ -188,7 +179,7 @@
             if (!isset($this->collectionApikeys))
                 $this->collectionApikeys = new CollectionApikeys($this);
 
-            return $this->collectionApikeys->refresh();
+            return $this->collectionApikeys;
         }
 
         /**
@@ -226,7 +217,7 @@
                 $this->canonicalPath = URLPATH_TENANTS . "/" . $entityId;
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {

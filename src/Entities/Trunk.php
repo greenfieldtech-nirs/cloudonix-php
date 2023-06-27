@@ -39,19 +39,18 @@
     class Trunk extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
 
         /**
          * Trunk DataModel Object Constructor
          *
-         * @param string $trunk                       Cloudonix Trunk Identifier
-         * @param Domain $parent                      The parent object that created this object
-         * @param mixed  $inputObject                 A Cloudonix Trunk Object as stdClass
+         * @param string  $trunk                      Cloudonix Trunk Identifier
+         * @param Domain  $parent                     The parent object that created this object
+         * @param ?object $inputObject                A Cloudonix Trunk Object as stdClass
          *                                            If $trunkObject is provided, it will be used to build the Domain
          *                                            Entity object
          */
-        public function __construct(string $trunk, Domain $parent, mixed $inputObject = null)
+        public function __construct(string $trunk, Domain $parent, ?object $inputObject = null)
         {
             $this->client = $parent->getClient();
             parent::__construct($this, $parent);
@@ -228,7 +227,7 @@
             return json_encode($this->refresh());
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {

@@ -33,19 +33,18 @@
     class Subscriber extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
 
         /**
          * Subscriber DataModel Object Constructor
          *
-         * @param string      $subscriber             A Cloudonix Subscriber Name (or MSISDN)
-         * @param Domain      $parent                 The parent object that created this object
-         * @param object|null $inputObject            A Cloudonix Subscriber Object as stdClass
+         * @param string  $subscriber                 A Cloudonix Subscriber Name (or MSISDN)
+         * @param Domain  $parent                     The parent object that created this object
+         * @param ?object $inputObject                A Cloudonix Subscriber Object as stdClass
          *                                            If $subscriberObject is provided, it will be used to build the
          *                                            Domain Entity object
          */
-        public function __construct(string $subscriber, Domain $parent, object $inputObject = null)
+        public function __construct(string $subscriber, Domain $parent, ?object $inputObject = null)
         {
             $this->client = $parent->getClient();
             parent::__construct($inputObject, $parent);
@@ -105,7 +104,7 @@
                 $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS . "/" . $string;
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array|null $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {

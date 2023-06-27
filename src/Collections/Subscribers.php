@@ -10,28 +10,14 @@
 
     namespace Cloudonix\Collections;
 
-    use Traversable;
-    use ArrayIterator;
-
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\Subscriber as EntitySubscriber;
     use Cloudonix\Entities\Domain;
-    use Cloudonix\Entities\Profile;
 
     use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
     /**
      * Subscribers Collection
-     *
-     * @property-read int     $id                            Subscriber Numeric ID
-     * @property-read string  $msisdn                        Subscriber MSISDN
-     * @property-read int     $domainId                      Domain Numeric ID
-     * @property      bool    $active                        Subscriber Status
-     * @property      string  $sipPassword                   Subscriber SIP Password
-     * @property-read string  $createdAt                     Subscriber Creation Date and time
-     * @property-read string  $modifiedAt                    Subscriber Last Modification Date and time
-     * @property-read string  $deletedAt                     Subscriber Deletion Date and time
-     * @property      Profile $profile                       Subscriber Profile Object
      */
     class Subscribers extends CloudonixCollection
     {
@@ -45,11 +31,6 @@
             $this->parent = $parent;
             $this->setPath($parent->getPath());
             parent::__construct($this);
-        }
-
-        public function list(): Subscribers
-        {
-            return $this;
         }
 
         /**
@@ -76,53 +57,29 @@
             return $this->collection[$newSubscriber->msisdn];
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
         public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $branchPath
-         *
-         * @return void
-         */
         protected function setPath(string $branchPath): void
         {
             if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS;
         }
 
-        /**
-         * Refresh the collection data from remote API
-         *
-         * @return $this
-         */
-        public function refresh(): Subscribers
+        public function refresh(): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
-        /**
-         * Build the local collection data storage
-         *
-         * @param mixed $param
-         *
-         * @return array
-         */
         protected function refreshCollectionData(mixed $param): array
         {
             $this->collection = [];
             if (!is_null($param))
-                foreach ($param as $key => $value) {
-                    $this->collection[$value->msisdn] = new EntitySubscriber($value->msisdn, $this->parent, $value);
+                foreach ($param as $value) {
+                    $this->collection[] = new EntitySubscriber($value->msisdn, $this->parent, $value);
                 }
             $this->collectionCount = count($this->collection);
             return $this->collection;
@@ -130,23 +87,14 @@
 
         public function offsetUnset(mixed $offset): void
         {
-            return;
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $this->collection[$offset]->msisdn);
+            if ($result->code == 204) {
+                parent::offsetUnset($offset);
+            }
         }
 
         public function offsetSet(mixed $offset, mixed $value): void
         {
             return;
-        }
-
-        public function getIterator(): Traversable
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::getIterator();
-        }
-
-        public function __toString(): string
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::__toString();
         }
     }

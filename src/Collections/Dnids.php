@@ -10,37 +10,18 @@
 
     namespace Cloudonix\Collections;
 
-    use ArrayIterator;
     use Cloudonix\Entities\CloudonixEntity;
-    use Traversable;
-
-    use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\Dnid as EntityDnid;
 
     /**
      * DNIDs Collection
      *
-     * @property-read int    $id                                  DNID Numeric ID
-     * @property-read int    $domainId                            Domain Numeric ID
-     * @property-read int    $applicationId                       Voice Application Numeric ID
-     * @property-read string $applicationName                     Voice Application Name
-     * @property-read int    $messagingApplicationId              Voice Application Numeric ID
-     * @property-read string $messagingApplicationName            Voice Application Name
-     * @property-read string $dnid                                DNID Expression
-     * @property-read string $source                              DNID Source String
-     * @property-read bool   $expression                          DNID Source is RegEx formatted
-     * @property-read bool   $prefix                              DNID Source is Prefix formatted
-     * @property-read bool   $asteriskCompatible                  DNID Source is Asterisk extensions.conf formatted
-     * @property-read bool   $global                              DNID is defined as global platform DNID
-     * @property      bool   $active                              DNID Status
-     * @property-read string $createdAt                           DNID Creation Date and time
-     * @property-read string $modifiedAt                          DNID Last Modification Date and time
-     * @property-read string $deletedAt                           DNID Deletion Date and time
+     * @see \Cloudonix\Entities\Dnid     For more information about DNID Data Model
      */
     class Dnids extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
         protected mixed $client;
-        protected mixed $parent;
+        protected CloudonixEntity|CloudonixCollection $parent;
         protected string $canonicalPath;
 
         public function __construct(CloudonixEntity $parent)
@@ -51,81 +32,43 @@
             parent::__construct($this);
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
         public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $branchPath
-         *
-         * @return void
-         */
         protected function setPath(string $branchPath): void
         {
             if (!isset($this->canonicalPath))
                 $this->canonicalPath = $branchPath . URLPATH_DNIDS;
         }
 
-        /**
-         * Refresh the collection
-         *
-         * @return $this
-         */
         public function refresh(): Dnids
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
-        /**
-         * Build the local collection data storage
-         *
-         * @param mixed $param
-         *
-         * @return void
-         */
-        protected function refreshCollectionData(mixed $param): array
+        protected function refreshCollectionData(object|array $param): array
         {
             $this->collection = [];
-            if (!is_null($param))
-                foreach ($param as $key => $value) {
-                    $this->collection[$value->id] = new EntityDnid($value->id, $this->parent, $value);
-                }
+            foreach ($param as $key => $value) {
+                $this->collection[] = new EntityDnid($value->id, $this->parent, $value);
+            }
+            $this->collectionCount = count($this->collection);
             return $this->collection;
+        }
+
+        public function offsetUnset(mixed $offset): void
+        {
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $this->collection[$offset]->id);
+            if ($result->code == 204) {
+                parent::offsetUnset($offset);
+            }
         }
 
         public function offsetSet(mixed $offset, mixed $value): void
         {
             return;
-        }
-
-        public function offsetUnset(mixed $offset): void
-        {
-            return;
-        }
-
-        public function offsetGet(mixed $offset): mixed
-        {
-            return parent::offsetGet($offset);
-        }
-
-        public function getIterator(): Traversable
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::getIterator();
-        }
-
-        public function __toString(): string
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::__toString();
         }
     }

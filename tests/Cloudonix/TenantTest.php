@@ -118,6 +118,27 @@
          * @depends testGetPath
          * @return void
          */
+        public function testTenantDomainsCollectionUnset()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Getting domains collection for Tenant " . self::$testTenantObject->name);
+            $domainsCollection = self::$testTenantObject->domains();
+            $this->consoleLogger->debug("[" . get_class() . "] domainsCollection is: " . $domainsCollection);
+            $this->consoleLogger->debug("[" . get_class() . "] FirstDomain is: " . $domainsCollection[0]);
+            $firstDomainName = $domainsCollection[0]->domain;
+            $this->consoleLogger->debug("[" . get_class() . "] firstDomainName is: " . $firstDomainName . " setting up to unset");
+            unset($domainsCollection[0]);
+            $this->assertNotEquals($firstDomainName, $domainsCollection[0]->domain);
+            $this->consoleLogger->debug("[" . get_class() . "] Refreshing DomainsCollection");
+            $domainsCollection->refresh();
+            $this->consoleLogger->debug("[" . get_class() . "] firstDomainName is now: " . $domainsCollection[0]->domain);
+            $this->assertNotEquals($firstDomainName, $domainsCollection[0]->domain);
+        }
+
+        /**
+         * @depends test__construct
+         * @depends testGetPath
+         * @return void
+         */
         public function testTenantSetActiveFalse()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Setting Tenant status to setActive(false)");
@@ -145,34 +166,88 @@
             $this->consoleLogger->debug("[" . get_class() . "] Get Tenant API Keys Collection");
             self::$testApikeysCollection = self::$testTenantObject->apikeys();
             $this->consoleLogger->debug("[" . get_class() . "] Received " . self::$testApikeysCollection->count() . " objects ");
+            $this->consoleLogger->debug("[" . get_class() . "] Collection Received " . self::$testApikeysCollection);
             $this->assertIsObject(self::$testApikeysCollection);
             $this->assertIsIterable(self::$testApikeysCollection);
             $this->assertIsInt(self::$testApikeysCollection->count());
         }
 
-        public function testTenantApikeyCreate()
+        public function testTenantApikeyCreateAndDelete()
         {
-            $this->consoleLogger->debug("[" . get_class() . "] Create a new Tenant API Key");
+            $this->consoleLogger->debug("[" . get_class() . "] Creating 11 API Keys");
+            for ($i=0; $i < 10; $i++) {
+                self::$testTenantApikeyObject = self::$testTenantObject
+                    ->newApikey(self::$testConfiguration->newTenantApikey . date("His") . $i);
+            }
             self::$testTenantApikeyObject = self::$testTenantObject
                 ->newApikey(self::$testConfiguration->newTenantApikey);
             $this->consoleLogger->debug("[" . get_class() . "] Received API Key Object " . self::$testTenantApikeyObject);
             $this->assertIsObject(self::$testTenantApikeyObject);
             $this->assertIsString(self::$testTenantApikeyObject->keyId);
+            $this->assertTrue(self::$testTenantApikeyObject->delete());
         }
 
-        public function testTenantApikeyCreated()
+        public function testTenantApikeyUnsetFirst()
         {
-            $myApikeyObject = self::$testTenantObject->apikey(self::$testTenantApikeyObject->keyId);
-            $this->consoleLogger->debug("[" . get_class() . "] Obtained API Key Object for " . self::$testTenantApikeyObject->keyId . " as " . $myApikeyObject);
-
-            $this->assertIsObject($myApikeyObject);
-            $this->assertIsString($myApikeyObject->keyId);
+            $this->consoleLogger->debug("[" . get_class() . "] Getting API Keys collection for Tenant " . self::$testTenantObject->name);
+            $apikeys = self::$testTenantObject->apikeys();
+            $this->consoleLogger->debug("[" . get_class() . "] apiKeys collection is: " . $apikeys);
+            $this->consoleLogger->debug("[" . get_class() . "] First API key is: " . $apikeys[1]);
+            $firstKeyId = $apikeys[1]->keyId;
+            $this->consoleLogger->debug("[" . get_class() . "] firstKeyId is: " . $firstKeyId . " setting up to unset");
+            unset($apikeys[1]);
+            $this->consoleLogger->debug("[" . get_class() . "] apiKeys collection is now: " . $apikeys);
+            $this->consoleLogger->debug("[" . get_class() . "] apikey[1] is now: " . $apikeys[1]->keyId);
+            $this->assertNotEquals($firstKeyId, $apikeys[1]->keyId);
+            $this->consoleLogger->debug("[" . get_class() . "] Refreshing DomainsCollection");
+            $apikeys->refresh();
+            $this->consoleLogger->debug("[" . get_class() . "] firstKeyId is now: " . $apikeys[1]->keyId);
+            $this->assertNotEquals($firstKeyId, $apikeys[1]->keyId);
         }
 
-        public function testTenantApikeyDelete()
+        public function testTenantApikeyGet()
         {
-            $deleteResult = self::$testTenantObject->apikey(self::$testTenantApikeyObject->keyId)->delete();
-            $this->consoleLogger->debug("[" . get_class() . "] Delete result code is: " . (boolean)$deleteResult);
-            $this->assertTrue($deleteResult);
+            $this->consoleLogger->debug("[" . get_class() . "] Create a new Tenant API Key");
+            self::$testTenantApikeyObject = self::$testTenantObject
+                ->newApikey(self::$testConfiguration->newTenantApikey);
+            $this->consoleLogger->debug("[" . get_class() . "] Create result is: " . self::$testTenantApikeyObject);
+
+            $myNewApiKey = self::$testTenantObject->apikey(self::$testTenantApikeyObject->keyId);
+            $this->consoleLogger->debug("[" . get_class() . "] Got API Key: " . self::$testTenantApikeyObject);
+            $this->assertIsObject($myNewApiKey);
+            $this->assertIsString($myNewApiKey->keyId);
+            $this->assertEquals(self::$testTenantApikeyObject->keyId, $myNewApiKey->keyId);
+            $this->assertTrue($myNewApiKey->delete());
+        }
+
+        public function testTenantNewHostedApplication()
+        {
+            $newHostedApplicationObject = self::$testTenantObject->newHostedApplication(self::$testConfiguration->newContainerApplication, 'static', "<Response><Hangup/></Response>");
+            $this->consoleLogger->debug("[" . get_class() . "] newHostedApplication Result is: " . $newHostedApplicationObject);
+            $this->assertIsObject($newHostedApplicationObject);
+            $this->assertEquals(self::$testConfiguration->newContainerApplication, $newHostedApplicationObject->name);
+        }
+        public function testTenantGetHostedApplication()
+        {
+            $getHostedApplication = self::$testTenantObject->hostedApplication(self::$testConfiguration->newContainerApplication);
+            $this->consoleLogger->debug("[" . get_class() . "] getHostedApplication Result is: " . $getHostedApplication);
+            $this->assertIsObject($getHostedApplication);
+            $this->assertEquals(self::$testConfiguration->newContainerApplication, $getHostedApplication->name);
+        }
+
+        public function testTenantGetHostedApplicationMainBlock()
+        {
+            $getHostedApplicationBlockMain = self::$testTenantObject->hostedApplication(self::$testConfiguration->newContainerApplication)->getBlockByName('main');
+            $this->consoleLogger->debug("[" . get_class() . "] getHostedApplicationBlockMain Result is: " . $getHostedApplicationBlockMain);
+            $this->assertIsObject($getHostedApplicationBlockMain);
+            $this->assertEquals('main', $getHostedApplicationBlockMain->name);
+        }
+
+        public function testTenantHostedApplications()
+        {
+            $getHostedApplications = self::$testTenantObject->hostedApplications();
+            $this->consoleLogger->debug("[" . get_class() . "] getHostedApplications Result is: " . $getHostedApplications);
+            $this->assertIsObject($getHostedApplications);
+            $this->assertInstanceOf('Cloudonix\Collections\HostedApplications', $getHostedApplications);
         }
     }

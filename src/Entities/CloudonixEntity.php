@@ -19,9 +19,6 @@
     {
         public function __construct(object|null $child, object $parent = null)
         {
-            if (is_object($parent)) {
-            }
-
             if (!is_null($child))
                 foreach ($child as $key => $value) {
                     if ($key == "canonicalPath") continue;
@@ -65,12 +62,10 @@
             $this->$name = $value;
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array $input): void
         {
-            if (is_array($input) || is_object($input)) {
-                foreach ($input as $key => $value) {
-                    $this->$key = $value;
-                }
+            foreach ($input as $key => $value) {
+                $this->$key = $value;
             }
         }
     }

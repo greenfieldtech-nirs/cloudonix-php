@@ -24,7 +24,6 @@
     class Profile extends CloudonixEntity implements \IteratorAggregate, \ArrayAccess
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
 
         protected array $profile = [];
@@ -32,16 +31,15 @@
         /**
          * Profile DataModel Object Constructor
          *
-         * @param CloudonixEntity  $parent      The parent object that created this object
-         * @param object $inputObject Cloudonix Profile as Standard Object
+         * @param CloudonixEntity $parent      The parent object that created this object
+         * @param ?object          $inputObject Cloudonix Profile as Standard Object
          */
-        public function __construct(CloudonixEntity $parent, mixed $inputObject)
+        public function __construct(CloudonixEntity $parent, mixed $inputObject = null)
         {
             $this->client = $parent->getClient();
             parent::__construct($inputObject, $parent);
             $this->setPath($parent->getPath());
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " parentBranch canonical path is now: " . $parent->getPath());
-
             $this->buildEntityData($inputObject);
         }
 
@@ -122,13 +120,14 @@
             return $this;
         }
 
-        private function buildEntityData(mixed $input): void
+        protected function buildEntityData(object|array|null $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
-            if (!is_null($input))
+            if (!is_null($input)) {
                 foreach ($input->profile as $key => $value) {
                     $this->profile[$key] = $value;
                 }
+            }
         }
 
     }

@@ -10,8 +10,8 @@
     namespace Cloudonix\Collections;
 
     use ArrayIterator;
-    use Cloudonix\Entities\Profile;
     use Traversable;
+    use Exception;
 
     /**
      * Cloudonix Collection Abstract Class
@@ -23,17 +23,12 @@
 
         abstract public function getPath(): string;
 
-        abstract protected function refreshCollectionData(mixed $param): array;
+        abstract protected function refreshCollectionData(object|array $param): array;
 
-        public function __construct(object|null $param)
+        public function __construct(?object $param)
         {
         }
 
-        /**
-         * Return the client object
-         *
-         * @return mixed
-         */
         public function getClient(): mixed
         {
             return $this->client;
@@ -41,19 +36,25 @@
 
         public function count(): int
         {
-            if (!count($this->collection)) $this->refresh();
+            if (!count($this->collection)) {
+                $this->refresh();
+            }
             return $this->collectionCount;
         }
 
         public function offsetExists(mixed $offset): bool
         {
-            if (!count($this->collection)) $this->refresh();
+            if (!count($this->collection)) {
+                $this->refresh();
+            }
             return isset($this->collection[$offset]);
         }
 
         public function offsetGet(mixed $offset): mixed
         {
-            if (!count($this->collection)) $this->refresh();
+            if (!count($this->collection)) {
+                $this->refresh();
+            }
             if (is_null($offset)) {
                 return $this->collection;
             } else {
@@ -68,25 +69,27 @@
             } else {
                 $this->collection[$offset] = $value;
             }
+            $this->collectionCount = count($this->collection);
         }
 
         public function offsetUnset(mixed $offset): void
         {
             unset($this->collection[$offset]);
+            $newCollection = [];
+            foreach ($this->collection as $value) {
+                $newCollection[] = $value;
+            }
+            $this->collection = $newCollection;
+            $this->collectionCount = count($this->collection);
         }
 
-        /**
-         * @inheritDoc
-         */
         public function getIterator(): Traversable
         {
-            if (!count($this->collection)) $this->refresh();
             return new ArrayIterator($this->collection);
         }
 
         public function __toString(): string
         {
-            if (!count($this->collection)) $this->refresh();
             return json_encode($this->collection);
         }
     }

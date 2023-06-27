@@ -10,6 +10,8 @@
 
     namespace Cloudonix\Entities;
 
+    use GuzzleHttp\Exception\GuzzleException;
+
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
 
     /**
@@ -31,25 +33,24 @@
     class Dnid extends CloudonixEntity
     {
         protected mixed $client;
-        protected string $parentBranch;
         protected string $canonicalPath;
 
         /**
          * DNID DataModel Object Constructor
          *
-         * @param string          $dnid                Cloudonix DNID ID
+         * @param string          $dnid                Cloudonix DNID
          * @param CloudonixEntity $parent              The parent object that created this object
-         * @param object|null     $inputObject         A Cloudonix DNID Object as stdClass
+         * @param ?object         $inputObject         A Cloudonix DNID Object as stdClass
          *                                             If $dnidObject is provided, it will be used to build the Domain
          *                                             Entity object
          */
-        public function __construct(string $dnid, CloudonixEntity $parent, object $inputObject = null)
+        public function __construct(string $dnid, CloudonixEntity $parent, ?object $inputObject = null)
         {
             $this->client = $parent->getClient();
             parent::__construct($this, $parent);
             if (!is_null($inputObject)) {
-                $this->buildEntityData($inputObject);
                 $this->setPath($inputObject->id, $parent->getPath());
+                $this->buildEntityData($inputObject);
             } else {
                 $this->setPath($dnid, $parent->getPath());
             }
@@ -61,8 +62,9 @@
          * @param bool $status
          *
          * @return $this
+         * @throws GuzzleException
          */
-        public function setActive(bool $status): Dnid
+        public function setActive(bool $status): self
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), ['status' => $status]);
             return $this->refresh();
@@ -75,7 +77,7 @@
          *
          * @return $this
          */
-        public function setDnidRegex(string $input): Dnid
+        public function setDnidRegex(string $input): self
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), [
                 'source' => $input,
@@ -93,7 +95,7 @@
          *
          * @return $this
          */
-        public function setDnidPrefix(string $input): Dnid
+        public function setDnidPrefix(string $input): self
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), [
                 'source' => $input,
@@ -111,7 +113,7 @@
          *
          * @return $this
          */
-        public function setDnidAsterisk(string $input): Dnid
+        public function setDnidAsterisk(string $input): self
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), [
                 'source' => $input,
@@ -155,8 +157,9 @@
          */
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!isset($this->canonicalPath))
+            if (!isset($this->canonicalPath)) {
                 $this->canonicalPath = $branchPath . URLPATH_DNIDS . "/" . $string;
+            }
         }
 
         protected function refresh(): Dnid
@@ -168,20 +171,18 @@
         /**
          * Build the local Dnid properties
          *
-         * @param mixed $dnidStdObject
+         * @param object|array $input
          *
          * @return void
          */
-        private function buildEntityData(mixed $dnidStdObject): void
+        protected function buildEntityData(object|array $input): void
         {
-            if (!is_null($dnidStdObject))
-
-                foreach ($dnidStdObject as $key => $value) {
-                    if ($key == "application") {
-                        continue;
-                    } else {
-                        $this->$key = $value;
-                    }
+            foreach ($input as $key => $value) {
+                if ($key == "application") {
+                    continue;
+                } else {
+                    $this->$key = $value;
                 }
+            }
         }
     }

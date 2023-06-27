@@ -10,30 +10,13 @@
 
     namespace Cloudonix\Collections;
 
-    use ArrayIterator;
     use Cloudonix\Entities\Tenant;
-    use Traversable;
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
-    use Cloudonix\Entities\VoiceApplication as EntityApplication;
     use Cloudonix\Entities\Domain as EntityDomain;
-    use Cloudonix\Entities\Profile as EntityProfile;
 
     /**
      * Domains Collection
-     *
-     * @property-read int               $id                         Domain Numeric ID
-     * @property-read int               $tenantId                   Tenant Numeric ID
-     * @property      string            $domain                     Domain name, usually an FQDN
-     * @property      bool              $active                     Domain Status
-     * @property-read string            $createdAt                  Domain Creation Date and time
-     * @property-read string            $modifiedAt                 Domain Last Modification Date and time
-     * @property-read string            $deletedAt                  Domain Deletion Date and time
-     * @property      bool              $registrationFree           Domain RegFree Dialing Status
-     * @property      int               $defaultApplication         Domain Default Application ID
-     * @property-read string            $uuid                       Domain UUID
-     * @property      EntityProfile     $profile                    Domain Profile Object
-     * @property-read EntityApplication $application                Domain Default Application Object
      */
     class Domains extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
     {
@@ -49,67 +32,46 @@
             parent::__construct($this);
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
         public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $branchPath
-         *
-         * @return void
-         */
         protected function setPath(string $branchPath): void
         {
-            if (!isset($this->canonicalPath))
+            if (!isset($this->canonicalPath)) {
                 $this->canonicalPath = $branchPath . URLPATH_DOMAINS;
+            }
         }
 
-        public function refresh(): Domains
+        public function refresh(): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
-        /**
-         * Build the local collection data storage
-         *
-         * @param mixed $param
-         *
-         * @return void
-         */
-        protected function refreshCollectionData(mixed $param): array
+        protected function refreshCollectionData(object|array $param): array
         {
             $this->collection = [];
-            if (!is_null($param))
-                foreach ($param as $key => $value) {
-                    $this->collection[$value->domain] = new EntityDomain($value->domain, $this->parent, $value);
-                }
+            foreach ($param as $key => $value) {
+                $this->collection[] = new EntityDomain($value->domain, $this->parent, $value);
+            }
+            $this->collectionCount = count($this->collection);
             return $this->collection;
         }
 
-        public function offsetGet(mixed $offset): mixed
+        public function offsetSet(mixed $offset, mixed $value): void
         {
-            if (!count($this->collection)) $this->refresh();
-            return parent::offsetGet($offset);
+            return;
         }
 
-        public function getIterator(): Traversable
+        public function offsetUnset(mixed $offset): void
         {
-            if (!count($this->collection)) $this->refresh();
-            return parent::getIterator();
+            $domain = $this->collection[$offset]->domain;
+            $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $domain);
+            if ($result->code == 204) {
+                parent::offsetUnset($offset);
+            }
         }
 
-        public function __toString(): string
-        {
-            if (!count($this->collection)) $this->refresh();
-            return parent::__toString();
-        }
     }
