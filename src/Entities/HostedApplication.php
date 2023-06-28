@@ -66,8 +66,6 @@
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
-
             if ($result->code == 204)
                 return true;
             return false;
@@ -86,7 +84,6 @@
 
         protected function refresh(): HostedApplication
         {
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " getting hostedApplication: " . $this->getPath());
             $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }

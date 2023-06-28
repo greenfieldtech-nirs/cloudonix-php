@@ -11,12 +11,11 @@
 
     use ArrayIterator;
     use Traversable;
-    use Exception;
 
     /**
      * Cloudonix Collection Abstract Class
      */
-    abstract class CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    abstract class CloudonixCollection implements \IteratorAggregate, \ArrayAccess, \Countable
     {
         protected array $collection = [];
         protected int $collectionCount = 0;
@@ -36,25 +35,17 @@
 
         public function count(): int
         {
-            if (!count($this->collection)) {
-                $this->refresh();
-            }
-            return $this->collectionCount;
+            return count($this->collection);
         }
-
         public function offsetExists(mixed $offset): bool
         {
-            if (!count($this->collection)) {
-                $this->refresh();
-            }
+            $this->refresh();
             return isset($this->collection[$offset]);
         }
 
         public function offsetGet(mixed $offset): mixed
         {
-            if (!count($this->collection)) {
-                $this->refresh();
-            }
+            $this->refresh();
             if (is_null($offset)) {
                 return $this->collection;
             } else {
@@ -91,5 +82,15 @@
         public function __toString(): string
         {
             return json_encode($this->collection);
+        }
+
+        public function __get(mixed $name)
+        {
+            return $this;
+        }
+
+        public function __set(string $name, mixed $value): void
+        {
+            return;
         }
     }

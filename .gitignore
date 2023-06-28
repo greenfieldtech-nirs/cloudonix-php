@@ -1,9 +1,8 @@
-/mytests/
-/.phpdoc/cache
-/.phpunit.result.cache
-/cloudonix-php.log
+**/cloudonix-php.log
+/.phpdoc/*
+/.phpunit*
 /tests/.env
 /tests/.phpunit.result.cache
 /tests/.phpunit.cache/
 /tests/Cloudonix/.env
-/pagekite/
+/vendor

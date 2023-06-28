@@ -10,8 +10,6 @@
 
     namespace Cloudonix\Collections;
 
-    use GuzzleHttp\Exception\GuzzleException;
-
     use Cloudonix\CloudonixClient;
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\HostedApplication as EntityHostedApplication;
@@ -20,8 +18,10 @@
 
     /**
      * HostedApplications Collection
+     *
+     * @see \Cloudonix\Entities\HostedApplication     For more information about Hosted Application Data Model
      */
-    class HostedApplications extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class HostedApplications extends CloudonixCollection
     {
         protected CloudonixClient $client;
         protected CloudonixEntity $parent;
@@ -63,16 +63,16 @@
             return $this->collection;
         }
 
-        public function offsetSet(mixed $offset, mixed $value): void
-        {
-            return;
-        }
-
         public function offsetUnset(mixed $offset): void
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $this->collection[$offset]->name);
             if ($result->code == 204) {
                 parent::offsetUnset($offset);
             }
+        }
+
+        public function offsetSet(mixed $offset, mixed $value): void
+        {
+            return;
         }
     }

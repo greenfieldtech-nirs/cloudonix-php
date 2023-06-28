@@ -25,7 +25,7 @@
         public mixed $level;
         public \Ramsey\Uuid\UuidInterface $uuid;
 
-        public function __construct($logChannelLevel = LOGGER_DISABLE, string $logChannelName = 'cloudonix-php', string $logChannelStream = 'cloudonix-php.log')
+        public function __construct($logChannelLevel = LOGGER_DISABLE, string $logChannelName = 'cloudonix-php', string $logChannelStream = __DIR__ . '/cloudonix-php.log')
         {
             $this->logger = new Logger($logChannelName);
             $streamHandler = new StreamHandler($logChannelStream);

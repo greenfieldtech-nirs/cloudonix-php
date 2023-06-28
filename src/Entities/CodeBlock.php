@@ -58,12 +58,13 @@
         protected function setPath(string $string, string $parentPath): void
         {
             if (!isset($this->canonicalPath)){
-                $this->canonicalPath = $parentPath . URLPATH_CONTAINER_APPLICATIONS . "/" . $string;
+                $this->canonicalPath = $parentPath . "/blocks/" . $string;
             }
         }
 
         protected function refresh(): CodeBlock
         {
+            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 

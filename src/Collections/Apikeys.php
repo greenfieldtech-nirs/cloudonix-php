@@ -18,6 +18,8 @@
 
     /**
      * API Keys Collection
+     *
+     * @see \Cloudonix\Entities\Apikey     For more information about API Key Data Model
      */
     class Apikeys extends CloudonixCollection
     {
@@ -78,14 +80,6 @@
             return $this->collection;
         }
 
-        /**
-         * Delete the remote API key when a collection member is unset
-         *
-         * @param mixed $offset
-         *
-         * @return void
-         * @throws GuzzleException
-         */
         public function offsetUnset(mixed $offset): void
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $this->collection[$offset]->keyId);

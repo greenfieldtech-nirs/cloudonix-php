@@ -219,16 +219,9 @@
             return $this->refresh();
         }
 
-        /**
-         * Delete a DNID
-         *
-         * @return bool
-         */
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
-
             if ($result->code == 204)
                 return true;
             return false;

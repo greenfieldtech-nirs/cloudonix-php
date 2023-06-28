@@ -10,14 +10,19 @@
 
     namespace Cloudonix\Collections;
 
+    use Traversable;
+
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\SubscriberDataKey as EntitySubscriberDataKey;
     use Cloudonix\Entities\VoiceApplication;
 
     /**
      * Subscriber Data Keys Collection
+     *
+     * @see \Cloudonix\Entities\SubscriberDataKey     For more information about Subscriber Application Data Key Data
+     *      Model
      */
-    class SubscriberDataKeys extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class SubscriberDataKeys extends CloudonixCollection
     {
         protected mixed $client;
         protected mixed $parent;
@@ -32,6 +37,7 @@
             $this->msisdn = $msisdn;
             $this->setPath($parent->getPath());
             parent::__construct($this);
+            $this->refresh();
         }
 
         public function getPath(): string
@@ -44,7 +50,7 @@
             $this->canonicalPath = $parentCanonicalPath . "/subscribers/" . $this->msisdn;
         }
 
-        public function refresh(): SubscriberDataKeys
+        public function refresh(): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
@@ -60,11 +66,20 @@
             return $this->collection;
         }
 
-        public function offsetSet(mixed $offset, mixed $value): void
+        public function offsetGet(mixed $offset): mixed
         {
-            if (!is_null($offset)) {
-                $result = $this->client->httpConnector->request("PUT", $this->getPath() . "/" . $offset, $value);
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
+            if (!count($this->collection)) {
+                $this->refresh();
+            }
+
+            if (is_null($offset)) {
+                return $this->collection;
+            } else {
+                foreach ($this->collection as $value) {
+                    if ($value->key == $offset) {
+                        return $value;
+                    }
+                }
             }
         }
 
@@ -73,7 +88,17 @@
             if (!is_null($offset)) {
                 $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $offset);
                 if ($result->code == 204) {
-                    parent::offsetUnset($offset);
+                    $this->refresh();
+                }
+            }
+        }
+
+        public function offsetSet(mixed $offset, mixed $value): void
+        {
+            if (!is_null($offset)) {
+                $result = $this->client->httpConnector->request("PUT", $this->getPath() . "/" . $offset, $value);
+                if (!isset($result->code)) {
+                    parent::offsetSet($offset, $value);
                 }
             }
         }

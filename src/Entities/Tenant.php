@@ -234,9 +234,4 @@
                 }
             }
         }
-
-        protected function refresh(): mixed
-        {
-            return $this->client->httpConnector->request("GET", $this->getPath());
-        }
     }

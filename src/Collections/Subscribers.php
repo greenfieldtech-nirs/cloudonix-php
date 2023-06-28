@@ -18,6 +18,8 @@
 
     /**
      * Subscribers Collection
+     *
+     * @see \Cloudonix\Entities\Subscriber     For more information about Subscriber Data Model
      */
     class Subscribers extends CloudonixCollection
     {
@@ -54,7 +56,17 @@
                 'sip-password' => $sipPassword
             ]);
             $this->refresh();
-            return $this->collection[$newSubscriber->msisdn];
+            return $this->getByMsisdn($msisdn);
+        }
+
+        public function getByMsisdn(string $msisdn): EntitySubscriber|bool
+        {
+            foreach ($this->collection as $subscriber) {
+                if ($subscriber->msisdn == $msisdn) {
+                    return $subscriber;
+                }
+            }
+            return false;
         }
 
         public function getPath(): string

@@ -18,7 +18,7 @@
      *
      * @see \Cloudonix\Entities\Dnid     For more information about DNID Data Model
      */
-    class Dnids extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class Dnids extends CloudonixCollection
     {
         protected mixed $client;
         protected CloudonixEntity|CloudonixCollection $parent;
@@ -30,6 +30,7 @@
             $this->parent = $parent;
             $this->setPath($parent->getPath());
             parent::__construct($this);
+            $this->refresh();
         }
 
         public function getPath(): string

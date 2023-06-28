@@ -10,18 +10,16 @@
 
     namespace Cloudonix\Collections;
 
-    use ArrayIterator;
-    use Traversable;
-
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
     use Cloudonix\Entities\VoiceApplication as EntityApplication;
-    use Cloudonix\Entities\Profile as EntityProfile;
     use Cloudonix\Entities\Domain;
 
     /**
      * VoiceApplications Collection
+     *
+     * @see \Cloudonix\Entities\VoiceApplication     For more information about Voice Application Data Model
      */
-    class VoiceApplications extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class VoiceApplications extends CloudonixCollection
     {
         protected mixed $client;
         protected mixed $parent;
@@ -62,16 +60,16 @@
             return $this->collection;
         }
 
-        public function offsetSet(mixed $offset, mixed $value): void
-        {
-            return;
-        }
-
         public function offsetUnset(mixed $offset): void
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $this->collection[$offset]->name);
             if ($result->code == 204) {
                 parent::offsetUnset($offset);
             }
+        }
+
+        public function offsetSet(mixed $offset, mixed $value): void
+        {
+            return;
         }
     }

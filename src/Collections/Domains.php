@@ -17,8 +17,10 @@
 
     /**
      * Domains Collection
+     *
+     * @see \Cloudonix\Entities\Domain     For more information about Domain Data Model
      */
-    class Domains extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class Domains extends CloudonixCollection
     {
         protected mixed $client;
         protected mixed $parent;
@@ -60,11 +62,6 @@
             return $this->collection;
         }
 
-        public function offsetSet(mixed $offset, mixed $value): void
-        {
-            return;
-        }
-
         public function offsetUnset(mixed $offset): void
         {
             $domain = $this->collection[$offset]->domain;
@@ -74,4 +71,8 @@
             }
         }
 
+        public function offsetSet(mixed $offset, mixed $value): void
+        {
+            return;
+        }
     }

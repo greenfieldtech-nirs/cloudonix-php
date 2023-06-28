@@ -17,8 +17,10 @@
 
     /**
      * Sessions Collection
+     *
+     * @see \Cloudonix\Entities\Session     For more information about Sessions Data Model
      */
-    class Sessions extends CloudonixCollection implements \IteratorAggregate, \ArrayAccess
+    class Sessions extends CloudonixCollection
     {
         protected mixed $client;
         protected Domain $parent;
@@ -108,16 +110,16 @@
             return $this->collection;
         }
 
-        public function offsetSet(mixed $offset, mixed $value): void
-        {
-            return;
-        }
-
         public function offsetUnset(mixed $offset): void
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/" . $this->collection[$offset]->token);
             if ($result->code == 204) {
                 parent::offsetUnset($offset);
             }
+        }
+
+        public function offsetSet(mixed $offset, mixed $value): void
+        {
+            return;
         }
     }

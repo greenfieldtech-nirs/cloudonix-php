@@ -28,7 +28,7 @@
          * @param string $apikey
          * @param string $endpoint
          * @param float  $timeout
-         * @param int   $debug
+         * @param int    $debug
          */
         public function __construct(string $apikey, string $endpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, int $debug = LOGGER_DISABLE)
         {

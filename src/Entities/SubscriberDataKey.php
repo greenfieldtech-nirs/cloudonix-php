@@ -49,11 +49,6 @@
             $this->setPath($parent->getPath(), $subscriber);
         }
 
-        /**
-         * Delete a voice application subscriber data key
-         *
-         * @return bool
-         */
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());

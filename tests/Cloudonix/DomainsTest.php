@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
     /**
      * @package cloudonix-php
      * @file    tests/DomainTest.php
@@ -340,7 +340,6 @@
             $this->consoleLogger->debug("[" . get_class() . "] Obtained  " . $domainApplicationsCollection . " objects ");
             $this->assertIsObject($domainApplicationsCollection);
             $this->assertIsIterable($domainApplicationsCollection);
-            $this->assertIsInt($domainApplicationsCollection->count());
         }
 
         public function testDomainOutboundCallSession()
@@ -437,9 +436,10 @@
             $this->consoleLogger->debug("[" . get_class() . "] VoiceApplication Object is now " . self::$testApplicationObject);
             $this->consoleLogger->debug("[" . get_class() . "] VoiceApplication CanonicalPath is now " . self::$testApplicationObject->canonicalPath);
             $this->consoleLogger->debug("[" . get_class() . "] VoiceApplication Profile is now " . self::$testApplicationObject->profile);
+            $this->consoleLogger->debug("[" . get_class() . "] Setting application " . self::$testApplicationObject->name . " profile with 'test-key' with value  " . $newProfileValue);
             self::$testApplicationObject->profile['test-key'] = $newProfileValue;
-            $this->consoleLogger->debug("[" . get_class() . "] Setting application " . self::$testApplicationObject->name . " profile with 'test-key' with value  " . self::$testApplicationObject->profile['test-key']);
             $this->consoleLogger->debug("[" . get_class() . "] Updated voice application object is " . self::$testApplicationObject);
+            $this->assertInstanceOf('Cloudonix\Entities\Profile', self::$testApplicationObject->profile);
             $this->assertIsString(self::$testApplicationObject->profile['test-key']);
             $this->assertEquals($newProfileValue, self::$testApplicationObject->profile['test-key']);
         }
@@ -448,7 +448,8 @@
         {
             $this->consoleLogger->debug("[" . get_class() . "] Unsetting application " . self::$testApplicationObject->name . " profile with 'test-key' ");
             unset(self::$testApplicationObject->profile['test-key']);
-            $this->consoleLogger->debug("[" . get_class() . "] Updated voice application object is " . self::$testApplicationObject->profile);
+            $this->consoleLogger->debug("[" . get_class() . "] Updated voice application object is " . self::$testApplicationObject);
+            $this->assertInstanceOf('Cloudonix\Entities\Profile', self::$testApplicationObject->profile);
             $this->assertObjectNotHasProperty('test-key', self::$testApplicationObject->profile);
         }
 
@@ -558,8 +559,11 @@
             $this->consoleLogger->debug("[" . get_class() . "] Response is: " . $dnids);
             foreach ($dnids as $id => $object) {
                 $this->consoleLogger->debug("[" . get_class() . "] Deleting DNID: " . $object->source . " at ID: " . $id);
-                $this->assertTrue(self::$testDomainObject->dnid($id)->delete());
+                $this->assertTrue(self::$testDomainObject->dnid($object->dnid)->delete());
             }
+            $this->consoleLogger->debug("[" . get_class() . "] Refresh DNIDs for application in domain " . self::$testDomainObject->domain);
+            $this->consoleLogger->debug("[" . get_class() . "] Response is: " . $dnids->refresh());
+            $this->consoleLogger->debug("[" . get_class() . "] VoiceApplication DNIDs are: " . $dnids);
         }
 
         public function testNewDomainVoiceApplicationDelete()

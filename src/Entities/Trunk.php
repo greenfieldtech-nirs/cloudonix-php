@@ -191,12 +191,6 @@
             return $this;
         }
 
-        /**
-         * Delete a trunk
-         *
-         * @return bool
-         * @throws GuzzleException
-         */
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());

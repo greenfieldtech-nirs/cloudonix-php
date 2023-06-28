@@ -39,7 +39,6 @@
             $this->client = $parent->getClient();
             parent::__construct($inputObject, $parent);
             $this->setPath($parent->getPath());
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " parentBranch canonical path is now: " . $parent->getPath());
             $this->buildEntityData($inputObject);
         }
 
@@ -55,7 +54,6 @@
             $result = $this->client->httpConnector->request("PATCH", $this->getPath(), [
                 "profile" => $data
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             $this->buildEntityData($result->profile);
         }
 
@@ -76,7 +74,6 @@
                 $result = $this->client->httpConnector->request("PATCH", $this->getPath(), [
                     "profile" => [$offset => $value]
                 ]);
-                $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
                 $this->buildEntityData($result->profile);
             }
         }
@@ -113,16 +110,14 @@
                 $this->canonicalPath = $string;
         }
 
-        public function refresh(): Profile
+        public function refresh(): self
         {
             $this->profile = [];
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
+            return parent::refresh();
         }
 
         protected function buildEntityData(object|array|null $input): void
         {
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             if (!is_null($input)) {
                 foreach ($input->profile as $key => $value) {
                     $this->profile[$key] = $value;

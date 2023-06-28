@@ -87,18 +87,6 @@
                 $this->canonicalPath = $branchPath . URLPATH_APIKEYS . "/" . $string;
         }
 
-        protected function refresh(): Apikey
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
-        }
-
-        public function __get(mixed $name)
-        {
-            $this->refresh();
-            return parent::__get($name);
-        }
-
         protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));

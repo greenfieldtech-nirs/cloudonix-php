@@ -49,17 +49,25 @@
 
         public function __toString(): string
         {
+            $this->refresh();
             return json_encode($this);
         }
 
         public function __get(mixed $name)
         {
+            $this->refresh();
             return $this->$name;
         }
 
         public function __set(string $name, mixed $value)
         {
             $this->$name = $value;
+        }
+
+        protected function refresh(): self
+        {
+            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
+            return $this;
         }
 
         protected function buildEntityData(object|array $input): void

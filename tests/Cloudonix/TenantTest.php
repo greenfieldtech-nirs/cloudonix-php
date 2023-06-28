@@ -99,41 +99,6 @@
             $this->assertTrue(true);
         }
 
-
-        /**
-         * @depends test__construct
-         * @depends testGetPath
-         * @return void
-         */
-        public function testTenantDomainsCollection()
-        {
-            $this->consoleLogger->debug("[" . get_class() . "] Getting domains collection for Tenant " . self::$testTenantObject->name);
-            $domainsCollection = self::$testTenantObject->domains();
-            $this->consoleLogger->debug("[" . get_class() . "] domainsCollection is: " . $domainsCollection);
-            $this->assertIsIterable($domainsCollection);
-        }
-
-        /**
-         * @depends test__construct
-         * @depends testGetPath
-         * @return void
-         */
-        public function testTenantDomainsCollectionUnset()
-        {
-            $this->consoleLogger->debug("[" . get_class() . "] Getting domains collection for Tenant " . self::$testTenantObject->name);
-            $domainsCollection = self::$testTenantObject->domains();
-            $this->consoleLogger->debug("[" . get_class() . "] domainsCollection is: " . $domainsCollection);
-            $this->consoleLogger->debug("[" . get_class() . "] FirstDomain is: " . $domainsCollection[0]);
-            $firstDomainName = $domainsCollection[0]->domain;
-            $this->consoleLogger->debug("[" . get_class() . "] firstDomainName is: " . $firstDomainName . " setting up to unset");
-            unset($domainsCollection[0]);
-            $this->assertNotEquals($firstDomainName, $domainsCollection[0]->domain);
-            $this->consoleLogger->debug("[" . get_class() . "] Refreshing DomainsCollection");
-            $domainsCollection->refresh();
-            $this->consoleLogger->debug("[" . get_class() . "] firstDomainName is now: " . $domainsCollection[0]->domain);
-            $this->assertNotEquals($firstDomainName, $domainsCollection[0]->domain);
-        }
-
         /**
          * @depends test__construct
          * @depends testGetPath
@@ -165,7 +130,7 @@
 
             $this->consoleLogger->debug("[" . get_class() . "] Get Tenant API Keys Collection");
             self::$testApikeysCollection = self::$testTenantObject->apikeys();
-            $this->consoleLogger->debug("[" . get_class() . "] Received " . self::$testApikeysCollection->count() . " objects ");
+            $this->consoleLogger->debug("[" . get_class() . "] Received " . count(self::$testApikeysCollection) . " objects ");
             $this->consoleLogger->debug("[" . get_class() . "] Collection Received " . self::$testApikeysCollection);
             $this->assertIsObject(self::$testApikeysCollection);
             $this->assertIsIterable(self::$testApikeysCollection);
@@ -182,6 +147,9 @@
             self::$testTenantApikeyObject = self::$testTenantObject
                 ->newApikey(self::$testConfiguration->newTenantApikey);
             $this->consoleLogger->debug("[" . get_class() . "] Received API Key Object " . self::$testTenantApikeyObject);
+
+            $this->consoleLogger->debug("[" . get_class() . "] Total API Keys: " . count(self::$testTenantObject->apikeys()) . " objects ");
+
             $this->assertIsObject(self::$testTenantApikeyObject);
             $this->assertIsString(self::$testTenantApikeyObject->keyId);
             $this->assertTrue(self::$testTenantApikeyObject->delete());

@@ -124,11 +124,6 @@
             return $this->refresh();
         }
 
-        /**
-         * Delete a DNID
-         *
-         * @return bool
-         */
         public function delete(): bool
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());

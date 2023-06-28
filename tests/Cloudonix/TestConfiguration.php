@@ -11,7 +11,7 @@
 
     echo "My Dir: " . __DIR__ . "\n";
 
-    require_once '../../src/Helpers/ConfigHelper.php';
+    require_once __DIR__ . '/../../src/Helpers/ConfigHelper.php';
 
     use Dotenv\Dotenv;
 
