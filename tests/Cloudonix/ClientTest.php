@@ -19,17 +19,17 @@
     {
         private CloudonixClient $cxClientTester;
         private Clara $consoleLogger;
-        private TestConfiguration $testConfiguration;
+        private static $testConfiguration;
 
         public function __construct(string $name)
         {
             $this->consoleLogger = new Clara("UnitClientTest");
-            $testConfiguration = new TestConfiguration();
+            self::$testConfiguration = new TestConfiguration();
             $this->cxClientTester = new CloudonixClient(
-                $testConfiguration->apiKey,
-                $testConfiguration->endpoint,
-                $testConfiguration->endpointTimeout,
-                $testConfiguration->endpointDebug
+                self::$testConfiguration->apiKey,
+                self::$testConfiguration->endpoint,
+                self::$testConfiguration->endpointTimeout,
+                self::$testConfiguration->endpointDebug
             );
             parent::__construct($name);
         }

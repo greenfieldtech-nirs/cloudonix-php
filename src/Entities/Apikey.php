@@ -58,6 +58,7 @@
                 $this->setPath($inputObject->id, $parent->getPath());
             } else {
                 $this->setPath($keyId, $parent->getPath());
+                $this->refresh();
             }
         }
 
@@ -89,7 +90,6 @@
 
         protected function buildEntityData(object|array $input): void
         {
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "subscriber") {
                     $this->accessRights = "subscriber";

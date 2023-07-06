@@ -1,7 +1,7 @@
 <?php
     /**
      * @package cloudonix-php
-     * @file    Entities/Subscriber.php
+     * @file    Entities/Trunk.php
      * @author  Nir Simionovich <nirs@cloudonix.io>
      * @see     https://dev.docs.cloudonix.io/#/platform/api-core/models?id=voice-trunk
      * @license MIT License (https://choosealicense.com/licenses/mit/)
@@ -10,10 +10,8 @@
 
     namespace Cloudonix\Entities;
 
-    use Cloudonix\CloudonixClient as CloudonixClient;
     use Cloudonix\Entities\CloudonixEntity as CloudonixEntity;
     use Cloudonix\Entities\Profile as EntityProfile;
-    use GuzzleHttp\Exception\GuzzleException;
 
     /**
      * Trunk Data Model Entity
@@ -71,9 +69,8 @@
          * @param string $transport
          *
          * @return $this
-         * @throws GuzzleException
          */
-        public function setEndpoint(string $ip, int $port = 5060, string $prefix = "", string $transport = ""): Trunk
+        public function setEndpoint(string $ip, int $port = 5060, string $prefix = "", string $transport = ""): self
         {
             $port = (($port == 5060) && (isset($this->port))) ? $this->port : $port;
             $prefix = ((strlen($prefix) == 0) && (isset($this->prefix))) ? $this->prefix : $prefix;
@@ -85,8 +82,6 @@
                 'prefix' => $prefix,
                 'transport' => $transport
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
-
             $this->buildEntityData($result);
             return $this;
         }
@@ -98,9 +93,8 @@
          * @param string $headerValue
          *
          * @return $this
-         * @throws GuzzleException
          */
-        public function setInboundFilter(string $headerName, string $headerValue): Trunk
+        public function setInboundFilter(string $headerName, string $headerValue): self
         {
             // If the trunk type isn't inbound, applying filters is not available
             if (($this->direction != "inbound") && ($this->direction != "public-inbound"))
@@ -110,8 +104,6 @@
                 'headerName' => $headerName,
                 'headerValue' => $headerValue
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
-
             $this->buildEntityData($result);
             return $this;
         }
@@ -123,7 +115,7 @@
          *
          * @return $this
          */
-        public function setOutboundFixedBorder(string $border): Trunk
+        public function setOutboundFixedBorder(string $border): self
         {
             if (($this->direction != "outbound") && ($this->direction != "public-outbound"))
                 return $this;
@@ -141,7 +133,7 @@
          *
          * @return $this
          */
-        public function setOutboundDomainName(string $domain): Trunk
+        public function setOutboundDomainName(string $domain): self
         {
             if (($this->direction != "outbound") && ($this->direction != "public-outbound"))
                 return $this;
@@ -159,7 +151,7 @@
          *
          * @return $this
          */
-        public function setOutboundRURI(string $ruri): Trunk
+        public function setOutboundRURI(string $ruri): self
         {
             if (($this->direction != "outbound") && ($this->direction != "public-outbound"))
                 return $this;
@@ -176,9 +168,8 @@
          * @param int $metric
          *
          * @return $this
-         * @throws GuzzleException
          */
-        public function setOutboundMetric(int $metric): Trunk
+        public function setOutboundMetric(int $metric): self
         {
             if (($this->direction != "outbound") && ($this->direction != "public-outbound"))
                 return $this;
@@ -210,20 +201,8 @@
                 $this->canonicalPath = $branchPath . URLPATH_TRUNKS . "/" . $string;
         }
 
-        public function refresh(): Trunk
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
-        }
-
-        public function __toString(): string
-        {
-            return json_encode($this->refresh());
-        }
-
         protected function buildEntityData(object|array $input): void
         {
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
                     $this->profile = new EntityProfile($this, $value);

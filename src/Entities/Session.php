@@ -226,12 +226,6 @@
                 $this->canonicalPath .= "/" . $token;
         }
 
-        protected function refresh(): Session
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
-        }
-
         protected function buildEntityData(object|array $input): void
         {
             $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));

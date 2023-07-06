@@ -81,14 +81,13 @@
          *
          * @return $this
          */
-        public function resetSipPassword(string $password = null): Subscriber
+        public function resetSipPassword(string $password = null): self
         {
             if ($password == "GEN") {
                 $passwd = new UtilityHelper();
                 $password = $passwd->generateSecuredPassword();
             }
             $result = $this->client->httpConnector->request("PATCH", $this->getPath(), ['sip-password' => $password]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             $this->buildEntityData($result);
             return $this;
         }
@@ -114,16 +113,5 @@
                     $this->$key = $value;
                 }
             }
-        }
-
-        protected function refresh(): Subscriber
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
-        }
-
-        public function __toString(): string
-        {
-            return json_encode($this->refresh());
         }
     }

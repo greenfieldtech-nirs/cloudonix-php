@@ -36,7 +36,7 @@
         public function __construct(string $name)
         {
             $this->consoleLogger = new Clara("TenantTest");
-            self::$testConfiguration = new TestConfiguration();
+            self::$testConfiguration = new TestConfiguration("1");
             $this->cxClientTester = new CloudonixClient(
                 self::$testConfiguration->apiKey,
                 self::$testConfiguration->endpoint,
@@ -106,18 +106,23 @@
          */
         public function testTenantSetActiveFalse()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $this->consoleLogger->debug("[" . get_class() . "] Setting Tenant status to setActive(false)");
-            $thisNewTenantObject = self::$testTenantObject->setActive(false);
-            $this->assertIsBool($thisNewTenantObject->active);
-            $this->assertTrue($thisNewTenantObject->active == false);
+            self::$testTenantObject->setActive(false);
+            $this->assertIsBool(self::$testTenantObject->active);
+            $this->assertTrue(self::$testTenantObject->active == false);
+            $this->consoleLogger->debug("[" . get_class() . "] Tenant object is now: " . self::$testTenantObject);
+
         }
 
         public function testTenantSetActiveTrue()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $this->consoleLogger->debug("[" . get_class() . "] Setting Tenant status to setActive(true)");
-            $thisNewTenantObject = self::$testTenantObject->setActive(true);
-            $this->assertIsBool($thisNewTenantObject->active);
-            $this->assertTrue($thisNewTenantObject->active == true);
+            self::$testTenantObject->setActive(true);
+            $this->assertIsBool(self::$testTenantObject->active);
+            $this->assertTrue(self::$testTenantObject->active == true);
+            $this->consoleLogger->debug("[" . get_class() . "] Tenant object is now: " . self::$testTenantObject);
         }
 
         /**
@@ -127,7 +132,7 @@
          */
         public function testTenantApikeysCollection()
         {
-
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $this->consoleLogger->debug("[" . get_class() . "] Get Tenant API Keys Collection");
             self::$testApikeysCollection = self::$testTenantObject->apikeys();
             $this->consoleLogger->debug("[" . get_class() . "] Received " . count(self::$testApikeysCollection) . " objects ");
@@ -139,6 +144,7 @@
 
         public function testTenantApikeyCreateAndDelete()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $this->consoleLogger->debug("[" . get_class() . "] Creating 11 API Keys");
             for ($i=0; $i < 10; $i++) {
                 self::$testTenantApikeyObject = self::$testTenantObject
@@ -157,6 +163,7 @@
 
         public function testTenantApikeyUnsetFirst()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $this->consoleLogger->debug("[" . get_class() . "] Getting API Keys collection for Tenant " . self::$testTenantObject->name);
             $apikeys = self::$testTenantObject->apikeys();
             $this->consoleLogger->debug("[" . get_class() . "] apiKeys collection is: " . $apikeys);
@@ -175,13 +182,14 @@
 
         public function testTenantApikeyGet()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $this->consoleLogger->debug("[" . get_class() . "] Create a new Tenant API Key");
             self::$testTenantApikeyObject = self::$testTenantObject
                 ->newApikey(self::$testConfiguration->newTenantApikey);
             $this->consoleLogger->debug("[" . get_class() . "] Create result is: " . self::$testTenantApikeyObject);
 
             $myNewApiKey = self::$testTenantObject->apikey(self::$testTenantApikeyObject->keyId);
-            $this->consoleLogger->debug("[" . get_class() . "] Got API Key: " . self::$testTenantApikeyObject);
+            $this->consoleLogger->debug("[" . get_class() . "] Got API Key: " . $myNewApiKey);
             $this->assertIsObject($myNewApiKey);
             $this->assertIsString($myNewApiKey->keyId);
             $this->assertEquals(self::$testTenantApikeyObject->keyId, $myNewApiKey->keyId);
@@ -190,6 +198,7 @@
 
         public function testTenantNewHostedApplication()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $newHostedApplicationObject = self::$testTenantObject->newHostedApplication(self::$testConfiguration->newContainerApplication, 'static', "<Response><Hangup/></Response>");
             $this->consoleLogger->debug("[" . get_class() . "] newHostedApplication Result is: " . $newHostedApplicationObject);
             $this->assertIsObject($newHostedApplicationObject);
@@ -197,6 +206,7 @@
         }
         public function testTenantGetHostedApplication()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $getHostedApplication = self::$testTenantObject->hostedApplication(self::$testConfiguration->newContainerApplication);
             $this->consoleLogger->debug("[" . get_class() . "] getHostedApplication Result is: " . $getHostedApplication);
             $this->assertIsObject($getHostedApplication);
@@ -205,6 +215,7 @@
 
         public function testTenantGetHostedApplicationMainBlock()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $getHostedApplicationBlockMain = self::$testTenantObject->hostedApplication(self::$testConfiguration->newContainerApplication)->getBlockByName('main');
             $this->consoleLogger->debug("[" . get_class() . "] getHostedApplicationBlockMain Result is: " . $getHostedApplicationBlockMain);
             $this->assertIsObject($getHostedApplicationBlockMain);
@@ -213,9 +224,16 @@
 
         public function testTenantHostedApplications()
         {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
             $getHostedApplications = self::$testTenantObject->hostedApplications();
             $this->consoleLogger->debug("[" . get_class() . "] getHostedApplications Result is: " . $getHostedApplications);
             $this->assertIsObject($getHostedApplications);
             $this->assertInstanceOf('Cloudonix\Collections\HostedApplications', $getHostedApplications);
+        }
+
+        public function testTenantHostedApplicationDelete()
+        {
+            $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
+            $this->assertTrue(self::$testTenantObject->hostedApplication(self::$testConfiguration->newContainerApplication)->delete());
         }
     }

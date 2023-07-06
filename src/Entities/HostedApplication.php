@@ -82,12 +82,6 @@
                 $this->canonicalPath = $parentPath . URLPATH_CONTAINER_APPLICATIONS . "/" . $string;
         }
 
-        protected function refresh(): HostedApplication
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
-        }
-
         protected function buildEntityData(object|array $input): void
         {
             foreach ($input as $key => $value) {

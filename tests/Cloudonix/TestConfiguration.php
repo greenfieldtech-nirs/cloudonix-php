@@ -18,8 +18,8 @@
     /**
      * @property string $apiKey                                                     Cloudonix API Key for Testing
      * @property string $endpoint                                                   Cloudonix API Endpoint
-     * @property string $endpointTimeout                                            Cloudonix API Endpoint Timeout
-     * @property string $endpointDebug                                              Cloudonix API Endpoint Debug
+     * @property float  $endpointTimeout                                            Cloudonix API Endpoint Timeout
+     * @property int    $endpointDebug                                              Cloudonix API Endpoint Debug
      *
      * @property string $newTenantApikey                                            New Tenant Apikey
      * @property array  $newTenantProfileKV                                         New Tenant Profile Key-Value Paid
@@ -46,13 +46,22 @@
      */
     class TestConfiguration
     {
-        public function __construct()
+        private string $randomSeed;
+
+        public function __construct(string $randomSeed = null)
         {
+
+            if (is_null($randomSeed)) {
+                $this->randomSeed = date("U");
+            } else {
+                $this->randomSeed = $randomSeed;
+            }
+
             $this->loadConfig();
             $this->loadTestingData();
         }
 
-        public function loadConfig()
+        public function loadConfig(): void
         {
             $dotenv = Dotenv::createImmutable(__DIR__)->load();
 
@@ -62,9 +71,9 @@
             $this->endpointDebug = LOGGER_DEBUG;
         }
 
-        private function loadTestingData()
+        private function loadTestingData(): void
         {
-            $tsString = date("Ymdhis");
+            $tsString = date("Ymdhis") . "_" . $this->randomSeed;
             $this->newTenantApikey = "TenantKey_Test_" . $tsString;
             $this->newDomainApikey = "DomainKey_Test_" . $tsString;
             $this->newApplicationApikey = "ApplicattionKey_Test_" . $tsString;

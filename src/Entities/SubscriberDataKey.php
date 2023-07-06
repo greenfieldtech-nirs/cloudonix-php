@@ -70,13 +70,13 @@
                 $this->canonicalPath = $string . "/subscribers/" . $subscriber;
         }
 
-        public function refresh(): SubscriberDataKey
+        public function refresh(): self
         {
             $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
         }
 
-        public function __get(mixed $name): SubscriberDataKey
+        public function __get(mixed $name): self
         {
             return $this;
         }

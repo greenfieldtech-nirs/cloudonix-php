@@ -19,20 +19,18 @@
      * Profile Data Model Entity
      *
      * This class represents the generalised form of a Cloudonix Profile object.
-     * Profiles are used in Cloudonix with various data models - and is free formed.
+     * Profiles are used in Cloudonix with various data models - and are free formed.
      */
     class Profile extends CloudonixEntity implements \IteratorAggregate, \ArrayAccess
     {
         protected mixed $client;
         protected string $canonicalPath;
 
-        protected array $profile = [];
-
         /**
          * Profile DataModel Object Constructor
          *
          * @param CloudonixEntity $parent      The parent object that created this object
-         * @param ?object          $inputObject Cloudonix Profile as Standard Object
+         * @param ?object         $inputObject Cloudonix Profile as Standard Object
          */
         public function __construct(CloudonixEntity $parent, mixed $inputObject = null)
         {
@@ -59,22 +57,23 @@
 
         public function offsetExists(mixed $offset): bool
         {
-            return isset($this->profile[$offset]);
+            return isset($this->$offset);
         }
 
         public function offsetGet(mixed $offset): mixed
         {
-            $this->refresh();
-            return $this->profile[$offset];
+            return $this->$offset;
         }
 
         public function offsetSet(mixed $offset, mixed $value): void
         {
-            if (!is_null($offset)) {
+            if ($value == null) {
+                $this->offsetUnset($offset);
+            } else {
                 $result = $this->client->httpConnector->request("PATCH", $this->getPath(), [
                     "profile" => [$offset => $value]
                 ]);
-                $this->buildEntityData($result->profile);
+                $this->$offset = $value;
             }
         }
 
@@ -83,20 +82,12 @@
             $result = $this->client->httpConnector->request("PATCH", $this->getPath(), [
                 "profile" => [$offset => null]
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
-            $this->buildEntityData($result->profile);
+            unset($this->$offset);
         }
 
         public function getIterator(): Traversable
         {
-            $this->refresh();
-            return new ArrayIterator($this->profile);
-        }
-
-        public function __toString(): string
-        {
-            $this->refresh();
-            return json_encode($this->profile);
+            return new ArrayIterator($this);
         }
 
         public function getPath(): string
@@ -112,16 +103,15 @@
 
         public function refresh(): self
         {
-            $this->profile = [];
-            return parent::refresh();
+            $result = $this->client->httpConnector->request("GET", $this->getPath());
+            $this->buildEntityData($result->profile);
+            return $this;
         }
 
         protected function buildEntityData(object|array|null $input): void
         {
-            if (!is_null($input)) {
-                foreach ($input->profile as $key => $value) {
-                    $this->profile[$key] = $value;
-                }
+            foreach ($input as $key => $value) {
+                $this->$key = $value;
             }
         }
 

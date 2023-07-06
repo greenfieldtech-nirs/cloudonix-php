@@ -11,11 +11,8 @@
     namespace Cloudonix\Collections;
 
     use Cloudonix\Collections\CloudonixCollection as CloudonixCollection;
-
-    use Cloudonix\Entities\Subscriber as EntitySubscriber;
     use Cloudonix\Entities\Trunk as EntityTrunk;
     use Cloudonix\Entities\Domain;
-    use Cloudonix\Helpers\UtilityHelper as UtilityHelper;
 
     /**
      * Trunks Collection

@@ -116,7 +116,6 @@
                 'prefix' => true,
                 'asteriskCompatible' => false
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($dnidResult));
             return new EntityDnid($dnidResult->id, $this, $dnidResult);
         }
 
@@ -135,7 +134,6 @@
                 'prefix' => false,
                 'asteriskCompatible' => false
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($dnidResult));
             return new EntityDnid($dnidResult->id, $this, $dnidResult);
         }
 
@@ -154,7 +152,6 @@
                 'prefix' => false,
                 'asteriskCompatible' => true
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($dnidResult));
             return new EntityDnid($dnidResult->id, $this, $dnidResult);
         }
 
@@ -173,7 +170,6 @@
                 'prefix' => false,
                 'asteriskCompatible' => false
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($dnidResult));
             return new EntityDnid($dnidResult->id, $this, $dnidResult);
         }
 
@@ -185,7 +181,7 @@
          *
          * @return $this            A refreshed Voice Application object
          */
-        public function setApplicationUrl(string $url, string $method = "POST"): VoiceApplication
+        public function setApplicationUrl(string $url, string $method = "POST"): self
         {
             if ((strtoupper($method) != "POST") && (strtoupper($method) != "GET"))
                 return $this;
@@ -200,22 +196,12 @@
                 'url' => $validatedUrl,
                 'method' => strtoupper($method)
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($patchResult));
-
             return $this->refresh();
         }
 
-        /**
-         * Enable/Disable a DNID number
-         *
-         * @param bool $status
-         *
-         * @return Domain
-         */
-        public function setActive(bool $status): Domain
+        public function setActive(bool $status): self
         {
             $patchResult = $this->client->httpConnector->request("PATCH", $this->getPath(), ['active' => $status]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($patchResult));
             return $this->refresh();
         }
 
@@ -238,18 +224,10 @@
                 $this->canonicalPath = $branchPath . URLPATH_APPLICATIONS . "/" . $string;
         }
 
-        protected function refresh(): VoiceApplication
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
-        }
-
         protected function buildEntityData(object|array $input): void
         {
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
-                    $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " creating profile with this: " . json_encode($this));
                     $this->profile = new EntityProfile($this, $value);
                 } else if ($key == "domain") {
                     continue;

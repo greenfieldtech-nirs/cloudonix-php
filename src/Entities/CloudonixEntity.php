@@ -19,11 +19,16 @@
     {
         public function __construct(object|null $child, object $parent = null)
         {
-            if (!is_null($child))
+            if (!is_null($child)) {
                 foreach ($child as $key => $value) {
-                    if ($key == "canonicalPath") continue;
-                    if (!is_object($value)) $this->$key = $value;
+                    if ($key == "canonicalPath")
+                        continue;
+
+                    if (!is_object($value)) {
+                        $this->$key = $value;
+                    }
                 }
+            }
         }
 
         abstract public function getPath();
@@ -49,13 +54,11 @@
 
         public function __toString(): string
         {
-            $this->refresh();
             return json_encode($this);
         }
 
         public function __get(mixed $name)
         {
-            $this->refresh();
             return $this->$name;
         }
 
@@ -64,7 +67,7 @@
             $this->$name = $value;
         }
 
-        protected function refresh(): self
+        public function refresh(): self
         {
             $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;

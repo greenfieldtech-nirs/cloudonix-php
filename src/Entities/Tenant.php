@@ -45,9 +45,9 @@
         protected string $canonicalPath;
         protected string $entityId;
 
-        public CollectionDomains $collectionDomains;
-        public CollectionApikeys $collectionApikeys;
-        public CollectionHostedApplications $collectionHostedApplications;
+        private CollectionDomains $collectionDomains;
+        private CollectionApikeys $collectionApikeys;
+        private CollectionHostedApplications $collectionHostedApplications;
 
         /**
          * Tenant DataModel Object Constructor
@@ -169,11 +169,6 @@
             return new EntityHostedApplication($name, $this, $result);
         }
 
-        /**
-         * Obtain a collection of API Keys associated with the tenant
-         *
-         * @return CollectionApikeys
-         */
         public function apikeys(): CollectionApikeys
         {
             if (!isset($this->collectionApikeys))
@@ -182,25 +177,11 @@
             return $this->collectionApikeys;
         }
 
-        /**
-         * Obtain an API key object, based upon the API key ID
-         *
-         * @param string $keyId
-         *
-         * @return Apikey
-         */
         public function apikey(string $keyId): EntityApikey
         {
             return new EntityApikey($keyId, $this);
         }
 
-        /**
-         * Create a new API key and return its object
-         *
-         * @param string $keyName
-         *
-         * @return Apikey
-         */
         public function newApikey(string $keyName): EntityApikey
         {
             return $this->collectionApikeys->newKey($keyName);

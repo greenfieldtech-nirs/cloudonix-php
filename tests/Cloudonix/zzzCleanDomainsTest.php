@@ -101,6 +101,7 @@
                     $this->consoleLogger->debug("[" . get_class() . "] Deleted domain: " . $domain->domain);
                 }
             }
+            $this->assertCount(0, self::$testTenantObject->domains());
         }
 
     }

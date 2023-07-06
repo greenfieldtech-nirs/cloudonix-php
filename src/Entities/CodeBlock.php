@@ -62,19 +62,4 @@
             }
         }
 
-        protected function refresh(): CodeBlock
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
-        }
-
-        public function __get(mixed $name)
-        {
-            return $this->$name;
-        }
-
-        public function __set(string $name, mixed $value)
-        {
-            $this->$name = $value;
-        }
     }

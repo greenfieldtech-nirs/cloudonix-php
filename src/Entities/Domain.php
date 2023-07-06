@@ -49,12 +49,12 @@
         protected mixed $client;
         protected string $canonicalPath;
 
-        public CollectionVoiceApplications $collectionVoiceApplications;
-        public CollectionApikeys $collectionApikeys;
-        public CollectionSubscribers $collectionSubscribers;
-        public CollectionDnids $collectionDnids;
-        public CollectionTrunks $collectionTrunks;
-        public CollectionSessions $collectionSessions;
+        private CollectionVoiceApplications $collectionVoiceApplications;
+        private CollectionApikeys $collectionApikeys;
+        private CollectionSubscribers $collectionSubscribers;
+        private CollectionDnids $collectionDnids;
+        private CollectionTrunks $collectionTrunks;
+        private CollectionSessions $collectionSessions;
 
         /**
          * Domain DataModel Object Constructor
@@ -99,7 +99,7 @@
             if (!isset($this->collectionTrunks))
                 $this->collectionTrunks = new CollectionTrunks($this);
 
-            return $this->collectionTrunks->refresh();
+            return $this->collectionTrunks;
         }
 
         /**
@@ -127,7 +127,6 @@
                 'transport' => $transport,
                 'direction' => 'public-inbound'
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             return new EntityTrunk($name, $this, $result);
         }
 
@@ -159,7 +158,6 @@
                 'metric' => $metric,
                 'direction' => 'public-outbound'
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
             return new EntityTrunk($name, $this, $result);
         }
 
@@ -185,7 +183,7 @@
             if (!isset($this->collectionDnids))
                 $this->collectionDnids = new CollectionDnids($this);
 
-            return $this->collectionDnids->refresh();
+            return $this->collectionDnids;
         }
 
         /**
@@ -210,7 +208,7 @@
             if (!isset($this->collectionVoiceApplications))
                 $this->collectionVoiceApplications = new CollectionVoiceApplications($this);
 
-            return $this->collectionVoiceApplications->refresh();
+            return $this->collectionVoiceApplications;
         }
 
         /**
@@ -230,8 +228,6 @@
                 'url' => $url,
                 'method' => $method
             ]);
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " result: " . json_encode($result));
-
             return new EntityVoiceApplication($name, $this, $result);
         }
 
@@ -246,7 +242,7 @@
             if (!isset($this->collectionApikeys))
                 $this->collectionApikeys = new CollectionApikeys($this);
 
-            return $this->collectionApikeys->refresh();
+            return $this->collectionApikeys;
         }
 
         /**
@@ -346,7 +342,7 @@
          *
          * @return $this
          */
-        public function setRegFree(string $regFreeEndpoint, string $regFreeApikey = null): Domain
+        public function setRegFree(string $regFreeEndpoint, string $regFreeApikey = null): self
         {
             $this->profile->set([
                 'registration-free-control-endpoint' => $regFreeEndpoint,
@@ -355,43 +351,43 @@
             return $this->refresh();
         }
 
-        public function setNoAnswerTimeout(int $timeout): Domain
+        public function setNoAnswerTimeout(int $timeout): self
         {
             $this->profile['call-timeout'] = $timeout;
             return $this->refresh();
         }
 
-        public function setBorderToBorder(bool $status): Domain
+        public function setBorderToBorder(bool $status): self
         {
             $this->profile['allowed-border'] = $status;
             return $this->refresh();
         }
 
-        public function setRedirectToBorder(bool $status): Domain
+        public function setRedirectToBorder(bool $status): self
         {
             $this->profile['redirect-unknown-to-border'] = $status;
             return $this->refresh();
         }
 
-        public function setPlayRingtone(bool $status): Domain
+        public function setPlayRingtone(bool $status): self
         {
             $this->profile['subscribers-auto-progress	'] = $status;
             return $this->refresh();
         }
 
-        public function setSessionUpdateCallback(string $string): Domain
+        public function setSessionUpdateCallback(string $string): self
         {
             $this->profile['session-update-endpoint'] = $string;
             return $this->refresh();
         }
 
-        public function setLeastCostRoutingEndpoint(string $string): Domain
+        public function setLeastCostRoutingEndpoint(string $string): self
         {
             $this->profile['lcr-address'] = $string;
             return $this->refresh();
         }
 
-        public function setMessagingProfile(string $messagingEndpoint, string $messagingBucket = null): Domain
+        public function setMessagingProfile(string $messagingEndpoint, string $messagingBucket = null): self
         {
             $this->profile->set([
                 'messaging-notification-url' => $messagingEndpoint,
@@ -400,31 +396,31 @@
             return $this->refresh();
         }
 
-        public function setCdrDeliveryEndpoint(string $string): Domain
+        public function setCdrDeliveryEndpoint(string $string): self
         {
             $this->profile['cdr-endpoint'] = $string;
             return $this->refresh();
         }
 
-        public function setWavRecordingFormat(): Domain
+        public function setWavRecordingFormat(): self
         {
             $this->profile['recording-media-type'] = "wav";
             return $this->refresh();
         }
 
-        public function setMp3RecordingFormat(): Domain
+        public function setMp3RecordingFormat(): self
         {
             $this->profile['recording-media-type'] = "mp3";
             return $this->refresh();
         }
 
-        public function setDefaultRingingTimeout(int $timeout = 60): Domain
+        public function setDefaultRingingTimeout(int $timeout = 60): self
         {
             $this->profile['call-timeout'] = $timeout;
             return $this->refresh();
         }
 
-        public function setOutboundSessionTimeouts(int $connection = 10, int $provisional = 2): Domain
+        public function setOutboundSessionTimeouts(int $connection = 10, int $provisional = 2): self
         {
             $this->profile->set([
                 'connection-timeout' => $connection,
@@ -433,31 +429,31 @@
             return $this->refresh();
         }
 
-        public function setCallerIdPassthrough(bool $status): Domain
+        public function setCallerIdPassthrough(bool $status): self
         {
             $this->profile['allow-passthrough-caller-name'] = $status;
             return $this->refresh();
         }
 
-        public function setActive(bool $status): Domain
+        public function setActive(bool $status): self
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), ['active' => $status]);
             return $this->refresh();
         }
 
-        public function setDefaultApplication(int $application): Domain
+        public function setDefaultApplication(int $application): self
         {
             $this->client->httpConnector->request("PATCH", $this->getPath(), ['defaultApplication' => $application]);
             return $this->refresh();
         }
 
-        public function setAlias(string $alias): Domain
+        public function setAlias(string $alias): self
         {
             $this->client->httpConnector->request("POST", $this->getPath() . "/aliases", ['alias' => $alias]);
             return $this->refresh();
         }
 
-        public function unsetAlias(string $alias): Domain
+        public function unsetAlias(string $alias): self
         {
             $result = $this->client->httpConnector->request("DELETE", $this->getPath() . "/aliases/" . $alias);
             return $this->refresh();
@@ -482,20 +478,8 @@
                 $this->canonicalPath = $branchPath . URLPATH_DOMAINS . "/" . $string;
         }
 
-        public function refresh(): Domain
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
-        }
-
-        public function __toString(): string
-        {
-            return json_encode($this->refresh());
-        }
-
         protected function buildEntityData(object|array $input): void
         {
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " input: " . json_encode($input));
             foreach ($input as $key => $value) {
                 if ($key == "profile") {
                     $this->profile = new EntityProfile($this, $value);

@@ -132,35 +132,16 @@
             return false;
         }
 
-        /**
-         * Return the entity REST API canonical path
-         *
-         * @return string
-         */
         public function getPath(): string
         {
             return $this->canonicalPath;
         }
 
-        /**
-         * Set the entity REST API canonical path
-         *
-         * @param string $string
-         * @param string $branchPath
-         *
-         * @return void
-         */
         protected function setPath(string $string, string $branchPath): void
         {
             if (!isset($this->canonicalPath)) {
                 $this->canonicalPath = $branchPath . URLPATH_DNIDS . "/" . $string;
             }
-        }
-
-        protected function refresh(): Dnid
-        {
-            $this->buildEntityData($this->client->httpConnector->request("GET", $this->getPath()));
-            return $this;
         }
 
         /**
