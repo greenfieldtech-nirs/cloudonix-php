@@ -267,7 +267,7 @@
         public function newApikey(string $name): EntityApikey
         {
             $apikeysCollection = (!isset($this->collectionApikeys)) ? $this->apikeys() : $this->collectionApikeys;
-            return $apikeysCollection->newKey($name);
+            return $apikeysCollection->create($name);
         }
 
         /**
@@ -474,8 +474,9 @@
 
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!isset($this->canonicalPath))
+            if (!isset($this->canonicalPath)) {
                 $this->canonicalPath = $branchPath . URLPATH_DOMAINS . "/" . $string;
+            }
         }
 
         protected function buildEntityData(object|array $input): void

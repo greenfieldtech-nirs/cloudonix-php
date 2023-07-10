@@ -67,10 +67,10 @@
             $this->client = $parent->getClient();
 
             if (!is_null($inputObject)) {
-                $this->setPath($inputObject->token, $inputObject->domain);
+                $this->setPath($inputObject->domain, $inputObject->token);
                 $this->buildEntityData($inputObject);
             } else {
-                $this->setPath($token, $parent->domain);
+                $this->setPath($parent->domain, $token);
             }
             parent::__construct($this, $parent);
         }
@@ -219,11 +219,14 @@
             return $this->canonicalPath;
         }
 
-        protected function setPath(string $token = "", string $domain): void
+        protected function setPath(string $domain, string $token = ""): void
         {
-            $this->canonicalPath = URLPATH_CALLS . "/" . $domain . URLPATH_SESSIONS;
-            if (strlen($token))
-                $this->canonicalPath .= "/" . $token;
+            if (!isset($this->canonicalPath)) {
+                $this->canonicalPath = URLPATH_CALLS . "/" . $domain . URLPATH_SESSIONS;
+                if (strlen($token)) {
+                    $this->canonicalPath .= "/" . $token;
+                }
+            }
         }
 
         protected function buildEntityData(object|array $input): void

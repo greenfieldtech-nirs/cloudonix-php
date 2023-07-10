@@ -69,7 +69,6 @@
          */
         public function delete(): bool
         {
-            $this->client->logger->debug(__CLASS__ . " " . __METHOD__ . " " . $this->getPath());
             $result = $this->client->httpConnector->request("DELETE", $this->getPath());
             if ($result->code == 204)
                 return true;

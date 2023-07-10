@@ -33,6 +33,11 @@
             return $this->client;
         }
 
+        public function list(): self
+        {
+            return $this->refresh();
+        }
+
         public function count(): int
         {
             return count($this->collection);

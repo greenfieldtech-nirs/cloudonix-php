@@ -177,14 +177,14 @@
             return $this->collectionApikeys;
         }
 
-        public function apikey(string $keyId): EntityApikey
+        public function apikey(string $name): EntityApikey
         {
-            return new EntityApikey($keyId, $this);
+            return new EntityApikey($name, $this);
         }
 
-        public function newApikey(string $keyName): EntityApikey
+        public function newApikey(string $name): EntityApikey
         {
-            return $this->collectionApikeys->newKey($keyName);
+            return $this->collectionApikeys->create($name);
         }
 
         public function getPath(): string
@@ -194,8 +194,9 @@
 
         protected function setPath(string $entityId): void
         {
-            if (!isset($this->canonicalPath))
+            if (!isset($this->canonicalPath)) {
                 $this->canonicalPath = URLPATH_TENANTS . "/" . $entityId;
+            }
         }
 
         protected function buildEntityData(object|array $input): void

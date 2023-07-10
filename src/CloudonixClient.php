@@ -34,14 +34,17 @@
          */
         public function __construct(?string $apikey, string $httpEndpoint = HTTP_ENDPOINT, float $timeout = HTTP_TIMEOUT, int $debug = LOGGER_DISABLE)
         {
-            try {
-                $this->logger = new LogHelper($debug);
-                $this->httpConnector = new HttpHelper($apikey, $httpEndpoint, $timeout, $debug);
-            } catch (Exception $e) {
-                die($e->getMessage() . '  code: ' . $e->getCode());
-            }
+            $this->logger = new LogHelper($debug);
+            $this->httpConnector = new HttpHelper($apikey, $httpEndpoint, $timeout, $debug);
         }
 
+        /**
+         *
+         *
+         * @param string $tenantId
+         *
+         * @return EntityTenant
+         */
         public function tenant(string $tenantId = "self"): EntityTenant
         {
             return new EntityTenant($this, $tenantId);

@@ -97,8 +97,9 @@
 
         protected function setPath(string $string): void
         {
-            if (!isset($this->canonicalPath))
+            if (!isset($this->canonicalPath)) {
                 $this->canonicalPath = $string;
+            }
         }
 
         public function refresh(): self

@@ -99,8 +99,9 @@
 
         protected function setPath(string $string, string $branchPath): void
         {
-            if (!isset($this->canonicalPath))
+            if (!isset($this->canonicalPath)) {
                 $this->canonicalPath = $branchPath . URLPATH_SUBSCRIBERS . "/" . $string;
+            }
         }
 
         protected function buildEntityData(object|array|null $input): void

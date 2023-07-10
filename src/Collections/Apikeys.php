@@ -43,7 +43,7 @@
          * @return EntityApikey
          * @throws GuzzleException
          */
-        public function newKey(string $name): EntityApikey
+        public function create(string $name): EntityApikey
         {
             $newApikeyObject = $this->client->httpConnector->request("POST", $this->getPath(), ["name" => $name]);
             $newApikey = new EntityApikey($newApikeyObject->keyId, $this->parent, $newApikeyObject);
@@ -86,7 +86,6 @@
             if ($result->code == 204) {
                 parent::offsetUnset($offset);
             }
-
         }
 
         public function offsetSet(mixed $offset, mixed $value): void
