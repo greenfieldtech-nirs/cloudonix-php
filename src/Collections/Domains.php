@@ -46,7 +46,7 @@
             }
         }
 
-        public function refresh(): self
+        protected function refresh(): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;

@@ -44,7 +44,7 @@
                 $this->canonicalPath = $branchPath . URLPATH_TRUNKS;
         }
 
-        public function refresh(): self
+        protected function refresh(): self
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;

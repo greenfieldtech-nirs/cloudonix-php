@@ -175,7 +175,7 @@
             $this->consoleLogger->debug("[" . get_class() . "] apikey[1] is now: " . $apikeys[1]->keyId);
             $this->assertNotEquals($firstKeyId, $apikeys[1]->keyId);
             $this->consoleLogger->debug("[" . get_class() . "] Refreshing DomainsCollection");
-            $apikeys->refresh();
+            $apikeys->list();
             $this->consoleLogger->debug("[" . get_class() . "] firstKeyId is now: " . $apikeys[1]->keyId);
             $this->assertNotEquals($firstKeyId, $apikeys[1]->keyId);
         }

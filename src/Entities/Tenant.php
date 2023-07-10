@@ -109,7 +109,7 @@
             if (!isset($this->collectionDomains))
                 $this->collectionDomains = new CollectionDomains($this);
 
-            return $this->collectionDomains->refresh();
+            return $this->collectionDomains->list();
         }
 
         /**
@@ -138,7 +138,7 @@
             if (!isset($this->collectionHostedApplications))
                 $this->collectionHostedApplications = new CollectionHostedApplications($this);
 
-            return $this->collectionHostedApplications->refresh();
+            return $this->collectionHostedApplications->list();
         }
 
         /**

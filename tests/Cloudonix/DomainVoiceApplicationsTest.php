@@ -210,7 +210,7 @@
                 $this->consoleLogger->debug("[" . get_class() . "] lastApplicationCreated " . $lastApplicationCreated);
             }
 
-            $applicationCollection = self::$testDomainObject->voiceApplications()->refresh();
+            $applicationCollection = self::$testDomainObject->voiceApplications()->list();
             $this->consoleLogger->debug("[" . get_class() . "] voiceApplication Collection is: " . $applicationCollection);
             $this->assertInstanceOf('Cloudonix\Collections\VoiceApplications', $applicationCollection);
             $this->assertCount(12, $applicationCollection);

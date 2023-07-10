@@ -187,7 +187,7 @@
                 $this->assertInstanceOf('Cloudonix\Entities\Trunk', $newTrunk);
             }
 
-            $domainTrunks = self::$testDomainObject->trunks()->refresh();
+            $domainTrunks = self::$testDomainObject->trunks()->list();
             $this->consoleLogger->debug("[" . get_class() . "] Domain trunks collection is " . $domainTrunks);
 
             $this->assertInstanceOf('Cloudonix\Collections\Trunks', $domainTrunks);
@@ -197,7 +197,7 @@
         public function testDomainTrunksCollectionDelete()
         {
             $this->consoleLogger->debug("[" . get_class() . "] Executing " . __FUNCTION__);
-            $domainTrunks = self::$testDomainObject->trunks()->refresh();
+            $domainTrunks = self::$testDomainObject->trunks()->list();
             $this->consoleLogger->debug("[" . get_class() . "] Domain trunks collection is " . $domainTrunks);
 
             foreach ($domainTrunks as $domainTrunk) {

@@ -44,13 +44,13 @@
         }
         public function offsetExists(mixed $offset): bool
         {
-            $this->refresh();
+            $this->list();
             return isset($this->collection[$offset]);
         }
 
         public function offsetGet(mixed $offset): mixed
         {
-            $this->refresh();
+            $this->list();
             if (is_null($offset)) {
                 return $this->collection;
             } else {

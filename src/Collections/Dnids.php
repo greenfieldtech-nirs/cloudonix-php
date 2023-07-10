@@ -44,7 +44,7 @@
                 $this->canonicalPath = $branchPath . URLPATH_DNIDS;
         }
 
-        public function refresh(): Dnids
+        protected function refresh(): Dnids
         {
             $this->refreshCollectionData($this->client->httpConnector->request("GET", $this->getPath()));
             return $this;
